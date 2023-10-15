@@ -5,6 +5,7 @@ import { Button, Text, TextInput, View } from "react-native";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import RegisterPageSecond from "./pages/Register/RegisterPageSecond";
+import WelcomePage from "./pages/WelcomePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomePage}
+          options={{
+            title: "Добро пожаловать"
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={({ navigation }) => (

@@ -13,10 +13,6 @@ import BlueButton from "../components/UI/buttons/BlueButton";
 import FormCard from "../components/UI/Cards/FormCard";
 import InputWithLabel from "../components/UI/Forms/InputWithLabel";
 
-const formStyle = "py-2";
-const labelStyle = "font-bold";
-const inputStyle = "border-b";
-
 export default function LoginPage({ navigation }) {
   return (
     <View className="flex-1 items-center  bg-white px-4 pt-4">
