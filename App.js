@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import RegisterPageSecond from "./pages/Register/RegisterPageSecond";
 import WelcomePage from "./pages/WelcomePage";
+import MainPage from "./pages/MainPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,24 +16,18 @@ export default function App() {
       <Stack.Navigator>
         
         <Stack.Screen
+          name="Main"
+          component={MainPage}
+          options={{
+            title: "Главная"
+          }}
+        />
+        <Stack.Screen
           name="Welcome"
           component={WelcomePage}
           options={{
             title: "Добро пожаловать"
           }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={({ navigation }) => (
-            <View className="flex-1 items-center justify-center bg-white">
-              <Text>Open up App.js to start working on your app!</Text>
-              <StatusBar style="auto" />
-              <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate("Register1")}
-              />
-            </View>
-          )}
         />
         <Stack.Screen
           name="Login"
