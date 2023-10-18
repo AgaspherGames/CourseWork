@@ -8,7 +8,7 @@ export default function FloatingNav() {
       <FloatingNavButton icon="home" path="Main" />
       <FloatingNavButton icon="search" path="Welcome" />
       <FloatingNavButton icon="repo" path="Welcome" />
-      <FloatingNavButton icon="person" path="Welcome" />
+      <FloatingNavButton icon="person" path="Profile" />
     </View>
   );
 }
