@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function ShadowView({ children, classname }) {
+export default function ShadowView({ children, classname, ...props }) {
   return (
     <View
       style={{
@@ -16,6 +16,7 @@ export default function ShadowView({ children, classname }) {
         elevation: 7,
       }}
       className={classname}
+      {...props}
     >
       {children}
     </View>

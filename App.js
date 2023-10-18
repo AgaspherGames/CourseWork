@@ -20,6 +20,7 @@ import MainPage from "./pages/MainPage";
 import FloatingNav from "./components/Presets/FloatingNav/FloatingNav";
 import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
+import PostPage from "./pages/PostPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,13 @@ export default function App() {
             component={MainPage}
             options={{
               title: "Главная",
+            }}
+          />
+          <Stack.Screen
+            name="Post"
+            component={PostPage}
+            options={{
+              title: "Пост",
             }}
           />
           <Stack.Screen

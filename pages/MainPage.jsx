@@ -26,7 +26,7 @@ export default function MainPage() {
       <FlatList
         className=""
         data={DATA}
-        renderItem={({ item }) => <Post title={item.title} />}
+        renderItem={({ item }) => <Post withActions title={item.title} />}
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
