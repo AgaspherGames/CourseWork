@@ -86,25 +86,30 @@ export default function PostPage() {
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem libero
             et accusantium perspiciatis tempora placeat, dicta cupiditate sequi
             dolorem ducimus vero a beatae omnis optio obcaecati ea assumenda?
-            Ipsa ea repellendus repudiandae aperiam ducimus velit provident vero
-            nisi, enim cupiditate temporibus sunt earum nulla quia impedit
-            explicabo, nobis, soluta veniam? Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Ducimus expedita cupiditate dolor
-            aperiam dolorum quos, odio commodi quisquam, iusto minima, quibusdam
-            eveniet. Autem tempora iusto aut odit rem quaerat sunt cum.
-            Obcaecati repellat quod quas incidunt quaerat quis placeat
-            blanditiis ratione in possimus, dicta assumenda dolores voluptates
-            totam est voluptate eaque eum quisquam nulla, cupiditate odit
-            impedit facere at. Id minima laudantium vitae maiores cupiditate
-            aspernatur? Ratione pariatur delectus nisi deserunt recusandae
-            quibusdam maxime suscipit nam voluptates deleniti. Repudiandae
-            minima quaerat eveniet architecto consequuntur harum quis itaque,
-            voluptas necessitatibus labore mollitia ratione, iusto veritatis sed
-            nesciunt aliquid, natus odit excepturi.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+            illum ullam enim at aliquid? Ducimus minima laudantium deserunt
+            expedita, laboriosam sint delectus iusto aliquam vitae! Expedita
+            iusto suscipit animi delectus fugit molestias excepturi pariatur?
+            Eos laboriosam consectetur veritatis unde explicabo nostrum
+            officiis, tenetur modi ullam, atque cum, perspiciatis et. Recusandae
+            sit libero voluptates velit quas consequuntur, magnam,
+            exercitationem totam et nemo pariatur neque quo obcaecati, ullam
+            consectetur ratione ipsa similique quasi possimus atque maiores id
+            tempore! Quia fuga praesentium qui itaque sequi reprehenderit, error
+            iusto tenetur laborum placeat aut est inventore totam veniam, vero
+            voluptates aliquam velit at quasi minima?
           </Text>
         </ShadowView>
       </View>
-      <Title classname="m-4 mt-8">Комментарии</Title>
+      <View className="flex-row m-4 mt-8">
+        <ShadowView classname="bg-white rounded-xl overflow-hidden flex-1 h-10 justify-center px-4">
+          <Title classname="">187 комментариев</Title>
+        </ShadowView>
+        <ShadowView classname=" bg-white rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2">
+          <Text className="text-gray-300 text-xl">♥</Text>
+        </ShadowView>
+      </View>
+
       <ShadowView classname="bg-white mx-4 p-4 rounded-xl flex-1 mb-4">
         <View className="">
           <View className="my-2 flex-row items-center">
