@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 import React from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
+import Post from "../../components/Presets/Posts/Post";
 
 export default function UserPage() {
   return (
@@ -94,6 +95,11 @@ export default function UserPage() {
               </View>
             </ScrollView>
           </ShadowView>
+        </View>
+        <View>
+          <Post />
+          <Post/>
+          <Post/>
         </View>
       </View>
     </ScrollView>
