@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 import Swiper from "react-native-swiper";
 import ShadowView from "../components/UI/Base/ShadowView";
 import Title from "../components/UI/Base/Title";
+import LikeButton from "../components/UI/buttons/LikeButton";
+
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -106,7 +108,8 @@ export default function PostPage() {
           <Title classname="">187 комментариев</Title>
         </ShadowView>
         <ShadowView classname=" bg-white rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2">
-          <Text className="text-gray-300 text-xl">♥</Text>
+          <LikeButton/>
+          {/* <Text className="text-gray-300 text-xl">♥</Text> */}
         </ShadowView>
       </View>
 
