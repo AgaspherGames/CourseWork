@@ -4,11 +4,17 @@ import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { twMerge } from "tailwind-merge";
 import { useNavigation } from "@react-navigation/native";
+import LikeButton from "../../UI/buttons/LikeButton";
+import SendButton from "../../UI/buttons/SendButton";
 
 export default function Post({ withActions = false }) {
   const navigation = useNavigation();
   return (
-    <Pressable onPress={() => {	navigation.navigate("Post") }}>
+    <Pressable
+      onPress={() => {
+        // navigation.navigate("Post");
+      }}
+    >
       <View
         style={{
           shadowColor: "#000",
@@ -62,7 +68,8 @@ export default function Post({ withActions = false }) {
                 className="text-white border-b-0.5 border-white"
               />
               <View className="absolute w-6 right-4">
-                <Feather name="send" size={20} color="white" />
+                <SendButton/>
+                {/* <Feather name="send" size={20} color="white" /> */}
               </View>
             </BlurView>
 
@@ -71,7 +78,7 @@ export default function Post({ withActions = false }) {
               intensity={40}
               className="rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2"
             >
-              <Text className="text-gray-300 text-xl">♥</Text>
+              <LikeButton />
             </BlurView>
           </View>
         </View>
