@@ -24,7 +24,8 @@
     "react-navigation": "^5.0.0",
     "tailwind-merge": "^1.14.0",
     "vector-icons": "^0.1.0",
-    "zustand": "^4.4.3"
+    "zustand": "^4.4.3",
+    "react-native-reanimated": "~3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
