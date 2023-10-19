@@ -12,7 +12,7 @@ export default function Post({ withActions = false }) {
   return (
     <Pressable
       onPress={() => {
-        // navigation.navigate("Post");
+        navigation.navigate("Post");
       }}
     >
       <View

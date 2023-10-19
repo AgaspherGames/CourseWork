@@ -5,7 +5,10 @@ import Swiper from "react-native-swiper";
 import ShadowView from "../components/UI/Base/ShadowView";
 import Title from "../components/UI/Base/Title";
 import LikeButton from "../components/UI/buttons/LikeButton";
-
+import { Pressable } from "react-native";
+import PostInfo from "../components/Presets/PostPage/PostInfo";
+import { TextInput } from "react-native";
+import SendButton from "../components/UI/buttons/SendButton";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -82,34 +85,26 @@ export default function PostPage() {
           </View>
         </View>
 
-        <ShadowView classname="mx-4 bg-white p-4 rounded-xl flex-1">
-          <Title classname="mb-2">Название поста</Title>
-          <Text style={{ lineHeight: 20 }} className="text-lg ">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem libero
-            et accusantium perspiciatis tempora placeat, dicta cupiditate sequi
-            dolorem ducimus vero a beatae omnis optio obcaecati ea assumenda?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-            illum ullam enim at aliquid? Ducimus minima laudantium deserunt
-            expedita, laboriosam sint delectus iusto aliquam vitae! Expedita
-            iusto suscipit animi delectus fugit molestias excepturi pariatur?
-            Eos laboriosam consectetur veritatis unde explicabo nostrum
-            officiis, tenetur modi ullam, atque cum, perspiciatis et. Recusandae
-            sit libero voluptates velit quas consequuntur, magnam,
-            exercitationem totam et nemo pariatur neque quo obcaecati, ullam
-            consectetur ratione ipsa similique quasi possimus atque maiores id
-            tempore! Quia fuga praesentium qui itaque sequi reprehenderit, error
-            iusto tenetur laborum placeat aut est inventore totam veniam, vero
-            voluptates aliquam velit at quasi minima?
-          </Text>
-        </ShadowView>
+        <PostInfo />
       </View>
-      <View className="flex-row m-4 mt-8">
-        <ShadowView classname="bg-white rounded-xl overflow-hidden flex-1 h-10 justify-center px-4">
-          <Title classname="">187 комментариев</Title>
+      <ShadowView classname="bg-white rounded-xl overflow-hidden flex-1 h-10 justify-center px-4 mx-4 mt-6">
+        <Text className="text-xl">187 комментариев</Text>
+      </ShadowView>
+      <View className="flex-row mx-4 mt-4 mb-6">
+        <ShadowView classname="bg-white rounded-lg overflow-hidden flex-1 min-h-[40px] justify-center px-4 py-2 pr-12 relative">
+          <TextInput
+            multiline={true}
+            placeholderTextColor={"#d1d5db"}
+            placeholder="Класс..."
+            className="text-gray-900 border-b-0.5 border-gray-900"
+          />
+          <View className="absolute w-6 right-4">
+            <SendButton dark />
+            {/* <Feather name="send" size={20} color="white" /> */}
+          </View>
         </ShadowView>
         <ShadowView classname=" bg-white rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2">
-          <LikeButton/>
-          {/* <Text className="text-gray-300 text-xl">♥</Text> */}
+          <LikeButton />
         </ShadowView>
       </View>
 
