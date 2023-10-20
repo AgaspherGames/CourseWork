@@ -2,13 +2,7 @@ import { View, Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import Animated, {
-  useSharedValue,
   Keyframe,
-  useAnimatedStyle,
-  withSpring,
-  cond,
-  Easing,
-  withTiming,
 } from "react-native-reanimated";
 import { Pressable } from "react-native";
 export default function SendButton({dark=false}) {

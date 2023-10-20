@@ -14,8 +14,8 @@ export default function Commentary() {
               }}
               resizeMode="cover"
               style={{
-                height: 48,
-                width: 48,
+                height: 32,
+                width: 32,
               }}
               className="rounded-full bg-gray-200"
             />
@@ -25,12 +25,6 @@ export default function Commentary() {
                 className="text-xl leading-tight font-medium mt-1"
               >
                 Артем К.
-              </Text>
-              <Text
-                style={{ lineHeight: 20 }}
-                className="text-base text-gray-700 leading-tight "
-              >
-                @agaspher
               </Text>
             </View>
           </View>
