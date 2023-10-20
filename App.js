@@ -22,6 +22,7 @@ import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
 import PostPage from "./pages/PostPage";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
