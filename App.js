@@ -21,6 +21,7 @@ import FloatingNav from "./components/Presets/FloatingNav/FloatingNav";
 import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
 import PostPage from "./pages/PostPage";
+import DocsPage from "./pages/DocsPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,13 @@ export default function App() {
             component={UserPage}
             options={{
               title: "Профиль",
+            }}
+          />
+          <Stack.Screen
+            name="Docs"
+            component={DocsPage}
+            options={{
+              title: "Документы",
             }}
           />
           <Stack.Screen
