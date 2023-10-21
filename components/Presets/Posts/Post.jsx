@@ -34,9 +34,10 @@ export default function Post({ withActions = false }) {
             uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
           }}
           style={{
-            height: 300,
-            flex: 1,
-            width: null,
+            // height: 300,
+            aspectRatio: 3/4,
+            // flex: 1,
+            width: "auto",
           }}
         />
         <View className="absolute bottom-2 inset-x-2 flex gap-2">
