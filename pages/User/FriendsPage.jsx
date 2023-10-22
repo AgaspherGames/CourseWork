@@ -26,7 +26,11 @@ export default function FriendsPage({ navigation }) {
             </Pressable>
           </ShadowView>
           <ShadowView classname="p-2 bg-white rounded-lg justify-center items-center h-11 w-11 ml-2">
-            <Pressable>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("ScanQR");
+              }}
+            >
               <MaterialCommunityIcons
                 name="line-scan"
                 size={24}

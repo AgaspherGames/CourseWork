@@ -18,7 +18,7 @@ export default function ScanQrPage() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    const commands = data.split(' ')
+    const commands = data.split(" ");
     alert(`command: ${commands[0]}; data: ${commands[1]}`);
   };
 
@@ -30,24 +30,28 @@ export default function ScanQrPage() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button
-      title="scan"
-        onPress={() => {
-          setScan((p) => !p);
-          console.log('aa');
-        }}
-      />
-      {scan && (
+    <View className="flex-1 justify-center items-center px-8">
+      <View>
         <BarCodeScanner
+          // style={StyleSheet.absoluteFillObject}
+          className=" aspect-square flex-1"
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
         />
-      )}
 
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
+        {scanned && (
+          <View>
+            <ShadowView classname="text-lg  bg-blue-500 rounded-lg justify-center items-center mt-8 overflow-hidden">
+              <TouchableNativeFeedback onPress={() => setScanned(false)}>
+                <View className="">
+                  <Text className="text-lg p-2 text-white font-medium">
+                    Сканировать еще раз
+                  </Text>
+                </View>
+              </TouchableNativeFeedback>
+            </ShadowView>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
