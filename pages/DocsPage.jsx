@@ -1,53 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+
 
 export default function DocsPage() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [scan, setScan] = useState(false);
-
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getBarCodeScannerPermissions();
-  }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    const commands = data.split(' ')
-    alert(`command: ${commands[0]}; data: ${commands[1]}`);
-  };
-
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
 
   return (
-    <View style={styles.container}>
-      <Button
-      title="scan"
-        onPress={() => {
-          setScan((p) => !p);
-          console.log('aa');
-        }}
-      />
-      {scan && (
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      )}
+    <View style={{ flex: 1 }}>
 
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
     </View>
   );
 }
