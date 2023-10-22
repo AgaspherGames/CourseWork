@@ -1,10 +1,33 @@
 import { StyleSheet, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import Title from "../../components/UI/Base/Title";
+import { Button } from "react-native";
+import ShadowView from "../../components/UI/Base/ShadowView";
+import { useNavigation } from "@react-navigation/native";
+import { Text } from "react-native";
+import { TouchableHighlight } from "react-native";
+import { TouchableNativeFeedback } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export default function QrCodePage() {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <QRCode size={240} value={"ADDFRIEND 192"} backgroundColor="#fff"  />
+    <View className="flex-1 items-center justify-center">
+      <Title classname="text-center py-8 text-3xl">
+        Ваш QR код для  добавления друзей
+      </Title>
+      <QRCode size={240} value={"ADDFRIEND 192"} backgroundColor="#fff" />
+      <View>
+        <ShadowView classname="text-lg  bg-blue-500 rounded-lg justify-center items-center mt-8 overflow-hidden">
+          <TouchableNativeFeedback>
+            <View className="">
+              <Text className="text-lg p-2 text-white font-medium">
+                Отсканировать QR код друга
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
+        </ShadowView>
+      </View>
     </View>
   );
 }

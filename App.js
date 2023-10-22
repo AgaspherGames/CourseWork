@@ -22,7 +22,9 @@ import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
 import PostPage from "./pages/PostPage";
 import DocsPage from "./pages/DocsPage";
-import QrCodePage from "./pages/QrCodePage";
+import QrCodePage from "./pages/User/QrCodePage";
+import FriendsPage from "./pages/User/FriendsPage";
+import ScanQrPage from "./pages/User/ScanQrPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +60,29 @@ export default function App() {
             component={UserPage}
             options={{
               title: "Профиль",
+            }}
+          />
+          <Stack.Screen
+            name="Friends"
+            component={FriendsPage}
+            options={{
+              title: "Список друзей",
+            }}
+          />
+          <Stack.Screen
+            name="QRCode"
+            component={QrCodePage}
+            options={{
+              title: "QR Код для добавления в друзья",
+              header: () => <View></View>,
+            }}
+          />
+          <Stack.Screen
+            name="ScanQR"
+            component={ScanQrPage}
+            options={{
+              title: "QR Код для добавления в друзья",
+              header: () => <View></View>,
             }}
           />
           <Stack.Screen

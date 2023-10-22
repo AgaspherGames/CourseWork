@@ -3,8 +3,9 @@ import React from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
+import { Pressable } from "react-native";
 
-export default function UserPage() {
+export default function UserPage({navigation}) {
   return (
     <ScrollView className="flex-1">
       <View className="flex-1">
@@ -27,48 +28,50 @@ export default function UserPage() {
               @agaspher
             </Text>
             <Title classname="text-center">Артем Кармыков</Title>
-            <View className="flex-row justify-center items-center">
-              <View className="rounded-full bg-white p-1">
-                <Image
-                  source={{
-                    uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                  }}
-                  resizeMode="cover"
-                  style={{
-                    height: 30,
-                    width: 30,
-                  }}
-                  className="rounded-full bg-gray-200 p-2"
-                />
+            <Pressable onPress={() => {	navigation.navigate("Friends") }}>
+              <View className="flex-row justify-center items-center">
+                <View className="rounded-full bg-white p-1">
+                  <Image
+                    source={{
+                      uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+                    }}
+                    resizeMode="cover"
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                    className="rounded-full bg-gray-200 p-2"
+                  />
+                </View>
+                <View className="rounded-full bg-white p-1 -ml-4">
+                  <Image
+                    source={{
+                      uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+                    }}
+                    resizeMode="cover"
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                    className="rounded-full bg-gray-200 p-2"
+                  />
+                </View>
+                <View className="rounded-full bg-white p-1 -ml-4">
+                  <Image
+                    source={{
+                      uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+                    }}
+                    resizeMode="cover"
+                    style={{
+                      height: 30,
+                      width: 30,
+                    }}
+                    className="rounded-full bg-gray-200 p-2"
+                  />
+                </View>
+                <Text className="text-base ml-2">12 друзей</Text>
               </View>
-              <View className="rounded-full bg-white p-1 -ml-4">
-                <Image
-                  source={{
-                    uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                  }}
-                  resizeMode="cover"
-                  style={{
-                    height: 30,
-                    width: 30,
-                  }}
-                  className="rounded-full bg-gray-200 p-2"
-                />
-              </View>
-              <View className="rounded-full bg-white p-1 -ml-4">
-                <Image
-                  source={{
-                    uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                  }}
-                  resizeMode="cover"
-                  style={{
-                    height: 30,
-                    width: 30,
-                  }}
-                  className="rounded-full bg-gray-200 p-2"
-                />
-              </View>
-              <Text className="text-base ml-2">12 друзей</Text>
-            </View>
+            </Pressable>
           </ShadowView>
         </View>
         <View className="mt-4 mx-4  mb-4">
