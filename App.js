@@ -22,6 +22,7 @@ import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
 import PostPage from "./pages/PostPage";
 import DocsPage from "./pages/DocsPage";
+import QrCodePage from "./pages/QrCodePage";
 
 const Stack = createNativeStackNavigator();
 
