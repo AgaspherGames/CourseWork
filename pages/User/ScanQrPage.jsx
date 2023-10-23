@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button, TouchableNativeFeedback } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import {ShadowView} from '../../components/UI/Base/ShadowView'
 
 export default function ScanQrPage() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -39,17 +40,8 @@ export default function ScanQrPage() {
         />
 
         {scanned && (
-          <View>
-            <ShadowView classname="text-lg  bg-blue-500 rounded-lg justify-center items-center mt-8 overflow-hidden">
-              <TouchableNativeFeedback onPress={() => setScanned(false)}>
-                <View className="">
-                  <Text className="text-lg p-2 text-white font-medium">
-                    Сканировать еще раз
-                  </Text>
-                </View>
-              </TouchableNativeFeedback>
-            </ShadowView>
-          </View>
+          <Button onPress={() => setScanned(false)} title="Сканировать еще раз" />
+
         )}
       </View>
     </View>
