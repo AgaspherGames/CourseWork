@@ -26,6 +26,7 @@ export default function RegisterPageSecond({ navigation }) {
   async function send() {
     console.log(username);
     const newUser = {...registeredUser, username, password }
+    setRegisteredUser(newUser)
     AuthHttpService.register(newUser).then(data=>console.log(data)).catch(err=>console.error(err))
 }
 
