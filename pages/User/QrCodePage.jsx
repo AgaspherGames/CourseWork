@@ -19,7 +19,7 @@ export default function QrCodePage() {
       <QRCode size={240} value={"ADDFRIEND 192"} backgroundColor="#fff" />
       <View>
         <ShadowView classname="text-lg  bg-blue-500 rounded-lg justify-center items-center mt-8 overflow-hidden">
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={()=>navigation.navigate("ScanQR")} >
             <View className="">
               <Text className="text-lg p-2 text-white font-medium">
                 Отсканировать QR код друга
