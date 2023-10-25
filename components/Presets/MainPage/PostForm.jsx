@@ -7,16 +7,24 @@ import {
   ScrollView,
   Button,
   Pressable,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
 import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { FlatList } from "react-native";
+import PostService from "../../../services/http/PostService";
 
 export default function PostForm({ isOpened, setIsOpened }) {
   const [imgs, setImgs] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  function send() {
+    PostService.upload(title, description, imgs);
+  }
+
   return (
     <Modal
       onRequestClose={() => {
@@ -44,7 +52,6 @@ export default function PostForm({ isOpened, setIsOpened }) {
                 <Text className="text-lg font-medium">Поделиться!</Text>
                 <View>
                   <ScrollView
-                  
                     horizontal
                     nestedScrollEnabled={true}
                     onPress={(e) => e.stopPropagation()}
@@ -57,18 +64,28 @@ export default function PostForm({ isOpened, setIsOpened }) {
                         console.log(el);
                         return (
                           <Image
-                            key={el}
+                            key={el.uri}
                             className="rounded-md"
                             style={{ width: 60, height: 80 }}
-                            source={{ uri: el }}
+                            source={{ uri: el.uri }}
                           />
                         );
                       })}
                     </View>
                   </ScrollView>
+                  <View>
+                    <TextInput
+                      onChangeText={(text) => setTitle(text)}
+                      defaultValue={title}
+                      placeholder="Заголовок"
+                      className="border text-lg rounded-lg px-2 py-1 relative w-5/6"
+                    />
+                  </View>
                   <View className="border my-4 rounded-lg px-2 pr-8 py-1 relative">
                     <AutoGrowingTextInput
-                      className="text-base"
+                      defaultValue={description}
+                      onChangeText={(text) => setDescription(text)}
+                      className="text-base max-h-64 leading-5"
                       placeholder="Что у вас нового?"
                     />
                     <View className="absolute right-2 top-1">
@@ -81,10 +98,10 @@ export default function PostForm({ isOpened, setIsOpened }) {
                               allowsMultipleSelection: true,
                               aspect: [3, 4],
                               quality: 1,
-                              selectionLimit: 10
+                              selectionLimit: 10,
                             });
                           if (result?.assets?.length) {
-                            setImgs(result?.assets.map((el) => el.uri));
+                            setImgs(result?.assets);
                           }
                           console.log(result?.assets[0]);
                         }}
@@ -93,7 +110,7 @@ export default function PostForm({ isOpened, setIsOpened }) {
                       </Pressable>
                     </View>
                   </View>
-                  <Button title="Опубликовать" />
+                  <Button onPress={send} title="Опубликовать" />
                 </View>
               </View>
             </TouchableWithoutFeedback>

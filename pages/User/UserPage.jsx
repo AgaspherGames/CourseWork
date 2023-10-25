@@ -1,39 +1,82 @@
-import { View, Text, Image, ScrollView } from "react-native";
-import React from "react";
+import { View, Text, Image, ScrollView, Touchable } from "react-native";
+import React, { useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
 import { Pressable } from "react-native";
 import { useAuthStore } from "../../stores/AuthStore";
 import localStorageService from "../../services/localStorageService";
+import * as ImagePicker from "expo-image-picker";
+import { useUserInfo } from "../../hooks/useUserInfo";
+import * as FileSystem from 'expo-file-system';
+import UserService from "../../services/http/UserService";
+import { url } from "../../services/http/http";
 
-export default function UserPage({navigation}) {
-  const token = useAuthStore(state=>state.token)
-  // console.log(token);
-  localStorageService.getItem("user").then(resp=>console.log(resp))
+
+export default function UserPage({ navigation }) {
+  const {token, user} = useUserInfo()
+  const [image, setImage] = useState(null);
+
+  UserService.fetchUser(1).then(data=>console.log(data.data))
+
   return (
     <ScrollView className="flex-1">
       <View className="flex-1">
         <View className="w-full flex flex-row justify-center mt-8">
-          <Image
-            source={{
-              uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+          <Pressable
+            onPress={async () => {
+              let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+              });
+              if (result?.assets?.length) {
+                setImage(result?.assets.map((el) => el.uri));
+
+                console.log(result);
+
+                await FileSystem.uploadAsync(
+                  url+"/User/upload",
+                  result.assets[0].uri,
+                  {
+                    httpMethod: "POST",
+                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                    fieldName: "image",
+                    headers: {
+                      Authorization: "Bearer "+token
+                    }
+                  }
+                );
+              }
+              console.log(result?.assets[0]);
             }}
-            resizeMode="cover"
-            style={{
-              height: 200,
-              width: 200,
-            }}
-            className="rounded-full bg-gray-200"
-          />
+          >
+            <Image
+              source={{
+                uri: url+"/Files/"+user.avatar
+                // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+              }}
+              resizeMode="cover"
+              style={{
+                height: 200,
+                width: 200,
+              }}
+              className="rounded-full bg-gray-200"
+            />
+          </Pressable>
         </View>
         <View className="mt-4 flex-row justify-center">
           <ShadowView classname="p-2 bg-white rounded-lg w-60">
             <Text className="text-lg text-center text-gray-700 leading-tight">
-              @agaspher
+              @{user.username}
             </Text>
-            <Title classname="text-center">Артем Кармыков</Title>
-            <Pressable onPress={() => {	navigation.navigate("Friends") }}>
+            <Title classname="text-center">{user.firstName} {user.lastName}</Title>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Friends");
+              }}
+            >
               <View className="flex-row justify-center items-center">
                 <View className="rounded-full bg-white p-1">
                   <Image
