@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView, Touchable } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
@@ -8,20 +8,20 @@ import { useAuthStore } from "../../stores/AuthStore";
 import localStorageService from "../../services/localStorageService";
 import * as ImagePicker from "expo-image-picker";
 import { useUserInfo } from "../../hooks/useUserInfo";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system";
 import UserService from "../../services/http/UserService";
 import { url } from "../../services/http/http";
 
-
 export default function UserPage({ navigation }) {
-  const {token, user} = useUserInfo()
+  const { token, user } = useUserInfo();
   const [image, setImage] = useState(null);
 
-  UserService.fetchUser(1).then(data=>console.log(data.data))
+  UserService.fetchUser(1).then((data) => console.log(data.data));
+
 
   return (
-    <ScrollView className="flex-1">
-      <View className="flex-1">
+    <View className="flex-1">
+      <ScrollView className="flex-1">
         <View className="w-full flex flex-row justify-center mt-8">
           <Pressable
             onPress={async () => {
@@ -37,15 +37,15 @@ export default function UserPage({ navigation }) {
                 console.log(result);
 
                 await FileSystem.uploadAsync(
-                  url+"/User/upload",
+                  url + "/User/upload",
                   result.assets[0].uri,
                   {
                     httpMethod: "POST",
                     uploadType: FileSystem.FileSystemUploadType.MULTIPART,
                     fieldName: "image",
                     headers: {
-                      Authorization: "Bearer "+token
-                    }
+                      Authorization: "Bearer " + token,
+                    },
                   }
                 );
               }
@@ -54,7 +54,7 @@ export default function UserPage({ navigation }) {
           >
             <Image
               source={{
-                uri: url+"/Files/"+user.avatar
+                uri: url + "/Files/" + user.avatar,
                 // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
               }}
               resizeMode="cover"
@@ -71,7 +71,9 @@ export default function UserPage({ navigation }) {
             <Text className="text-lg text-center text-gray-700 leading-tight">
               @{user.username}
             </Text>
-            <Title classname="text-center">{user.firstName} {user.lastName}</Title>
+            <Title classname="text-center">
+              {user.firstName} {user.lastName}
+            </Title>
             <Pressable
               onPress={() => {
                 navigation.navigate("Friends");
@@ -194,7 +196,7 @@ export default function UserPage({ navigation }) {
           <Post />
           <Post />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }

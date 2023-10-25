@@ -41,7 +41,7 @@ export default function MainPage() {
    },[])
 
   return (
-    <SafeAreaView className="relative">
+    <View className="relative">
       <ScrollView
         scrollEnabled={true}
         nestedScrollEnabled={true}
@@ -64,6 +64,6 @@ export default function MainPage() {
           <Post key={item.title+ind} withActions title={item.title} />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
