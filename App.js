@@ -25,12 +25,15 @@ import DocsPage from "./pages/DocsPage";
 import QrCodePage from "./pages/User/QrCodePage";
 import FriendsPage from "./pages/User/FriendsPage";
 import ScanQrPage from "./pages/User/ScanQrPage";
+import { useUserInfo } from "./hooks/useUserInfo";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();
   const { page, setPage } = useAppStore((state) => state);
+
+  const { token } = useUserInfo();
 
   return (
     <SafeAreaView behavior="padding" className="flex-1">
@@ -41,6 +44,13 @@ export default function App() {
         }}
       >
         <Stack.Navigator>
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomePage}
+            options={{
+              title: "Добро пожаловать",
+            }}
+          />
           <Stack.Screen
             name="Main"
             component={MainPage}
@@ -93,13 +103,6 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="Welcome"
-            component={WelcomePage}
-            options={{
-              title: "Добро пожаловать",
-            }}
-          />
-          <Stack.Screen
             name="Login"
             component={LoginPage}
             options={{
@@ -121,7 +124,7 @@ export default function App() {
             }}
           />
         </Stack.Navigator>
-        <FloatingNav />
+        {token && <FloatingNav />}
       </NavigationContainer>
     </SafeAreaView>
   );

@@ -27,7 +27,9 @@ export default function RegisterPageSecond({ navigation }) {
     console.log(username);
     const newUser = {...registeredUser, username, password }
     setRegisteredUser(newUser)
-    AuthHttpService.register(newUser).then(data=>console.log(data)).catch(err=>console.error(err))
+    await AuthHttpService.register(newUser).then(data=>console.log(data)).catch(err=>console.error(err))
+    await AuthHttpService.login({email: registeredUser.email, password})
+    navigation.navigate("Main")
 }
 
   return (

@@ -22,6 +22,7 @@ export default function LoginPage({ navigation }) {
 
   async function login(){
     await AuthHttpService.login({email,password});
+    navigation.navigate("Main")
   }
 
   return (
