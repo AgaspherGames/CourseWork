@@ -43,7 +43,7 @@ export default function App() {
           setPage(navigationRef.getCurrentRoute().name);
         }}
       >
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ animation: "simple_push" }}>
           <Stack.Screen
             name="Welcome"
             component={WelcomePage}

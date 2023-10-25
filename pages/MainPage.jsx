@@ -1,5 +1,5 @@
 import { FlatList, SafeAreaView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../components/Presets/Posts/Post";
 import ShadowView from "../components/UI/Base/ShadowView";
 import { Text } from "react-native";
@@ -15,6 +15,7 @@ import { Modal } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import PostForm from "../components/Presets/MainPage/PostForm";
+import PostService from "../services/http/PostService";
 
 export default function MainPage() {
   const DATA = [
@@ -31,8 +32,14 @@ export default function MainPage() {
       title: "Third Item",
     },
   ];
+  const [posts, setPosts] = useState([]);
   
   const [isOpened, setIsOpened] = useState(false);
+
+  useEffect(() => {	
+    PostService.fetchPosts().then(resp=>setPosts(resp.data))
+   },[])
+
   return (
     <SafeAreaView className="relative">
       <ScrollView
@@ -53,8 +60,8 @@ export default function MainPage() {
           </Pressable>
         </View>
         <PostForm isOpened={isOpened} setIsOpened={setIsOpened} />
-        {DATA.map((item) => (
-          <Post key={item.id} withActions title={item.title} />
+        {posts.map((item, ind) => (
+          <Post key={item.title+ind} withActions title={item.title} />
         ))}
       </ScrollView>
     </SafeAreaView>

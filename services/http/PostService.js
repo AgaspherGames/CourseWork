@@ -1,4 +1,4 @@
-import { httpAuth } from "./http";
+import { http, httpAuth } from "./http";
 
 class PostService {
   async upload(title, description, imgs) {
@@ -17,6 +17,9 @@ class PostService {
     console.log(form);
 
     httpAuth.post("/Post", form).catch((err) => console.log(err));
+  }
+  fetchPosts(){
+    return http.get("/Post")
   }
 }
 
