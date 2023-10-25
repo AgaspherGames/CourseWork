@@ -1,22 +1,20 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function setItem(key, value) {
   if (typeof window === "undefined") return;
 
   if (typeof value == "object") {
-    localStorage.setItem(key, JSON.stringify(value));
+    AsyncStorage.setItem(key, JSON.stringify(value));
   } else {
-    localStorage.setItem(key, value);
+    AsyncStorage.setItem(key, value);
   }
 }
 function removeItem(key) {
   if (typeof window === "undefined") return;
-  localStorage.removeItem(key);
+  AsyncStorage.removeItem(key);
 }
-function getItem(key) {
-  if (typeof window === "undefined") return "";
-
-  const item = localStorage.getItem(key);
-  
+async function getItem(key) {
+  const item = await AsyncStorage.getItem(key);
   try {
     return JSON.parse(item || "");
   } catch (error) {

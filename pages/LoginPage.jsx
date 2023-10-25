@@ -8,13 +8,21 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import BlueButton from "../components/UI/buttons/BlueButton";
 import FormCard from "../components/UI/Cards/FormCard";
 import InputWithLabel from "../components/UI/Forms/InputWithLabel";
+import AuthHttpService from "../services/http/AuthHttpService";
 
 
 export default function LoginPage({ navigation }) {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function login(){
+    await AuthHttpService.login({email,password});
+  }
 
   return (
     <View className="flex-1 items-center  bg-white px-4 pt-4">
@@ -26,8 +34,8 @@ export default function LoginPage({ navigation }) {
         }}
       />
       <FormCard>
-        <InputWithLabel label={"Email"} placeholder={"jackyjack@mail.com"} />
-        <InputWithLabel
+        <InputWithLabel value={email} setValue={setEmail} label={"Email"} placeholder={"jackyjack@mail.com"} />
+        <InputWithLabel value={password} setValue={setPassword}
           label={"Пароль"}
           placeholder={"********"}
           secureTextEntry
@@ -48,7 +56,7 @@ export default function LoginPage({ navigation }) {
           </Pressable>
         </View>
       </FormCard>
-      <BlueButton classname="mt-4">Войти</BlueButton>
+      <BlueButton onPress={login} classname="mt-4">Войти</BlueButton>
     </View>
   );
 }

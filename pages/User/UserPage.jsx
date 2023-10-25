@@ -4,8 +4,13 @@ import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
 import { Pressable } from "react-native";
+import { useAuthStore } from "../../stores/AuthStore";
+import localStorageService from "../../services/localStorageService";
 
 export default function UserPage({navigation}) {
+  const token = useAuthStore(state=>state.token)
+  // console.log(token);
+  localStorageService.getItem("user").then(resp=>console.log(resp))
   return (
     <ScrollView className="flex-1">
       <View className="flex-1">
