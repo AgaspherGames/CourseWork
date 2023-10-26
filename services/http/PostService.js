@@ -42,6 +42,9 @@ class PostService {
   fetchCommentaries(id) {
     return httpAuth.get("/Commentary/" + id);
   }
+  addCommentary(id, text) {
+    return httpAuth.post("/Commentary/" + id, {text});
+  }
 }
 
 export default new PostService();

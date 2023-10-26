@@ -6,13 +6,17 @@ import { twMerge } from "tailwind-merge";
 import { useNavigation } from "@react-navigation/native";
 import LikeButton from "../../UI/buttons/LikeButton";
 import SendButton from "../../UI/buttons/SendButton";
-import FileService from "../../../services/FileService";
+import Utils from "../../../services/Utils";
 import PostService from "../../../services/http/PostService";
 
 export default function Post({ withActions = false, post }) {
   const navigation = useNavigation();
-  console.log(FileService.getFileLink(post.imgs[0]));
-  
+  const [commentText, setCommentText] = useState("");
+
+  function sendComment() {
+    setCommentText("")
+    PostService.addCommentary(post.id, commentText)
+  }
 
   return (
     <Pressable
@@ -36,7 +40,7 @@ export default function Post({ withActions = false, post }) {
       >
         <Image
           source={{
-            uri: FileService.getFileLink(post.imgs[0]),
+            uri: Utils.getFileLink(post.imgs[0]),
             // uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
           }}
           style={{
@@ -75,12 +79,14 @@ export default function Post({ withActions = false, post }) {
               className="rounded-full overflow-hidden justify-center px-4 flex-1 pr-12 relative"
             >
               <TextInput
+              onChangeText={text=>setCommentText(text)}
+              defaultValue={commentText}
                 placeholderTextColor={"#d1d5db"}
                 placeholder="Класс..."
                 className="text-white border-b-0.5 border-white"
               />
               <View className="absolute w-6 right-4">
-                <SendButton />
+                <SendButton onPress={sendComment} />
                 {/* <Feather name="send" size={20} color="white" /> */}
               </View>
             </BlurView>

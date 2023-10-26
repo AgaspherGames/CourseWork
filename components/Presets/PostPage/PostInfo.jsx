@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
 import Title from "../../UI/Base/Title";
 import { Pressable } from "react-native";
-import FileService from "../../../services/FileService";
+import Utils from "../../../services/Utils";
 
 export default function PostInfo({post}) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ export default function PostInfo({post}) {
         <View className="my-2 flex-row items-center">
           <Image
             source={{
-              uri: FileService.getFileLink(post.user.avatar),
+              uri: Utils.getFileLink(post.user.avatar),
             }}
             resizeMode="cover"
             style={{

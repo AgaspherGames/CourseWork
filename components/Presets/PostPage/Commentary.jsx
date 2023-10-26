@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import ShadowView from '../../UI/Base/ShadowView'
 import { Image } from 'react-native'
-import FileService from '../../../services/FileService'
+import Utils from '../../../services/Utils'
 
 export default function Commentary({comment}) {
   return (
@@ -11,7 +11,7 @@ export default function Commentary({comment}) {
           <View className="my-2 flex-row items-center">
             <Image
               source={{
-                uri: FileService.getFileLink(comment.user.avatar),
+                uri: Utils.getFileLink(comment.user.avatar),
               }}
               resizeMode="cover"
               style={{

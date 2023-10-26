@@ -5,7 +5,7 @@ import Animated, {
   Keyframe,
 } from "react-native-reanimated";
 import { Pressable } from "react-native";
-export default function SendButton({dark=false}) {
+export default function SendButton({dark=false, onPress}) {
   const keyframe = new Keyframe({
     0: {
       transform: [{ rotate: "0deg" }, { translateX: 0 }],
@@ -45,6 +45,7 @@ export default function SendButton({dark=false}) {
     <Pressable
       onPress={() => {
         setIsAnimating(true);
+        onPress()
       }}
     >
       {isAnimating ? (
