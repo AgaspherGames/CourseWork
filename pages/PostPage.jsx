@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import Swiper from "react-native-swiper";
 import ShadowView from "../components/UI/Base/ShadowView";
@@ -10,6 +10,8 @@ import PostInfo from "../components/Presets/PostPage/PostInfo";
 import { TextInput } from "react-native";
 import SendButton from "../components/UI/buttons/SendButton";
 import Commentary from "../components/Presets/PostPage/Commentary";
+import PostService from "../services/http/PostService";
+import FileService from "../services/FileService";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -38,7 +40,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PostPage() {
+export default function PostPage({ route }) {
+  const { params } = route;
+  const postId = params ? params.postId : null;
+
+  const [post, setPost] = useState();
+
+  useEffect(() => {
+    PostService.fetchPost(postId).then((resp) => setPost(resp.data));
+  }, []);
+
+  console.log(post);
+
+  if (!post) return <View></View>
+
   return (
     <ScrollView>
       <View className="flex-1">
@@ -52,41 +67,23 @@ export default function PostPage() {
             className="m-4 rounded-xl overflow-hidden"
           >
             <Swiper loop style={styles.wrapper} className="bg-red-100 ">
-              <View className="flex-1">
-                <Image
-                  source={{
-                    uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                  }}
-                  style={{
-                    flex: 1,
-                  }}
-                />
-              </View>
-              <View className="flex-1">
-                <Image
-                  source={{
-                    uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                  }}
-                  style={{
-                    flex: 1,
-                  }}
-                />
-              </View>
-              <View className="flex-1">
-                <Image
-                  source={{
-                    uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                  }}
-                  style={{
-                    flex: 1,
-                  }}
-                />
-              </View>
+              {post.imgs.map((el) => (
+                <View className="flex-1">
+                  <Image
+                    source={{
+                      uri: FileService.getFileLink(el),
+                    }}
+                    style={{
+                      flex: 1,
+                    }}
+                  />
+                </View>
+              ))}
             </Swiper>
           </View>
         </View>
 
-        <PostInfo />
+        <PostInfo post={post} />
       </View>
       <ShadowView classname="bg-white rounded-xl overflow-hidden flex-1 h-10 justify-center px-4 mx-4 mt-6">
         <Text className="text-xl">187 комментариев</Text>
@@ -109,9 +106,9 @@ export default function PostPage() {
         </ShadowView>
       </View>
 
-      <Commentary/>
-      <Commentary/>
-      <Commentary/>
+      <Commentary />
+      <Commentary />
+      <Commentary />
     </ScrollView>
   );
 }

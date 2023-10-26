@@ -21,6 +21,9 @@ class PostService {
   fetchPosts(){
     return http.get("/Post")
   }
+  fetchPost(id){
+    return http.get("/Post/"+id)
+  }
 }
 
 export default new PostService();

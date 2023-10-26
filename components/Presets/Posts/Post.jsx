@@ -6,13 +6,15 @@ import { twMerge } from "tailwind-merge";
 import { useNavigation } from "@react-navigation/native";
 import LikeButton from "../../UI/buttons/LikeButton";
 import SendButton from "../../UI/buttons/SendButton";
+import FileService from "../../../services/FileService";
 
-export default function Post({ withActions = false }) {
+export default function Post({ withActions = false, post }) {
   const navigation = useNavigation();
+  console.log(FileService.getFileLink(post.imgs[0]));
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Post");
+        navigation.navigate("Post", {postId: post.id});
       }}
     >
       <View
@@ -27,15 +29,16 @@ export default function Post({ withActions = false }) {
 
           elevation: 7,
         }}
-        className="w-auto bg-red-100 h-96 my-4 mx-8 overflow-hidden rounded-lg relative"
+        className="w-auto bg-gray-100 h-96 my-4 mx-8 overflow-hidden rounded-lg relative"
       >
         <Image
           source={{
-            uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
+            uri: FileService.getFileLink(post.imgs[0]),
+            // uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
           }}
           style={{
             // height: 300,
-            aspectRatio: 3/4,
+            aspectRatio: 3 / 4,
             // flex: 1,
             width: "auto",
           }}
@@ -47,8 +50,8 @@ export default function Post({ withActions = false }) {
             className="rounded-full overflow-hidden px-2 py-2"
           >
             <Text className="text-gray-300">
-              <Text className="font-semibold text-white">@artk</Text> —
-              Интересные факты о кошках
+              <Text className="font-semibold text-white">@{post.user.username}</Text> —
+              {" " + post.title}
             </Text>
           </BlurView>
 
@@ -69,7 +72,7 @@ export default function Post({ withActions = false }) {
                 className="text-white border-b-0.5 border-white"
               />
               <View className="absolute w-6 right-4">
-                <SendButton/>
+                <SendButton />
                 {/* <Feather name="send" size={20} color="white" /> */}
               </View>
             </BlurView>

@@ -3,9 +3,13 @@ import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
 import Title from "../../UI/Base/Title";
 import { Pressable } from "react-native";
+import FileService from "../../../services/FileService";
 
-export default function PostInfo() {
+export default function PostInfo({post}) {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(post);
+  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
   return (
     <ShadowView classname="mx-4 bg-white p-4 rounded-xl flex-1">
       <View className="flex-row justify-between items">
@@ -13,7 +17,7 @@ export default function PostInfo() {
         <View className="my-2 flex-row items-center">
           <Image
             source={{
-              uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+              // uri: FileService.getFileLink(post.user.avatar),
             }}
             resizeMode="cover"
             style={{
@@ -40,8 +44,8 @@ export default function PostInfo() {
       </View>
 
       <View className="mb-2">
-        <Title classname=""> Название поста</Title>
-        <Text className=" text-base text-gray-500"> 20 сентября</Text>
+        <Title classname="">{post.title}</Title>
+        <Text className=" text-base text-gray-500">{new Date(post.uploadDate).toLocaleDateString("ru-RU", options)}</Text>
       </View>
       <Pressable
         onPress={() => {
@@ -53,18 +57,7 @@ export default function PostInfo() {
           numberOfLines={isOpen ? 0 : 8}
           className="text-lg"
         >
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem libero
-          et accusantium perspiciatis tempora placeat, dicta cupiditate sequi
-          dolorem ducimus vero a beatae omnis optio obcaecati ea assumenda?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum Lorem
-          ipsum dolor sit, amet consectetur adipisicing elit. Rem libero et
-          accusantium perspiciatis tempora placeat, dicta cupiditate sequi
-          dolorem ducimus vero a beatae omnis optio obcaecati ea assumenda?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum Lorem
-          ipsum dolor sit, amet consectetur adipisicing elit. Rem libero et
-          accusantium perspiciatis tempora placeat, dicta cupiditate sequi
-          dolorem ducimus vero a beatae omnis optio obcaecati ea assumenda?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+          {post.description}
         </Text>
       </Pressable>
     </ShadowView>

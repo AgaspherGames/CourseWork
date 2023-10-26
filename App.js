@@ -37,7 +37,7 @@ export default function App() {
         
       >
         <Stack.Navigator
-        screenOptions={{animation: "none"}}
+        screenOptions={{animation: "fade"}}
         >
           <Stack.Screen
             name="Welcome"
