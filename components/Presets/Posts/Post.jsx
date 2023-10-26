@@ -1,5 +1,5 @@
 import { View, Text, Image, TextInput, Pressable } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { twMerge } from "tailwind-merge";
@@ -7,10 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 import LikeButton from "../../UI/buttons/LikeButton";
 import SendButton from "../../UI/buttons/SendButton";
 import FileService from "../../../services/FileService";
+import PostService from "../../../services/http/PostService";
 
 export default function Post({ withActions = false, post }) {
   const navigation = useNavigation();
   console.log(FileService.getFileLink(post.imgs[0]));
+  
+
   return (
     <Pressable
       onPress={() => {
@@ -50,11 +53,11 @@ export default function Post({ withActions = false, post }) {
             className="rounded-full overflow-hidden px-2 py-2"
           >
             <View className="flex-row">
-              <Pressable onPress={() => {	navigation.navigate("Profile", {userId: post.user.id}) }}>
+              <Pressable onPress={() => { navigation.navigate("Profile", { userId: post.user.id }) }}>
                 <Text className="font-semibold text-white">
                   @{post.user.username}
                 </Text>
-                
+
               </Pressable>
               <Text className="text-gray-100"> —{" " + post.title}</Text>
             </View>
@@ -87,7 +90,7 @@ export default function Post({ withActions = false, post }) {
               intensity={40}
               className="rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2"
             >
-              <LikeButton />
+              <LikeButton postId={post.id} />
             </BlurView>
           </View>
         </View>

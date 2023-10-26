@@ -102,7 +102,7 @@ export default function PostPage({ route }) {
           </View>
         </ShadowView>
         <ShadowView classname=" bg-white rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2">
-          <LikeButton />
+          <LikeButton postId={postId } />
         </ShadowView>
       </View>
 

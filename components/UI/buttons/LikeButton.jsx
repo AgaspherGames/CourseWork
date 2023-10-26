@@ -8,10 +8,11 @@ import Animated, {
   withSpring,
   cond,
 } from "react-native-reanimated";
+import PostService from "../../../services/http/PostService";
 
-export default function LikeButton() {
-  const [isLiked, setIsLiked] = useState(false);
+export default function LikeButton({postId}) {
 
+  const [isLiked, setIsLiked] = useState(false)
   const scale = useSharedValue(1);
 
   const likeStyles = useAnimatedStyle(() => ({
@@ -21,8 +22,22 @@ export default function LikeButton() {
     transform: [{ scale: 1 - scale.value }],
   }));
 
+  useEffect(() => {
+    PostService.fetchIsLiked(postId).then(resp => setIsLiked(resp.data))
+  }, [])
+
+  function changeIsLiked(newValue) {
+    console.log(postId);
+    if (newValue) {
+      PostService.likePost(postId).then(resp=>console.log(resp.data))
+    } else{
+      PostService.unlikePost(postId).then(resp=>console.log(resp.data))
+    }
+    setIsLiked(newValue)
+  }
+
   const handlePress = () => {
-    setIsLiked((p) => !p);
+    changeIsLiked(!isLiked);
   };
 
   useEffect(() => {

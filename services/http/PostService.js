@@ -5,7 +5,7 @@ class PostService {
     const form = new FormData();
 
     form.append("title", title);
-    form.append("description", title);
+    form.append("description", description);
     for (let i = 0; i < imgs.length; i++) {
       form.append("imgs", {
         name: "img.png",
@@ -23,6 +23,15 @@ class PostService {
   }
   fetchPost(id){
     return http.get("/Post/"+id)
+  }
+  fetchIsLiked(id){
+    return httpAuth.get("/Like/"+id)
+  }
+  likePost(id){
+    return httpAuth.post("/Like/"+id)
+  }
+  unlikePost(id){
+    return httpAuth.delete("/Like/"+id)
   }
 }
 
