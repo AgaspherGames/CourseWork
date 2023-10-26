@@ -1,21 +1,41 @@
 import axios from "axios";
 import localStorageService from "../localStorageService";
 
-export const url = "https://c683-2-75-73-231.ngrok-free.app/api"
+export const url = "https://c0fc-212-13-134-111.ngrok-free.app/api";
 
 export const http = axios.create({
   baseURL: url,
   timeout: 1000,
   headers: {
-    "ngrok-skip-browser-warning": true
-  }
+    "ngrok-skip-browser-warning": true,
+  },
 });
 export const httpAuth = axios.create({
   baseURL: url,
   timeout: 1000,
 });
-httpAuth.interceptors.request.use(async function (config) { 
+
+httpAuth.interceptors.request.use(async function (config) {
   config.headers.Authorization =
-    "Bearer " + await localStorageService.getItem("token");
+    "Bearer " + (await localStorageService.getItem("token"));
   return config;
 });
+
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.error(error);
+    return Promise.reject(error.message);
+  }
+);
+httpAuth.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.error(error);
+    return Promise.reject(error.message);
+  }
+);

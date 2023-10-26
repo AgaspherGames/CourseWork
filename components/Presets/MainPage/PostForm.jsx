@@ -16,13 +16,16 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
 
-export default function PostForm({ isOpened, setIsOpened }) {
+export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
   const [imgs, setImgs] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   function send() {
-    PostService.upload(title, description, imgs);
+    PostService.upload(title, description, imgs).then((resp) => {
+      setIsOpened(false);
+      updatePosts();
+    });
   }
 
   return (

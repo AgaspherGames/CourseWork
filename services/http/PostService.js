@@ -16,22 +16,31 @@ class PostService {
 
     console.log(form);
 
-    httpAuth.post("/Post", form).catch((err) => console.log(err));
+    return httpAuth.post("/Post", form).catch((err) => console.log(err));
   }
-  fetchPosts(){
-    return http.get("/Post")
+  fetchPosts() {
+    return http.get("/Post", {
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   }
-  fetchPost(id){
-    return http.get("/Post/"+id)
+  fetchPost(id) {
+    return http.get("/Post/" + id);
   }
-  fetchIsLiked(id){
-    return httpAuth.get("/Like/"+id)
+  fetchIsLiked(id) {
+    return httpAuth.get("/Like/" + id);
   }
-  likePost(id){
-    return httpAuth.post("/Like/"+id)
+  likePost(id) {
+    return httpAuth.post("/Like/" + id);
   }
-  unlikePost(id){
-    return httpAuth.delete("/Like/"+id)
+  unlikePost(id) {
+    return httpAuth.delete("/Like/" + id);
+  }
+  fetchCommentaries(id) {
+    return httpAuth.get("/Commentary/" + id);
   }
 }
 

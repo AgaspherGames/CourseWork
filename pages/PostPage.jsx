@@ -45,14 +45,18 @@ export default function PostPage({ route }) {
   const postId = params ? params.postId : null;
 
   const [post, setPost] = useState();
+  const [comments, setComments] = useState({});
 
   useEffect(() => {
     PostService.fetchPost(postId).then((resp) => setPost(resp.data));
+    PostService.fetchCommentaries(postId).then((resp) =>
+      setComments(resp.data)
+    );
   }, []);
 
   console.log(post);
 
-  if (!post) return <View></View>
+  if (!post) return <View></View>;
 
   return (
     <ScrollView>
@@ -86,7 +90,7 @@ export default function PostPage({ route }) {
         <PostInfo post={post} />
       </View>
       <ShadowView classname="bg-white rounded-xl overflow-hidden flex-1 h-10 justify-center px-4 mx-4 mt-6">
-        <Text className="text-xl">187 комментариев</Text>
+        <Text className="text-xl">{comments.total} комментариев</Text>
       </ShadowView>
       <View className="flex-row mx-4 mt-4 mb-6">
         <ShadowView classname="bg-white rounded-lg overflow-hidden flex-1 min-h-[40px] justify-center px-4 py-2 pr-12 relative">
@@ -102,13 +106,13 @@ export default function PostPage({ route }) {
           </View>
         </ShadowView>
         <ShadowView classname=" bg-white rounded-full overflow-hidden w-10 h-10 justify-center items-center aspect-square ml-2">
-          <LikeButton postId={postId } />
+          <LikeButton postId={postId} />
         </ShadowView>
       </View>
 
-      <Commentary />
-      <Commentary />
-      <Commentary />
+      {comments?.comments?.map((com) => (
+        <Commentary comment={com} />
+      ))}
     </ScrollView>
   );
 }

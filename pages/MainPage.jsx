@@ -16,29 +16,28 @@ import { TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import PostForm from "../components/Presets/MainPage/PostForm";
 import PostService from "../services/http/PostService";
+import { useFocusEffect } from "@react-navigation/native";
+import { useAppStore } from "../stores/AppStore";
 
 export default function MainPage() {
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "First Item",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-    },
-  ];
+  const page = useAppStore((state) => state.page);
   const [posts, setPosts] = useState([]);
-  
+
   const [isOpened, setIsOpened] = useState(false);
 
-  useEffect(() => {	
-    PostService.fetchPosts().then(resp=>setPosts(resp.data))
-   },[])
+  async function updatePosts() {
+    const { data } = await PostService.fetchPosts();
+    console.log("data", data);
+    setPosts(data);
+  }
+
+  useEffect(() => {
+    updatePosts();
+
+    return () => {
+      setPosts([]);
+    };
+  }, [page]);
 
   return (
     <View className="relative">
@@ -59,7 +58,11 @@ export default function MainPage() {
             </ShadowView>
           </Pressable>
         </View>
-        <PostForm isOpened={isOpened} setIsOpened={setIsOpened} />
+        <PostForm
+          updatePosts={updatePosts}
+          isOpened={isOpened}
+          setIsOpened={setIsOpened}
+        />
         {posts.map((item, ind) => (
           <Post key={item.id} withActions post={item} />
         ))}
