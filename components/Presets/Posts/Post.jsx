@@ -14,7 +14,7 @@ export default function Post({ withActions = false, post }) {
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Post", {postId: post.id});
+        navigation.navigate("Post", { postId: post.id });
       }}
     >
       <View
@@ -49,10 +49,15 @@ export default function Post({ withActions = false, post }) {
             intensity={40}
             className="rounded-full overflow-hidden px-2 py-2"
           >
-            <Text className="text-gray-300">
-              <Text className="font-semibold text-white">@{post.user.username}</Text> —
-              {" " + post.title}
-            </Text>
+            <View className="flex-row">
+              <Pressable onPress={() => {	navigation.navigate("Profile", {userId: post.user.id}) }}>
+                <Text className="font-semibold text-white">
+                  @{post.user.username}
+                </Text>
+                
+              </Pressable>
+              <Text className="text-gray-100"> —{" " + post.title}</Text>
+            </View>
           </BlurView>
 
           <View

@@ -17,7 +17,7 @@ export default function PostInfo({post}) {
         <View className="my-2 flex-row items-center">
           <Image
             source={{
-              // uri: FileService.getFileLink(post.user.avatar),
+              uri: FileService.getFileLink(post.user.avatar),
             }}
             resizeMode="cover"
             style={{
@@ -31,13 +31,13 @@ export default function PostInfo({post}) {
               style={{ lineHeight: 20 }}
               className="text-xl leading-tight font-medium mt-1"
             >
-              Артем К.
+              {post.user.firstName}
             </Text>
             <Text
               style={{ lineHeight: 20 }}
               className="text-base text-gray-700 leading-tight "
             >
-              @agaspher
+              @{post.user.username}
             </Text>
           </View>
         </View>

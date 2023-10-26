@@ -12,12 +12,23 @@ import * as FileSystem from "expo-file-system";
 import UserService from "../../services/http/UserService";
 import { url } from "../../services/http/http";
 
-export default function UserPage({ navigation }) {
-  const { token, user } = useUserInfo();
+export default function UserPage({ navigation, route }) {
+  const { token, user: currentUser } = useUserInfo();
   const [image, setImage] = useState(null);
 
-  UserService.fetchUser(1).then((data) => console.log(data.data));
+  const { params } = route;
+  const userId = params ? params.userId : null;
+  const [user, setUser] = useState();
 
+  useEffect(() => {
+    if (userId == currentUser.id || !userId) {
+      setUser(currentUser);
+    } else {
+      UserService.fetchUser(userId).then((resp) => setUser(resp.data));
+    }
+  }, []);
+
+  if (!user) return <View></View>
 
   return (
     <View className="flex-1">
@@ -192,9 +203,9 @@ export default function UserPage({ navigation }) {
           </ShadowView>
         </View>
         <View>
-          <Post />
-          <Post />
-          <Post />
+          {user.posts.map((post) => (
+            <Post post={post} />
+          ))}
         </View>
       </ScrollView>
     </View>
