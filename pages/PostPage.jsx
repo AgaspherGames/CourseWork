@@ -63,7 +63,6 @@ export default function PostPage({ route }) {
     );
   }, []);
 
-  console.log(post);
 
   if (!post) return <View></View>;
 

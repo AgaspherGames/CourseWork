@@ -27,7 +27,6 @@ export default function MainPage() {
 
   async function updatePosts() {
     const { data } = await PostService.fetchPosts();
-    console.log("data", data);
     setPosts(data);
   }
 

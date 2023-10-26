@@ -45,7 +45,6 @@ export default function UserPage({ navigation, route }) {
               if (result?.assets?.length) {
                 setImage(result?.assets.map((el) => el.uri));
 
-                console.log(result);
 
                 await FileSystem.uploadAsync(
                   url + "/User/upload",
@@ -60,7 +59,6 @@ export default function UserPage({ navigation, route }) {
                   }
                 );
               }
-              console.log(result?.assets[0]);
             }}
           >
             <Image

@@ -22,7 +22,6 @@ export default function RegisterPage({ navigation }) {
   const [email, setEmail] = useState("");
 
   function next() {
-    console.log(registeredUser);
     navigation.navigate("Register2")
   }
 

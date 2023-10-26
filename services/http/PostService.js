@@ -14,8 +14,6 @@ class PostService {
       });
     }
 
-    console.log(form);
-
     return httpAuth.post("/Post", form).catch((err) => console.log(err));
   }
   fetchPosts() {

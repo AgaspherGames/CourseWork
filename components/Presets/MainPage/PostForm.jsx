@@ -64,7 +64,6 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                       onStartShouldSetResponder={() => true}
                     >
                       {imgs.map((el) => {
-                        console.log(el);
                         return (
                           <Image
                             key={el.uri}
@@ -106,7 +105,6 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                           if (result?.assets?.length) {
                             setImgs(result?.assets);
                           }
-                          console.log(result?.assets[0]);
                         }}
                       >
                         <FontAwesome name="paperclip" size={24} color="black" />

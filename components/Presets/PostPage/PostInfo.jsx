@@ -7,7 +7,6 @@ import Utils from "../../../services/Utils";
 
 export default function PostInfo({post}) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(post);
   var options = { year: 'numeric', month: 'long', day: 'numeric' };
 
   return (
