@@ -63,7 +63,7 @@ export default function MainPage() {
           setIsOpened={setIsOpened}
         />
         {posts.map((item, ind) => (
-          <Post key={item.id} withActions post={item} />
+          <Post key={ind} withActions post={item} />
         ))}
       </ScrollView>
     </View>

@@ -63,7 +63,7 @@ export default function Post({ withActions = false, post }) {
                 </Text>
 
               </Pressable>
-              <Text className="text-gray-100"> —{" " + post.title}</Text>
+              <Text numberOfLines={1} className="text-gray-100"> —{" " + post.title}</Text>
             </View>
           </BlurView>
 

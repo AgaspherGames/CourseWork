@@ -78,19 +78,22 @@ export default function PostPage({ route }) {
             }}
             className="m-4 rounded-xl overflow-hidden"
           >
-            <Swiper loop style={styles.wrapper} className="bg-red-100 ">
-              {post.imgs.map((el) => (
-                <View className="flex-1">
-                  <Image
-                    source={{
-                      uri: Utils.getFileLink(el),
-                    }}
-                    style={{
-                      flex: 1,
-                    }}
-                  />
-                </View>
-              ))}
+            <Swiper loop style={styles.wrapper} className="bg-gray-100 ">
+              {post.imgs.map((el) =>{
+                console.log(el);
+                return  (
+                  <View key={el} className="flex-1">
+                    <Image
+                      source={{
+                        uri: Utils.getFileLink(el),
+                      }}
+                      style={{
+                        flex: 1,
+                      }}
+                    />
+                  </View>
+                )
+              })}
             </Swiper>
           </View>
         </View>
@@ -127,8 +130,8 @@ export default function PostPage({ route }) {
         </ShadowView>
       </View>
 
-      {comments?.comments?.map((com) => (
-        <Commentary comment={com} />
+      {comments?.comments?.map((com, ind) => (
+        <Commentary key={ind} comment={com} />
       ))}
     </ScrollView>
   );

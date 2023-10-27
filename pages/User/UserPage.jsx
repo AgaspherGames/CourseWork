@@ -13,7 +13,7 @@ import UserService from "../../services/http/UserService";
 import { url } from "../../services/http/http";
 
 export default function UserPage({ navigation, route }) {
-  const { token, user: currentUser } = useUserInfo();
+  const { token, user: currentUser, updateUserInfo } = useUserInfo();
   const [image, setImage] = useState(null);
 
   const { params } = route;
@@ -58,6 +58,9 @@ export default function UserPage({ navigation, route }) {
                     },
                   }
                 );
+                
+                console.log();
+                await updateUserInfo()
               }
             }}
           >
