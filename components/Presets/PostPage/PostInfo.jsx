@@ -17,7 +17,7 @@ export default function PostInfo({ post }) {
         <View className="my-2 flex-row items-center">
           <Image
             source={{
-              uri: Utils.getFileLink(post.user.avatar),
+              uri: Utils.getFileLink(post.user.avatar, true),
             }}
             resizeMode="cover"
             style={{

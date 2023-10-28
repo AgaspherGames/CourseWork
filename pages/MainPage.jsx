@@ -18,54 +18,60 @@ import PostForm from "../components/Presets/MainPage/PostForm";
 import PostService from "../services/http/PostService";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAppStore } from "../stores/AppStore";
+import { usePostStore } from "../stores/PostStore";
 
 export default function MainPage() {
   const page = useAppStore((state) => state.page);
   const [posts, setPosts] = useState([]);
 
+  const [isRefreshing, setIsRefreshing] = useState(true);
   const [isOpened, setIsOpened] = useState(false);
 
   async function updatePosts() {
+    setIsRefreshing(true);
     const { data } = await PostService.fetchPosts();
     setPosts(data);
+    setIsRefreshing(false);
   }
 
   useEffect(() => {
     updatePosts();
 
-    return () => {
-      setPosts([]);
-    };
   }, [page]);
 
   return (
     <View className="relative">
-      <ScrollView
-        scrollEnabled={true}
-        nestedScrollEnabled={true}
-        className="relative"
-      >
-        <View>
-          <Pressable
-            onPress={() => {
-              setIsOpened(true);
-            }}
-          >
-            <ShadowView classname="mx-8 mt-4 bg-white p-4 rounded-lg  h-auto flex-row justify-between items-center">
-              <Text className="text-lg font-medium">Опубликовать запись</Text>
-              <AntDesign name="pluscircleo" size={24} color="black" />
-            </ShadowView>
-          </Pressable>
-        </View>
-        <PostForm
-          updatePosts={updatePosts}
-          isOpened={isOpened}
-          setIsOpened={setIsOpened}
+      <View className="relative">
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <View>
+                <Pressable
+                  onPress={() => {
+                    setIsOpened(true);
+                  }}
+                >
+                  <ShadowView classname="mx-8 mt-4 bg-white p-4 rounded-lg  h-auto flex-row justify-between items-center">
+                    <Text className="text-lg font-medium">
+                      Опубликовать запись
+                    </Text>
+                    <AntDesign name="pluscircleo" size={24} color="black" />
+                  </ShadowView>
+                </Pressable>
+              </View>
+              <PostForm
+                updatePosts={updatePosts}
+                isOpened={isOpened}
+                setIsOpened={setIsOpened}
+              />
+            </>
+          }
+          refreshing={isRefreshing}
+          onRefresh={updatePosts}
+          data={posts}
+          renderItem={({ item }) => <Post withActions post={item} />}
         />
-        {posts.map((item, ind) => (
-          <Post key={ind} withActions post={item} />
-        ))}
-      </ScrollView>
+      </View>
     </View>
   );
 }

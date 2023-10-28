@@ -9,9 +9,11 @@ import Animated, {
   cond,
 } from "react-native-reanimated";
 import PostService from "../../../services/http/PostService";
+import { useAppStore } from "../../../stores/AppStore";
 
 export default function LikeButton({postId}) {
 
+  const page = useAppStore(state=>state.page)
   const [isLiked, setIsLiked] = useState(false)
   const scale = useSharedValue(1);
 
@@ -24,7 +26,7 @@ export default function LikeButton({postId}) {
 
   useEffect(() => {
     PostService.fetchIsLiked(postId).then(resp => setIsLiked(resp.data))
-  }, [])
+  }, [page])
 
   function changeIsLiked(newValue) {
     if (newValue) {

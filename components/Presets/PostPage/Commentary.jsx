@@ -13,7 +13,7 @@ export default function Commentary({ comment }) {
         <View className="my-2 flex-row items-center">
           <Image
             source={{
-              uri: Utils.getFileLink(comment.user.avatar),
+              uri: Utils.getFileLink(comment.user.avatar, true),
             }}
             resizeMode="cover"
             style={{

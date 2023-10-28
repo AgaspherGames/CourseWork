@@ -1,7 +1,9 @@
 import { url } from "./http/http";
 
-function getFileLink(fileName) {
-  return url + "/Files/" + fileName;
+function getFileLink(fileName, small=false) {
+  const link =  url + "/Files/" + fileName + (small?"/small":'');
+  console.log(link);
+  return link
 }
 
 var wordForm = function (num, words) {
