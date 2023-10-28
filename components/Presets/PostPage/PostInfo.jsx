@@ -4,15 +4,16 @@ import ShadowView from "../../UI/Base/ShadowView";
 import Title from "../../UI/Base/Title";
 import { Pressable } from "react-native";
 import Utils from "../../../services/Utils";
+import { useNavigation } from "@react-navigation/native";
 
-export default function PostInfo({post}) {
+export default function PostInfo({ post }) {
+  const navigation = useNavigation();
   const [isOpen, setIsOpen] = useState(false);
-  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+  var options = { year: "numeric", month: "long", day: "numeric" };
 
   return (
     <ShadowView classname="mx-4 bg-white p-4 rounded-xl flex-1">
       <View className="flex-row justify-between items">
-
         <View className="my-2 flex-row items-center">
           <Image
             source={{
@@ -33,6 +34,9 @@ export default function PostInfo({post}) {
               {post.user.firstName}
             </Text>
             <Text
+              onPress={() => {
+                navigation.navigate("Profile", { userId: post.user.id });
+              }}
               style={{ lineHeight: 20 }}
               className="text-base text-gray-700 leading-tight "
             >
@@ -44,7 +48,9 @@ export default function PostInfo({post}) {
 
       <View className="mb-2">
         <Title classname="">{post.title}</Title>
-        <Text className=" text-base text-gray-500">{new Date(post.uploadDate).toLocaleDateString("ru-RU", options)}</Text>
+        <Text className=" text-base text-gray-500">
+          {new Date(post.uploadDate).toLocaleDateString("ru-RU", options)}
+        </Text>
       </View>
       <Pressable
         onPress={() => {

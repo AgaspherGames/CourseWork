@@ -3,7 +3,7 @@ import {
   useNavigationContainerRef,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { SafeAreaView, View } from "react-native";
+import { DrawerLayoutAndroid, SafeAreaView, View, Text } from "react-native";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import RegisterPageSecond from "./pages/Register/RegisterPageSecond";
@@ -34,17 +34,14 @@ export default function App() {
         onStateChange={async () => {
           setPage(navigationRef.getCurrentRoute().name);
         }}
-        
       >
-        <Stack.Navigator
-        screenOptions={{animation: "fade"}}
-        >
+        <Stack.Navigator screenOptions={{ animation: "fade" }}>
           <Stack.Screen
             name="Welcome"
             component={WelcomePage}
             options={{
               title: "Добро пожаловать",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -52,7 +49,7 @@ export default function App() {
             component={MainPage}
             options={{
               title: "Главная",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -60,7 +57,7 @@ export default function App() {
             component={PostPage}
             options={{
               title: "Пост",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -68,7 +65,7 @@ export default function App() {
             component={UserPage}
             options={{
               title: "Профиль",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -76,7 +73,7 @@ export default function App() {
             component={FriendsPage}
             options={{
               title: "Список друзей",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -84,7 +81,7 @@ export default function App() {
             component={QrCodePage}
             options={{
               title: "QR Код для добавления в друзья",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
               header: () => <View></View>,
             }}
           />
@@ -93,7 +90,7 @@ export default function App() {
             component={ScanQrPage}
             options={{
               title: "QR Код для добавления в друзья",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
               header: () => <View></View>,
             }}
           />
@@ -102,7 +99,7 @@ export default function App() {
             component={DocsPage}
             options={{
               title: "Документы",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -110,7 +107,7 @@ export default function App() {
             component={LoginPage}
             options={{
               title: "Войти",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -118,7 +115,7 @@ export default function App() {
             component={RegisterPage}
             options={{
               title: "Регистрация",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
           <Stack.Screen
@@ -126,7 +123,7 @@ export default function App() {
             component={RegisterPageSecond}
             options={{
               title: "Регистрация",
-              contentStyle: { shadowOpacity: 0,shadowOffset:0, opacity: 1 },
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
         </Stack.Navigator>
