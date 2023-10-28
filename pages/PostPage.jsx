@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Modal } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import Swiper from "react-native-swiper";
@@ -12,6 +12,8 @@ import SendButton from "../components/UI/buttons/SendButton";
 import Commentary from "../components/Presets/PostPage/Commentary";
 import PostService from "../services/http/PostService";
 import Utils from "../services/Utils";
+import { BlurView } from "expo-blur";
+import ImageModal from "../components/Presets/PostPage/ImageModal";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -48,6 +50,8 @@ export default function PostPage({ route }) {
   const [comments, setComments] = useState({});
   const [commentText, setCommentText] = useState("");
 
+  const [modal, setModal] = useState({ isOpened: false, ind: "" });
+
   async function sendComment() {
     setCommentText("");
     await PostService.addCommentary(postId, commentText);
@@ -63,7 +67,6 @@ export default function PostPage({ route }) {
     );
   }, []);
 
-
   if (!post) return <View></View>;
 
   return (
@@ -78,25 +81,35 @@ export default function PostPage({ route }) {
             }}
             className="m-4 rounded-xl overflow-hidden"
           >
-            <Swiper loop style={styles.wrapper} className="bg-gray-100 ">
-              {post.imgs.map((el) =>{
+            <Swiper loop={false} style={styles.wrapper} className="bg-gray-100 ">
+              {post.imgs.map((el, ind) => {
                 console.log(el);
-                return  (
+                return (
                   <View key={el} className="flex-1">
-                    <Image
-                      source={{
-                        uri: Utils.getFileLink(el),
+                    <Pressable
+                      onPress={() => {
+                        setModal((p) => ({ ind, isOpened: true }));
                       }}
-                      style={{
-                        flex: 1,
-                      }}
-                    />
+                      className="flex-1 relative"
+                    >
+                      <Image
+                        // className="absolute inset-x-0 inset-y-0"
+                        source={{
+                          uri: Utils.getFileLink(el),
+                        }}
+                        style={{
+                          flex: 1,
+                        }}
+                      />
+                    </Pressable>
                   </View>
-                )
+                );
               })}
             </Swiper>
           </View>
         </View>
+
+        <ImageModal modal={modal} setModal={setModal} imgs={post.imgs} />
 
         <PostInfo post={post} />
       </View>
