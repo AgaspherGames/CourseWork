@@ -83,7 +83,6 @@ export default function PostPage({ route }) {
           >
             <Swiper loop={false} style={styles.wrapper} className="bg-gray-100 ">
               {post.imgs.map((el, ind) => {
-                console.log(el);
                 return (
                   <View key={el} className="flex-1">
                     <Pressable

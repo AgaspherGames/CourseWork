@@ -7,6 +7,15 @@ class UserService {
   async fetchUser(id) {
     return httpAuth.get("/User/" + id);
   }
+  async fetchIsFollow(id) {
+    return httpAuth.get(`/friends/${id}/check`);
+  }
+  async follow(id) {
+    return httpAuth.post("/friends/" + id);
+  }
+  async unFollow(id) {
+    return httpAuth.delete("/friends/" + id);
+  }
   async upload(img) {
     const form = new FormData();
     form.append("image", {

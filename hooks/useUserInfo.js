@@ -19,7 +19,6 @@ export const useUserInfo = () => {
 
   async function updateUserInfo(id){
     const {data} = await UserService.fetchMe(id || user.id)
-    console.log(data);
     setUser(data);
   }
 

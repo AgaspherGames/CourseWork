@@ -28,14 +28,14 @@ export default function App() {
   const { token } = useUserInfo();
 
   return (
-    <SafeAreaView behavior="padding" className="flex-1">
+    <SafeAreaView className="flex-1">
       <NavigationContainer
         ref={navigationRef}
         onStateChange={async () => {
           setPage(navigationRef.getCurrentRoute().name);
         }}
       >
-        <Stack.Navigator screenOptions={{ animation: "fade" }}>
+        <Stack.Navigator screenOptions={{ animation: "none"}}>
           <Stack.Screen
             name="Welcome"
             component={WelcomePage}

@@ -30,9 +30,9 @@ export default function LikeButton({postId}) {
 
   function changeIsLiked(newValue) {
     if (newValue) {
-      PostService.likePost(postId).then(resp=>console.log(resp.data))
+      PostService.likePost(postId)
     } else{
-      PostService.unlikePost(postId).then(resp=>console.log(resp.data))
+      PostService.unlikePost(postId)
     }
     setIsLiked(newValue)
   }

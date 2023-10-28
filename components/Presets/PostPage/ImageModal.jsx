@@ -31,9 +31,8 @@ export default function ImageModal({ modal, setModal, imgs }) {
               aspectRatio: 3 / 4,
             }}
           >
-            <Swiper index={modal.ind} showsPagination={false} loop={false} classname="rounded-lg justify-center items-center ">
+            <Swiper index={+modal.ind} showsPagination={false} loop={false} classname="rounded-lg justify-center items-center ">
               {imgs.map((el) => {
-                console.log(el);
                 return (
                   <View  className="flex-row justify-center m-6" key={el}>
                     <Pressable>

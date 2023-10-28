@@ -1,4 +1,12 @@
-import { View, Text, Image, ScrollView, Touchable, DrawerLayoutAndroid } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Touchable,
+  DrawerLayoutAndroid,
+  TouchableHighlight,
+} from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
@@ -11,6 +19,15 @@ import { useUserInfo } from "../../hooks/useUserInfo";
 import * as FileSystem from "expo-file-system";
 import UserService from "../../services/http/UserService";
 import { url } from "../../services/http/http";
+import BlueButton from "../../components/UI/buttons/BlueButton";
+import { Feather } from "@expo/vector-icons";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import SubscribeButton from "../../components/UI/buttons/SubscribeButton";
 
 export default function UserPage({ navigation, route }) {
   const { token, user: currentUser, updateUserInfo } = useUserInfo();
@@ -68,7 +85,6 @@ export default function UserPage({ navigation, route }) {
             >
               <Image
                 source={(() => {
-                  console.log(user.avatar);
                   return {
                     uri: url + "/Files/" + user.avatar,
                     // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
@@ -84,7 +100,7 @@ export default function UserPage({ navigation, route }) {
             </Pressable>
           </View>
           <View className="mt-4 flex-row justify-center">
-            <ShadowView classname="p-2 bg-white rounded-lg w-60">
+            <ShadowView classname="p-2 bg-white rounded-lg w-60 items-center">
               <Text className="text-lg text-center text-gray-700 leading-tight">
                 @{user.username}
               </Text>
@@ -139,11 +155,12 @@ export default function UserPage({ navigation, route }) {
                   <Text className="text-base ml-2">12 друзей</Text>
                 </View>
               </Pressable>
+              {!isMe && <SubscribeButton userId={user.id} />}
             </ShadowView>
           </View>
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
-              <Title classname="mb-4">Ваши питомцы</Title>
+              <Title classname="mb-4">Питомцы</Title>
               <ScrollView className="" horizontal>
                 <View className="flex-row">
                   <View className="w-40 p-2">

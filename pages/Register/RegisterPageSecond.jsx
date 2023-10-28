@@ -17,19 +17,25 @@ import AuthHttpService from "../../services/http/AuthHttpService";
 import axios from "axios";
 
 export default function RegisterPageSecond({ navigation }) {
-  const {registeredUser, setRegisteredUser} = useAuthStore(state => ({registeredUser: state.registeredUser, setRegisteredUser: state.setRegisteredUser}))
+  const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
+    registeredUser: state.registeredUser,
+    setRegisteredUser: state.setRegisteredUser,
+  }));
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  
   async function send() {
-    const newUser = {...registeredUser, username, password }
-    setRegisteredUser(newUser)
-    await AuthHttpService.register(newUser).then(data=>console.log(data)).catch(err=>console.error(err))
-    await AuthHttpService.login({email: registeredUser.email, password})
-    navigation.navigate("Main")
-}
+    const newUser = { ...registeredUser, username, password };
+    setRegisteredUser(newUser);
+    await AuthHttpService.register(newUser)
+      .catch((err) => console.error(err));
+    await AuthHttpService.login({ email: registeredUser.email, password });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Main" }],
+    });
+  }
 
   return (
     <View className="flex-1 items-center justify-center  bg-white px-4">
@@ -43,20 +49,31 @@ export default function RegisterPageSecond({ navigation }) {
       <Text className="text-2xl font-semibold">Отлично</Text>
       <Text className="text-xl pb-2">А теперь придумайте логин и пароль</Text>
       <FormCard>
-      <InputWithLabel value={username} setValue={setUsername} label={"Логин"} placeholder={"ivan123"} />
+        <InputWithLabel
+          value={username}
+          setValue={setUsername}
+          label={"Логин"}
+          placeholder={"ivan123"}
+        />
 
-        <InputWithLabel value={password} setValue={setPassword}
+        <InputWithLabel
+          value={password}
+          setValue={setPassword}
           label={"Пароль"}
           placeholder={"********"}
           secureTextEntry
         />
-        <InputWithLabel value={confirmPassword} setValue={setConfirmPassword}
+        <InputWithLabel
+          value={confirmPassword}
+          setValue={setConfirmPassword}
           label={"Повторите пароль"}
           placeholder={"********"}
           secureTextEntry
         />
       </FormCard>
-      <BlueButton onPress={send} classname="mt-4">Далее</BlueButton>
+      <BlueButton onPress={send} classname="mt-4">
+        Далее
+      </BlueButton>
     </View>
   );
 }
