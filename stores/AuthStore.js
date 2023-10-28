@@ -11,6 +11,7 @@ export const useAuthStore = create((set) => ({
   }),
   setUser: (user) => set((state) => {
     localStorageService.setItem("user", user)
+    console.log(user);
     return { user }
   }),
   setRegisteredUser: (registeredUser) => set((state) => ({ registeredUser })),

@@ -1,15 +1,21 @@
 import { httpAuth } from "./http";
 
-
 class UserService {
-  async uploadImage(data){
-    return httpAuth.post("/User/upload", data)
+  async fetchMe() {
+    return httpAuth.get("/User/me");
   }
-  async fetchMe(){
-    return httpAuth.get("/User/me")
+  async fetchUser(id) {
+    return httpAuth.get("/User/" + id);
   }
-  async fetchUser(id){
-    return httpAuth.get("/User/"+id)
+  async upload(img) {
+    const form = new FormData();
+    form.append("image", {
+      name: "img.png",
+      uri: img.uri,
+      type: "image/png",
+    });
+
+    return httpAuth.post("/User/upload", form).catch((err) => console.log(err));
   }
 }
 

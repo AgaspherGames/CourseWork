@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView, Touchable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
@@ -20,15 +20,17 @@ export default function UserPage({ navigation, route }) {
   const userId = params ? params.userId : null;
   const [user, setUser] = useState();
 
+  const isMe = useMemo(() => userId == currentUser.id || !userId, [currentUser, userId])
+
   useEffect(() => {
-    if (userId == currentUser.id || !userId) {
+    if (isMe) {
       setUser(currentUser);
     } else {
       UserService.fetchUser(userId).then((resp) => setUser(resp.data));
     }
-  }, []);
+  }, [currentUser, userId]);
 
-  if (!user) return <View></View>
+  if (!user) return <View></View>;
 
   return (
     <View className="flex-1">
@@ -36,6 +38,7 @@ export default function UserPage({ navigation, route }) {
         <View className="w-full flex flex-row justify-center mt-8">
           <Pressable
             onPress={async () => {
+              if (!isMe) return
               let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -45,30 +48,20 @@ export default function UserPage({ navigation, route }) {
               if (result?.assets?.length) {
                 setImage(result?.assets.map((el) => el.uri));
 
+                await UserService.upload(result.assets[0])
 
-                await FileSystem.uploadAsync(
-                  url + "/User/upload",
-                  result.assets[0].uri,
-                  {
-                    httpMethod: "POST",
-                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-                    fieldName: "image",
-                    headers: {
-                      Authorization: "Bearer " + token,
-                    },
-                  }
-                );
-                
-                console.log();
-                await updateUserInfo()
+                await updateUserInfo();
               }
             }}
           >
             <Image
-              source={{
-                uri: url + "/Files/" + user.avatar,
-                // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-              }}
+              source={(()=>{
+                console.log(user.avatar);
+                return {
+                  uri: url + "/Files/" + user.avatar,
+                  // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
+                }
+              })()}
               resizeMode="cover"
               style={{
                 height: 200,
@@ -205,7 +198,7 @@ export default function UserPage({ navigation, route }) {
         </View>
         <View>
           {user.posts.map((post) => (
-            <Post post={post} />
+            <Post key={post.id} post={post} />
           ))}
         </View>
       </ScrollView>

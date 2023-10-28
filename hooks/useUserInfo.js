@@ -5,6 +5,7 @@ import UserService from "../services/http/UserService";
 
 export const useUserInfo = () => {
   const { token, user, setToken, setUser } = useAuthStore((state) => state);
+  
   async function update() {
     const user = await localStorageService.getItem("user");
     const token = await localStorageService.getItem("token")
@@ -17,7 +18,9 @@ export const useUserInfo = () => {
   }
 
   async function updateUserInfo(id){
-    setUser((await UserService.fetchMe(id || user.id)).data);
+    const {data} = await UserService.fetchMe(id || user.id)
+    console.log(data);
+    setUser(data);
   }
 
   useEffect(() => {
