@@ -1,17 +1,58 @@
 import { View, Text, Pressable } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
 import { Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Utils from "../../../services/Utils";
 import { useNavigation } from "@react-navigation/native";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import UserService from "../../../services/http/UserService";
 
 export default function Firend({ friend }) {
   const navigation = useNavigation();
+
+  const scale = useSharedValue(1);
+  const [isSubscribed, setIsSubscribed] = useState(true);
+
+  const unSubscribeStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+  const subscribeStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: 1 - scale.value }],
+  }));
+  const bgStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: interpolateColor(
+        scale.value,
+        [0, 1],
+        ["rgba(255,0,0,0.08)", "rgba(255,255,255,1)"]
+      ),
+    };
+  });
+
+  function subscribe() {
+    console.log("a");
+    if (isSubscribed) {
+      setIsSubscribed(false);
+      UserService.unFollow(friend.id);
+      scale.value = withSpring(0);
+    } else {
+      setIsSubscribed(true);
+      UserService.follow(friend.id);
+      scale.value = withSpring(1);
+    }
+  }
+
   return (
     <ShadowView classname="p-2 bg-white rounded-lg w-full flex-row justify-between items-center mb-4">
+      <Animated.View style={bgStyle} className="absolute bg-opacity-20 inset-x-0 inset-y-0 rounded-lg "/>
       <Pressable
-      className="flex-row justify-between items-center w-full"
+        className="flex-row justify-between items-center w-full"
         onPress={() => {
           navigation.navigate("Profile", { userId: friend.id });
         }}
@@ -41,7 +82,14 @@ export default function Firend({ friend }) {
           </View>
         </View>
         <View className="mr-2">
-          <FontAwesome name="trash-o" size={28} color="red" />
+          <Pressable onPress={subscribe}>
+            <Animated.View style={unSubscribeStyle}>
+              <FontAwesome name="trash-o" size={28} color="red" />
+            </Animated.View>
+            <Animated.View style={subscribeStyle} className="absolute">
+              <FontAwesome name="plus" size={28} color="#3b82f6" />
+            </Animated.View>
+          </Pressable>
         </View>
       </Pressable>
     </ShadowView>

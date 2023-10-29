@@ -29,10 +29,13 @@ import Animated, {
 } from "react-native-reanimated";
 import SubscribeButton from "../../components/UI/buttons/SubscribeButton";
 import Utils from "../../services/Utils";
+import { twMerge } from "tailwind-merge";
+import { useAppStore } from "../../stores/AppStore";
 
 export default function UserPage({ navigation, route }) {
   const { user: currentUser, updateUserInfo } = useUserInfo();
   const [image, setImage] = useState(null);
+  const page = useAppStore(state=>state.page)
 
   const { params } = route;
   const userId = params ? params.userId : null;
@@ -43,18 +46,17 @@ export default function UserPage({ navigation, route }) {
     [currentUser, userId]
   );
 
-
   useEffect(() => {
     if (isMe) {
-      updateUserInfo()
+      updateUserInfo();
     } else {
       UserService.fetchUser(userId).then((resp) => setUser(resp.data));
     }
-  }, [userId]);
+  }, [userId, page]);
 
   useEffect(() => {
     if (isMe) {
-      setUser(currentUser)
+      setUser(currentUser);
     }
   }, [currentUser]);
 
@@ -126,9 +128,10 @@ export default function UserPage({ navigation, route }) {
                     .map((el, ind) => (
                       <View
                         key={ind}
-                        className={
-                          "rounded-full bg-white p-1" + ind > 0 && "-ml-4"
-                        }
+                        className={twMerge(
+                          "rounded-full bg-white p-1",
+                          ind > 0 && "-ml-4"
+                        )}
                       >
                         <Image
                           source={{

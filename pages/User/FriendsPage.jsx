@@ -49,8 +49,8 @@ export default function FriendsPage({ navigation, route }) {
           </ShadowView>
         </View>
         <View className="flex-1 flex-col items-center">
-          {friends.map((el) => (
-            <Firend friend={el} />
+          {friends.map((el, ind) => (
+            <Firend key={ind} friend={el} />
           ))}
         </View>
       </View>
