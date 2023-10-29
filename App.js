@@ -18,6 +18,8 @@ import QrCodePage from "./pages/User/QrCodePage";
 import FriendsPage from "./pages/User/FriendsPage";
 import ScanQrPage from "./pages/User/ScanQrPage";
 import { useUserInfo } from "./hooks/useUserInfo";
+import SearchPage from "./pages/SearchPage";
+import ProfileHeader from "./components/Presets/ProfilePage/ProfileHeader";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +68,7 @@ export default function App() {
             options={{
               title: "Профиль",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+              headerRight: ProfileHeader
             }}
           />
           <Stack.Screen
@@ -123,6 +126,14 @@ export default function App() {
             component={RegisterPageSecond}
             options={{
               title: "Регистрация",
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+            }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={SearchPage}
+            options={{
+              title: "Поиск",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />

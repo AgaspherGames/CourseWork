@@ -7,7 +7,7 @@ import {
   DrawerLayoutAndroid,
   TouchableHighlight,
 } from "react-native";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
@@ -31,11 +31,16 @@ import SubscribeButton from "../../components/UI/buttons/SubscribeButton";
 import Utils from "../../services/Utils";
 import { twMerge } from "tailwind-merge";
 import { useAppStore } from "../../stores/AppStore";
+import { useProfileStore } from "../../stores/ProfileStore";
+import Drawer from "../../components/Presets/ProfilePage/Drawer";
 
 export default function UserPage({ navigation, route }) {
+  const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
+    (state) => state
+  );
   const { user: currentUser, updateUserInfo } = useUserInfo();
   const [image, setImage] = useState(null);
-  const page = useAppStore(state=>state.page)
+  const page = useAppStore((state) => state.page);
 
   const { params } = route;
   const userId = params ? params.userId : null;
@@ -45,6 +50,8 @@ export default function UserPage({ navigation, route }) {
     () => userId == currentUser.id || !userId,
     [currentUser, userId]
   );
+
+  const drawer = useRef(null);
 
   useEffect(() => {
     if (isMe) {
@@ -60,18 +67,34 @@ export default function UserPage({ navigation, route }) {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (isDrawerOpened) {
+      drawer?.current?.openDrawer();
+    } else {
+      drawer?.current?.closeDrawer();
+    }
+  }, [isDrawerOpened]);
+  useEffect(() => {
+    return () => {
+      setIsDrawerOpened(false);
+    };
+  }, []);
+
   if (!user) return <View></View>;
 
   return (
     <View className="flex-1">
       <DrawerLayoutAndroid
+        ref={drawer}
         drawerWidth={300}
         drawerPosition="right"
-        renderNavigationView={() => (
-          <View>
-            <Text>a</Text>
-          </View>
-        )}
+        onDrawerClose={() => {
+          setIsDrawerOpened(false);
+        }}
+        onDrawerOpen={() => {
+          setIsDrawerOpened(true);
+        }}
+        renderNavigationView={() => <Drawer/>}
       >
         <ScrollView className="flex-1">
           <View className="w-full flex flex-row justify-center mt-8">
