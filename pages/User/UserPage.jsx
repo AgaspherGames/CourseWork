@@ -31,7 +31,7 @@ import SubscribeButton from "../../components/UI/buttons/SubscribeButton";
 import Utils from "../../services/Utils";
 
 export default function UserPage({ navigation, route }) {
-  const { token, user: currentUser, updateUserInfo } = useUserInfo();
+  const { user: currentUser, updateUserInfo } = useUserInfo();
   const [image, setImage] = useState(null);
 
   const { params } = route;
@@ -43,15 +43,20 @@ export default function UserPage({ navigation, route }) {
     [currentUser, userId]
   );
 
+
   useEffect(() => {
     if (isMe) {
-      setUser(currentUser);
+      updateUserInfo()
     } else {
       UserService.fetchUser(userId).then((resp) => setUser(resp.data));
     }
-  }, [currentUser, userId]);
+  }, [userId]);
 
-  console.log(user);
+  useEffect(() => {
+    if (isMe) {
+      setUser(currentUser)
+    }
+  }, [currentUser]);
 
   if (!user) return <View></View>;
 
@@ -112,64 +117,32 @@ export default function UserPage({ navigation, route }) {
               </Title>
               <Pressable
                 onPress={() => {
-                  navigation.navigate("Friends");
+                  navigation.navigate("Friends", { userId: user.id });
                 }}
               >
                 <View className="flex-row justify-center items-center">
-                  {
-                    user.friends.filter((_, ind)=>ind<3).map((el, ind)=><View className={"rounded-full bg-white p-1"+ind>0&&'-ml-4'}>
-                    <Image
-                      source={{
-                        uri: Utils.getFileLink(el?.user?.avatar, true),
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
-                      className="rounded-full bg-gray-200 p-2"
-                    />
-                  </View>)
-                  }
-                  {/* <View className="rounded-full bg-white p-1">
-                    <Image
-                      source={{
-                        uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
-                      className="rounded-full bg-gray-200 p-2"
-                    />
-                  </View>
-                  <View className="rounded-full bg-white p-1 -ml-4">
-                    <Image
-                      source={{
-                        uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
-                      className="rounded-full bg-gray-200 p-2"
-                    />
-                  </View>
-                  <View className="rounded-full bg-white p-1 -ml-4">
-                    <Image
-                      source={{
-                        uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: 30,
-                        width: 30,
-                      }}
-                      className="rounded-full bg-gray-200 p-2"
-                    />
-                  </View> */}
+                  {user.friends
+                    .filter((_, ind) => ind < 3)
+                    .map((el, ind) => (
+                      <View
+                        key={ind}
+                        className={
+                          "rounded-full bg-white p-1" + ind > 0 && "-ml-4"
+                        }
+                      >
+                        <Image
+                          source={{
+                            uri: Utils.getFileLink(el?.user?.avatar, true),
+                          }}
+                          resizeMode="cover"
+                          style={{
+                            height: 30,
+                            width: 30,
+                          }}
+                          className="rounded-full bg-gray-200 p-2"
+                        />
+                      </View>
+                    ))}
                   <Text className="text-base ml-2">
                     {user.friendsCount}{" "}
                     {Utils.wordForm(user.friendsCount, [

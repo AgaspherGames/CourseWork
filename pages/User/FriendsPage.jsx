@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Firend from "../../components/Presets/FriendPage/Firend";
@@ -7,8 +7,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
+import UserService from "../../services/http/UserService";
 
-export default function FriendsPage({ navigation }) {
+export default function FriendsPage({ navigation, route }) {
+  const [friends, setFriends] = useState([]);
+  const { params } = route;
+  const userId = params ? params.userId : null;
+  useEffect(() => {
+    UserService.fetchFriends(userId).then((resp) =>
+      setFriends(resp.data.map((el) => el.user))
+    );
+  }, []);
   return (
     <ScrollView>
       <View className="pt-8 px-8">
@@ -40,22 +49,9 @@ export default function FriendsPage({ navigation }) {
           </ShadowView>
         </View>
         <View className="flex-1 flex-col items-center">
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
-          <Firend />
+          {friends.map((el) => (
+            <Firend friend={el} />
+          ))}
         </View>
       </View>
     </ScrollView>

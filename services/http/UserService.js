@@ -7,6 +7,9 @@ class UserService {
   async fetchUser(id) {
     return httpAuth.get("/User/" + id);
   }
+  async fetchFriends(id) {
+    return httpAuth.get("/followers/" + id);
+  }
   async fetchIsFollow(id) {
     return httpAuth.get(`/friends/${id}/check`);
   }

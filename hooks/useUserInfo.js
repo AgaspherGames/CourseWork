@@ -9,7 +9,6 @@ export const useUserInfo = () => {
   async function update() {
     const user = await localStorageService.getItem("user");
     const token = await localStorageService.getItem("token")
-    setToken("")
     setToken(token);
     if (token) {
       setUser(user);
@@ -17,8 +16,8 @@ export const useUserInfo = () => {
     }
   }
 
-  async function updateUserInfo(id){
-    const {data} = await UserService.fetchMe(id || user.id)
+  async function updateUserInfo(){
+    const {data} = await UserService.fetchMe()
     setUser(data);
   }
 
