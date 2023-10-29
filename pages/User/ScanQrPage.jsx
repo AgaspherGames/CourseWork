@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, TouchableNativeFeedback } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  TouchableNativeFeedback,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import {ShadowView} from '../../components/UI/Base/ShadowView'
+import { ShadowView } from "../../components/UI/Base/ShadowView";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ScanQrPage() {
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scan, setScan] = useState(false);
@@ -20,7 +28,10 @@ export default function ScanQrPage() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const commands = data.split(" ");
-    alert(`command: ${commands[0]}; data: ${commands[1]}`);
+    if (commands[0] == "ADDFRIEND") {
+      navigation.navigate("Profile", { userId: commands[1] });
+    }
+    // alert(`command: ${commands[0]}; data: ${commands[1]}`);
   };
 
   if (hasPermission === null) {
@@ -40,8 +51,10 @@ export default function ScanQrPage() {
         />
 
         {scanned && (
-          <Button onPress={() => setScanned(false)} title="Сканировать еще раз" />
-
+          <Button
+            onPress={() => setScanned(false)}
+            title="Сканировать еще раз"
+          />
         )}
       </View>
     </View>

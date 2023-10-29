@@ -8,15 +8,17 @@ import { Text } from "react-native";
 import { TouchableHighlight } from "react-native";
 import { TouchableNativeFeedback } from "react-native";
 import { TouchableOpacity } from "react-native";
+import { useUserInfo } from "../../hooks/useUserInfo";
 
 export default function QrCodePage() {
   const navigation = useNavigation();
+  const {user} = useUserInfo()
   return (
     <View className="flex-1 items-center justify-center">
       <Title classname="text-center py-8 text-3xl">
         Ваш QR код для  добавления друзей
       </Title>
-      <QRCode size={240} value={"ADDFRIEND 192"} backgroundColor="#fff" />
+      <QRCode size={240} value={"ADDFRIEND "+user.id} backgroundColor="#fff" />
       <View>
         <ShadowView classname="text-lg  bg-blue-500 rounded-lg justify-center items-center mt-8 overflow-hidden">
           <TouchableNativeFeedback onPress={()=>navigation.navigate("ScanQR")} >
