@@ -2,12 +2,12 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import ShadowView from "../../components/UI/Base/ShadowView";
-import Firend from "../../components/Presets/FriendPage/Firend";
 import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import UserService from "../../services/http/UserService";
+import Friend from "../../components/Presets/FriendPage/Friend";
 
 export default function FriendsPage({ navigation, route }) {
   const [friends, setFriends] = useState([]);
@@ -50,7 +50,7 @@ export default function FriendsPage({ navigation, route }) {
         </View>
         <View className="flex-1 flex-col items-center">
           {friends.map((el, ind) => (
-            <Firend key={ind} friend={el} />
+            <Friend key={ind} friend={el} />
           ))}
         </View>
       </View>

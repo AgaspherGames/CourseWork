@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import {
   NavigationContainer,
   useNavigationContainerRef,
@@ -37,7 +38,7 @@ export default function App() {
           setPage(navigationRef.getCurrentRoute().name);
         }}
       >
-        <Stack.Navigator screenOptions={{ animation: "none"}}>
+        <Stack.Navigator screenOptions={{ animation: "none" }}>
           <Stack.Screen
             name="Welcome"
             component={WelcomePage}
@@ -68,7 +69,7 @@ export default function App() {
             options={{
               title: "Профиль",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
-              headerRight: ProfileHeader
+              headerRight: ProfileHeader,
             }}
           />
           <Stack.Screen

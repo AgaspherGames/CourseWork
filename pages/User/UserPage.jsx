@@ -4,8 +4,9 @@ import {
   Image,
   ScrollView,
   Touchable,
-  DrawerLayoutAndroid,
+  DrawerAndroid,
   TouchableHighlight,
+  Button,
 } from "react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Title from "../../components/UI/Base/Title";
@@ -32,7 +33,8 @@ import Utils from "../../services/Utils";
 import { twMerge } from "tailwind-merge";
 import { useAppStore } from "../../stores/AppStore";
 import { useProfileStore } from "../../stores/ProfileStore";
-import Drawer from "../../components/Presets/ProfilePage/Drawer";
+import DrawerContent from "../../components/Presets/ProfilePage/Drawer";
+import { Drawer } from "react-native-drawer-layout";
 
 export default function UserPage({ navigation, route }) {
   const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
@@ -67,37 +69,36 @@ export default function UserPage({ navigation, route }) {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (isDrawerOpened) {
-      drawer?.current?.openDrawer();
-    } else {
-      drawer?.current?.closeDrawer();
-    }
-  }, [isDrawerOpened]);
-  useEffect(() => {
-    return () => {
-      setIsDrawerOpened(false);
-    };
-  }, []);
+  // useEffect(() => {
+  //   if (isDrawerOpened) {
+  //     drawer?.current?.open();
+  //   } else {
+  //     drawer?.current?.close();
+  //   }
+  // }, [isDrawerOpened]);
+  // useEffect(() => {
+  //   return () => {
+  //     setIsDrawerOpened(false);
+  //     drawer?.current?.close();
+  //   };
+  // }, []);
+
+  console.log('a');
 
   if (!user) return <View></View>;
 
   return (
-    <View className="flex-1">
-      <DrawerLayoutAndroid
-        ref={drawer}
-        drawerWidth={300}
-        drawerPosition="right"
-        onDrawerClose={() => {
-          setIsDrawerOpened(false);
-        }}
-        onDrawerOpen={() => {
-          setIsDrawerOpened(true);
-        }}
-        renderNavigationView={() => <Drawer/>}
-      >
-        <ScrollView className="flex-1">
-          <View className="w-full flex flex-row justify-center mt-8">
+    <Drawer
+      drawerPosition="right"
+      open={isDrawerOpened}
+      onOpen={() => {!isDrawerOpened&&setIsDrawerOpened(true)}}
+      onClose={() => {isDrawerOpened&&setIsDrawerOpened(false)}}
+      renderDrawerContent={DrawerContent}
+      drawerStyle={{backgroundColor: 'red', right:0}}
+    >
+      <View className="flex-1">
+        <ScrollView className="flex-1 ">
+          <View className="w-full flex flex-row justify-center mt-8 ">
             <Pressable
               onPress={async () => {
                 if (!isMe) return;
@@ -261,7 +262,7 @@ export default function UserPage({ navigation, route }) {
             ))}
           </View>
         </ScrollView>
-      </DrawerLayoutAndroid>
-    </View>
+      </View>
+    </Drawer>
   );
 }

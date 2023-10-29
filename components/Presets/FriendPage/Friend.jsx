@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import UserService from "../../../services/http/UserService";
 
-export default function Firend({ friend }) {
+export default function Friend({ friend }) {
   const navigation = useNavigation();
 
   const scale = useSharedValue(1);
