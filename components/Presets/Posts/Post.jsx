@@ -36,7 +36,7 @@ export default function Post({ withActions = false, post }) {
 
           elevation: 7,
         }}
-        className="w-auto bg-gray-100 h-96 my-4 mx-8 overflow-hidden rounded-lg relative"
+        className="w-auto bg-gray-100 h-96 my-4 mx-8 overflow-hidden rounded-lg relative "
       >
         <Image
           source={{

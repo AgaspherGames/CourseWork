@@ -8,13 +8,14 @@ import { FontAwesome } from "@expo/vector-icons";
 import Utils from "../../../services/Utils";
 import { useNavigation } from "@react-navigation/native";
 import { twMerge } from "tailwind-merge";
+import ShadowView from "../../UI/Base/ShadowView";
 
 export default function UserResult({ user }) {
   const navigation = useNavigation();
 
 
   return (
-    <View className={twMerge("p-2 bg-white rounded-lg w-fit flex-row justify-between items-center")}>
+    <ShadowView classname={twMerge("p-2 bg-white rounded-lg w-fit flex-row justify-between items-center mx-2 my-4")}>
       <Pressable
         className="flex-row justify-between items-center"
         onPress={() => {
@@ -33,19 +34,19 @@ export default function UserResult({ user }) {
             }}
             className="rounded-full bg-gray-200"
           />
-          <View className="ml-2 flex-col justify-end items-start">
+          <View className="ml-2 flex-col justify-center items-center w-full mt-1 ">
             <Text
               style={{ lineHeight: 20 }}
               className="text-xl leading-5 font-medium"
             >
               {user.firstName}
             </Text>
-            <Text className="text-lg text-center text-gray-700 leading-5">
+            <Text className="text-lg text-center text-gray-700 leading-5 ">
               @{user.username}
             </Text>
           </View>
         </View>
       </Pressable>
-    </View>
+    </ShadowView>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import localStorageService from "../localStorageService";
 
-export const url = "https://59ad-212-13-134-111.ngrok-free.app/api";
+export const url = "https://fdaa-2-75-76-1.ngrok-free.app/api";
 
 export const http = axios.create({
   baseURL: url,
