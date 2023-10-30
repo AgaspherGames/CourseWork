@@ -35,6 +35,9 @@ import { useAppStore } from "../../stores/AppStore";
 import { useProfileStore } from "../../stores/ProfileStore";
 import DrawerContent from "../../components/Presets/ProfilePage/Drawer";
 import { Drawer } from "react-native-drawer-layout";
+import { AntDesign } from "@expo/vector-icons";
+import PetForm from "../../components/Presets/ProfilePage/PetForm";
+
 
 export default function UserPage({ navigation, route }) {
   const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
@@ -47,6 +50,7 @@ export default function UserPage({ navigation, route }) {
   const { params } = route;
   const userId = params ? params.userId : null;
   const [user, setUser] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isMe = useMemo(
     () => userId == currentUser.id || !userId,
@@ -83,7 +87,7 @@ export default function UserPage({ navigation, route }) {
   //   };
   // }, []);
 
-  console.log('a');
+  console.log(user);
 
   if (!user) return <View></View>;
 
@@ -91,10 +95,10 @@ export default function UserPage({ navigation, route }) {
     <Drawer
       drawerPosition="right"
       open={isDrawerOpened}
-      onOpen={() => {!isDrawerOpened&&setIsDrawerOpened(true)}}
-      onClose={() => {isDrawerOpened&&setIsDrawerOpened(false)}}
+      onOpen={() => { !isDrawerOpened && setIsDrawerOpened(true) }}
+      onClose={() => { isDrawerOpened && setIsDrawerOpened(false) }}
       renderDrawerContent={DrawerContent}
-      drawerStyle={{backgroundColor: 'red', right:0}}
+      drawerStyle={{ backgroundColor: 'red', right: 0 }}
     >
       <View className="flex-1">
         <ScrollView className="flex-1 ">
@@ -173,9 +177,9 @@ export default function UserPage({ navigation, route }) {
                   <Text className="text-base ml-2">
                     {user.friendsCount}{" "}
                     {Utils.wordForm(user.friendsCount, [
-                      " друг",
-                      " друга",
-                      " друзей",
+                      " подписка",
+                      " подписки",
+                      " подписок",
                     ])}
                   </Text>
                 </View>
@@ -185,73 +189,36 @@ export default function UserPage({ navigation, route }) {
           </View>
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
-              <Title classname="mb-4">Питомцы</Title>
+              <View className="flex-row justify-between items-center">
+                <Title classname={twMerge("mb-4", !user.pets.length && "mb-0")}>{user.pets.length ? "Питомцы" : "Нет питомцев"}</Title>
+                {
+                  isMe &&
+                  <Pressable onPress={()=>setIsModalOpen(true)}>
+                    <AntDesign name="pluscircleo" size={24} color="black" />
+                  </Pressable>
+                }
+                <PetForm isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
+              </View>
               <ScrollView className="" horizontal>
                 <View className="flex-row">
-                  <View className="w-40 p-2">
-                    <Image
-                      source={{
-                        uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: null,
-                        width: "auto",
-                      }}
-                      className="rounded-xl bg-gray-200 aspect-square"
-                    />
-                    <Text className="text-center text-lg font-medium">
-                      Кошка
-                    </Text>
-                  </View>
-                  <View className="w-40 p-2">
-                    <Image
-                      source={{
-                        uri: "https://th.bing.com/th/id/R.ccbdf213fb6819eff07ee817ff0188cc?rik=rWqdJCjR%2fSWndg&riu=http%3a%2f%2fimages6.fanpop.com%2fimage%2fphotos%2f33900000%2fPuppy-dogs-33995803-1600-1200.jpg&ehk=IYVhliilldPRugGr3QgvfQ5JY6AHXiunXmju2AN4ZVA%3d&risl=&pid=ImgRaw&r=0",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: null,
-                        width: "auto",
-                      }}
-                      className="rounded-xl bg-gray-200 aspect-square"
-                    />
-                    <Text className="text-center text-lg font-medium">
-                      Собака
-                    </Text>
-                  </View>
-                  <View className="w-40 p-2">
-                    <Image
-                      source={{
-                        uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: null,
-                        width: "auto",
-                      }}
-                      className="rounded-xl bg-gray-200 aspect-square"
-                    />
-                    <Text className="text-center text-lg font-medium">
-                      Кошка
-                    </Text>
-                  </View>
-                  <View className="w-40 p-2">
-                    <Image
-                      source={{
-                        uri: "https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg",
-                      }}
-                      resizeMode="cover"
-                      style={{
-                        height: null,
-                        width: "auto",
-                      }}
-                      className="rounded-xl bg-gray-200 aspect-square"
-                    />
-                    <Text className="text-center text-lg font-medium">
-                      Кошка
-                    </Text>
-                  </View>
+                  {user.pets.map(el =>
+                    <View className="w-40 p-2">
+                      <Image
+                        source={{
+                          uri: Utils.getFileLink(el.imgs[0])
+                        }}
+                        resizeMode="cover"
+                        style={{
+                          height: null,
+                          width: "auto",
+                        }}
+                        className="rounded-xl bg-gray-200 aspect-square"
+                      />
+                      <Text className="text-center text-lg font-medium">
+                        {el.name}
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </ScrollView>
             </ShadowView>
