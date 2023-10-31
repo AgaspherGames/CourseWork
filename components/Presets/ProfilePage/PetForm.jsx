@@ -11,18 +11,17 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
-import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
-import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
+import PetService from "../../../services/http/PetService";
 
 export default function PetForm({ isOpened, setIsOpened }) {
   const [imgs, setImgs] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [Name, setName] = useState("");
+  const [PassportNumber, setPassportNumber] = useState("");
 
   function send() {
-    PostService.upload(title, description, imgs).then((resp) => {
+    PetService.upload(Name, PassportNumber, imgs).then((resp) => {
       setIsOpened(false);
     });
   }
@@ -76,16 +75,16 @@ export default function PetForm({ isOpened, setIsOpened }) {
                   </ScrollView>
                   <View>
                     <TextInput
-                      onChangeText={(text) => setTitle(text)}
-                      defaultValue={title}
+                      onChangeText={(text) => setName(text)}
+                      defaultValue={Name}
                       placeholder="Кличка"
                       className="border text-lg rounded-lg px-2 py-1 relative "
                     />
                   </View>
                   <View className="my-4">
                     <TextInput
-                      onChangeText={(text) => setTitle(text)}
-                      defaultValue={title}
+                      onChangeText={(text) => setPassportNumber(text)}
+                      defaultValue={PassportNumber}
                       placeholder="Номер пасспорта"
                       className="border text-lg rounded-lg px-2 py-1 relative "
                     />

@@ -202,7 +202,7 @@ export default function UserPage({ navigation, route }) {
               <ScrollView className="" horizontal>
                 <View className="flex-row">
                   {user.pets.map(el =>
-                    <View className="w-40 p-2">
+                    <View key={el.id} className="w-40 p-2">
                       <Image
                         source={{
                           uri: Utils.getFileLink(el.imgs[0])

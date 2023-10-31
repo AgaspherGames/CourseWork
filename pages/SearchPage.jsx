@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Pressable, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Title from "../components/UI/Base/Title";
 import ShadowView from "../components/UI/Base/ShadowView";
 import Friend from "../components/Presets/FriendPage/Friend";
@@ -8,10 +8,13 @@ import Post from "../components/Presets/Posts/Post";
 import { Octicons } from "@expo/vector-icons";
 
 export default function SearchPage() {
+  const [results, setResults] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
+
   return (
     <ScrollView nestedScrollEnabled className="flex-1">
       <ShadowView classname="p-2 px-4 bg-white rounded-lg  mx-4 mt-4">
-        <TextInput defaultValue="" className="w-full text-base" placeholder="Поиск" />
+        <TextInput defaultValue={searchQuery} onChangeText={text=>setSearchQuery(text)} className="w-full text-base" placeholder="Поиск" />
         <View
           className="absolute right-4 top-2 bottom-2 flex items-center justify-center"
         >

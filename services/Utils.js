@@ -12,6 +12,8 @@ var wordForm = function (num, words) {
   ];
 };
 
+
+
 export default {
   getFileLink,
   wordForm,
