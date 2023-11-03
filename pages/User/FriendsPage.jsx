@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import ShadowView from "../../components/UI/Base/ShadowView";
@@ -8,9 +8,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import UserService from "../../services/http/UserService";
 import Friend from "../../components/Presets/FriendPage/Friend";
+import Loader from "../../components/UI/Base/Loader";
 
 export default function FriendsPage({ navigation, route }) {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(undefined);
   const { params } = route;
   const userId = params ? params.userId : null;
   useEffect(() => {
@@ -18,6 +19,9 @@ export default function FriendsPage({ navigation, route }) {
       setFriends(resp.data.map((el) => el.user))
     );
   }, []);
+
+  if (friends === undefined) return <Loader />;
+
   return (
     <ScrollView>
       <View className="pt-8 px-8">

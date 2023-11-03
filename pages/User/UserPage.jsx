@@ -7,6 +7,7 @@ import {
   DrawerAndroid,
   TouchableHighlight,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Title from "../../components/UI/Base/Title";
@@ -37,7 +38,7 @@ import DrawerContent from "../../components/Presets/ProfilePage/Drawer";
 import { Drawer } from "react-native-drawer-layout";
 import { AntDesign } from "@expo/vector-icons";
 import PetForm from "../../components/Presets/ProfilePage/PetForm";
-
+import Loader from "../../components/UI/Base/Loader";
 
 export default function UserPage({ navigation, route }) {
   const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
@@ -60,6 +61,12 @@ export default function UserPage({ navigation, route }) {
   const drawer = useRef(null);
 
   useEffect(() => {
+    // console.log(user, currentUser, userId);
+    // console.log(user?.id, userId != user?.id, !(!userId && isMe));
+    // console.log(user?.id && (userId != user?.id || !(!userId && isMe)));
+    if (user?.id && userId != user?.id && !(!userId && isMe)) {
+      setUser(undefined);
+    }
     if (isMe) {
       updateUserInfo();
     } else {
@@ -73,32 +80,20 @@ export default function UserPage({ navigation, route }) {
     }
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   if (isDrawerOpened) {
-  //     drawer?.current?.open();
-  //   } else {
-  //     drawer?.current?.close();
-  //   }
-  // }, [isDrawerOpened]);
-  // useEffect(() => {
-  //   return () => {
-  //     setIsDrawerOpened(false);
-  //     drawer?.current?.close();
-  //   };
-  // }, []);
-
-  console.log(user);
-
-  if (!user) return <View></View>;
+  if (!user) return <Loader />;
 
   return (
     <Drawer
       drawerPosition="right"
       open={isDrawerOpened}
-      onOpen={() => { !isDrawerOpened && setIsDrawerOpened(true) }}
-      onClose={() => { isDrawerOpened && setIsDrawerOpened(false) }}
+      onOpen={() => {
+        !isDrawerOpened && setIsDrawerOpened(true);
+      }}
+      onClose={() => {
+        isDrawerOpened && setIsDrawerOpened(false);
+      }}
       renderDrawerContent={DrawerContent}
-      drawerStyle={{ backgroundColor: 'red', right: 0 }}
+      drawerStyle={{ backgroundColor: "red", right: 0 }}
     >
       <View className="flex-1">
         <ScrollView className="flex-1 ">
@@ -190,22 +185,23 @@ export default function UserPage({ navigation, route }) {
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
               <View className="flex-row justify-between items-center">
-                <Title classname={twMerge("mb-4", !user.pets.length && "mb-0")}>{user.pets.length ? "Питомцы" : "Нет питомцев"}</Title>
-                {
-                  isMe &&
-                  <Pressable onPress={()=>setIsModalOpen(true)}>
+                <Title classname={twMerge("mb-4", !user.pets.length && "mb-0")}>
+                  {user.pets.length ? "Питомцы" : "Нет питомцев"}
+                </Title>
+                {isMe && (
+                  <Pressable onPress={() => setIsModalOpen(true)}>
                     <AntDesign name="pluscircleo" size={24} color="black" />
                   </Pressable>
-                }
+                )}
                 <PetForm isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
               </View>
               <ScrollView className="" horizontal>
                 <View className="flex-row">
-                  {user.pets.map(el =>
+                  {user.pets?.map((el) => (
                     <View key={el.id} className="w-40 p-2">
                       <Image
                         source={{
-                          uri: Utils.getFileLink(el.imgs[0])
+                          uri: Utils.getFileLink(el.imgs[0]),
                         }}
                         resizeMode="cover"
                         style={{
@@ -218,7 +214,7 @@ export default function UserPage({ navigation, route }) {
                         {el.name}
                       </Text>
                     </View>
-                  )}
+                  ))}
                 </View>
               </ScrollView>
             </ShadowView>

@@ -36,7 +36,6 @@ export default function Friend({ friend }) {
   });
 
   function subscribe() {
-    console.log("a");
     if (isSubscribed) {
       setIsSubscribed(false);
       UserService.unFollow(friend.id);
@@ -47,6 +46,8 @@ export default function Friend({ friend }) {
       scale.value = withSpring(1);
     }
   }
+
+  
 
   return (
     <ShadowView classname="p-2 bg-white rounded-lg w-full flex-row justify-between items-center mb-4">

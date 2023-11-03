@@ -14,6 +14,7 @@ import PostService from "../services/http/PostService";
 import Utils from "../services/Utils";
 import { BlurView } from "expo-blur";
 import ImageModal from "../components/Presets/PostPage/ImageModal";
+import Loader from "../components/UI/Base/Loader";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -67,7 +68,7 @@ export default function PostPage({ route }) {
     );
   }, []);
 
-  if (!post) return <View></View>;
+  if (!post) return <View className="flex-1 justify-center items-center"><Loader /></View>;
 
   return (
     <ScrollView>
@@ -81,7 +82,11 @@ export default function PostPage({ route }) {
             }}
             className="m-4 rounded-xl overflow-hidden"
           >
-            <Swiper loop={false} style={styles.wrapper} className="bg-gray-100 ">
+            <Swiper
+              loop={false}
+              style={styles.wrapper}
+              className="bg-gray-100 "
+            >
               {post.imgs.map((el, ind) => {
                 return (
                   <View key={el} className="flex-1">
