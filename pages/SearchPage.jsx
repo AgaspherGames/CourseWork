@@ -8,71 +8,56 @@ import Post from "../components/Presets/Posts/Post";
 import { Octicons } from "@expo/vector-icons";
 import { useDebounce } from "../services/Utils";
 import SearchService from "../services/http/SearchService";
+import Loader from "../components/UI/Base/Loader";
+import SearchForm from "../components/Presets/SearchPage/SearchForm";
+import NoResults from "../components/Presets/SearchPage/NoResults";
 
 export default function SearchPage() {
-  const [results, setResults] = useState(null)
-  const [searchQuery, setSearchQuery] = useState("")
+  const [results, setResults] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const update = async () => {
-    const { data } = await SearchService.search(debouncedSearchQuery)
-    setResults(data)
-  }
+    const { data } = await SearchService.search(debouncedSearchQuery);
+    setResults(data);
+  };
   useEffect(() => {
-    if (debouncedSearchQuery) {
-      update()
-      
-    }
-  }, [debouncedSearchQuery])
-
+    debouncedSearchQuery && update();
+  }, [debouncedSearchQuery]);
 
   return (
-    <ScrollView nestedScrollEnabled className="flex-1">
-      <ShadowView classname="p-2 px-4 bg-white rounded-lg  mx-4 mt-4">
-        <TextInput defaultValue={searchQuery} onChangeText={text => setSearchQuery(text)} className="w-full text-base" placeholder="Поиск" />
-        <View
-          className="absolute right-4 top-2 bottom-2 flex items-center justify-center"
-        >
-          <Octicons
-            name={'search'}
-            size={18}
-            color={"black"}
-          />
+    <ScrollView nestedScrollEnabled className="relative  min-h-screen pb-8">
+      <SearchForm searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      {results ? (
+        <View className="mb-28">
+          {!!results.users?.length && (
+            <View className=" rounded-lg  mb-4">
+              <Title classname="mt-4 ml-4">Пользователи:</Title>
+              <View className="">
+                <ScrollView horizontal className="flex-row">
+                  {results.users.map((el) => (
+                    <UserResult key={el.id} user={el} />
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          )}
+          {!!results.posts?.length && (
+            <View className="">
+              <Title classname=" ml-4">Посты:</Title>
+              <View className="-mx-4">
+                {results?.posts?.map((el) => {
+                  console.log(el);
+                  return <Post key={el.id} post={el} />;
+                })}
+              </View>
+            </View>
+          )}
         </View>
-      </ShadowView>
-      <View className=" rounded-lg  mb-4">
-        <Title classname="mt-4 ml-4">Пользователи:</Title>
-        <View className="">
-          <ScrollView horizontal className="flex-row">
-            {
-              Array(15).fill("f").map(el =>
-                <UserResult
-                  user={{
-                    id: 2,
-                    avatar: "9829de24-7ff3-4680-b848-b48156266358.jpeg",
-                    username: "artk",
-                    firstName: "Artyom",
-                    lastName: "Karmykov",
-                  }}
-                />
-              )
-            }
-          </ScrollView>
-        </View>
-
-      </View>
-      <View className="">
-        <Title classname=" ml-4">Посты:</Title>
-        <View className="-mx-4">
-          {
-            results?.posts?.map(el =>
-              <Post post={el} />
-            )
-          }
-        </View>
-
-      </View>
+      ) : (
+        <NoResults />
+      )}
     </ScrollView>
   );
 }
