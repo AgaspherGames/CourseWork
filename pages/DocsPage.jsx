@@ -1,36 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  Image,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import WebView from "react-native-webview";
+import ShadowView from "../components/UI/Base/ShadowView";
+import Title from "../components/UI/Base/Title";
+import Document from "../components/Presets/DocsPage/Document";
+import DocumentModal from "../components/Presets/DocsPage/DocumentModal";
 
 export default function DocsPage() {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <WebView
-      className="flex-1 "
-      originWhitelist={["*"]}
-      source={{
-        html: `<html>
-      <body>
-      <h1>aaa</h1>
-      <div id="adobe-dc-view"></div>
-
-<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-
-<script type="text/javascript">
-  document.addEventListener("adobe_dc_view_sdk.ready", function(){
-    var adobeDCView = new AdobeDC.View({clientId: "api_key", divId: "adobe-dc-view"});
-    adobeDCView.previewFile({
-      content: { promise: <FILE_PROMISE> }
-      metaData: { fileName: "file_name_to_display" }
-    }, {});
-  });
-</script>
-      </body>
-      </html>`,
-      }}
-    />
+    <ScrollView>
+      <View className="px-6 pt-4">
+        <ShadowView classname=" p-2 bg-white rounded-lg w-full ">
+          <Title classname="mx-0 text-start text-2xl">
+            Документы ваших животных
+          </Title>
+          <Text className="text-base text-gray-600">
+            Здесь собраны все документы связанные с вашими питомцами
+          </Text>
+        </ShadowView>
+        <Pressable
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
+          <View className="w-full mt-4 flex-row flex-wrap ">
+            <Document />
+            <Document />
+            <Document />
+            <Document />
+            <Document />
+            <Document />
+            <Document />
+            <Document />
+          </View>
+        </Pressable>
+      </View>
+      <DocumentModal isVisible={modalVisible} setIsVisible={setModalVisible} />
+    </ScrollView>
   );
-
-  return <View style={{ flex: 1 }}></View>;
 }
 
 const styles = StyleSheet.create({

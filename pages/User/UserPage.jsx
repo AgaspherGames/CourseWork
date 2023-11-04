@@ -146,8 +146,8 @@ export default function UserPage({ navigation, route }) {
                 }}
               >
                 <View className="flex-row justify-center items-center">
-                  {user.friends
-                    .filter((_, ind) => ind < 3)
+                  {user?.friends
+                    ?.filter((_, ind) => ind < 3)
                     .map((el, ind) => (
                       <View
                         key={ind}
@@ -185,8 +185,10 @@ export default function UserPage({ navigation, route }) {
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
               <View className="flex-row justify-between items-center">
-                <Title classname={twMerge("mb-4", !user.pets.length && "mb-0")}>
-                  {user.pets.length ? "Питомцы" : "Нет питомцев"}
+                <Title
+                  classname={twMerge("mb-4", !user?.pets?.length && "mb-0")}
+                >
+                  {user.pets?.length ? "Питомцы" : "Нет питомцев"}
                 </Title>
                 {isMe && (
                   <Pressable onPress={() => setIsModalOpen(true)}>

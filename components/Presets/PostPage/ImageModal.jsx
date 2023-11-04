@@ -16,6 +16,7 @@ export default function ImageModal({ modal, setModal, imgs }) {
   function close() {
     setModal((p) => ({ ...p, isOpened: false }));
   }
+
   return (
     <Modal
       animationType="fade"
@@ -31,10 +32,15 @@ export default function ImageModal({ modal, setModal, imgs }) {
               aspectRatio: 3 / 4,
             }}
           >
-            <Swiper index={+modal.ind} showsPagination={false} loop={false} classname="rounded-lg justify-center items-center ">
+            <Swiper
+              index={+modal.ind}
+              showsPagination={false}
+              loop={false}
+              classname="rounded-lg justify-center items-center "
+            >
               {imgs.map((el) => {
                 return (
-                  <View  className="flex-row justify-center m-6" key={el}>
+                  <View className="flex-row justify-center m-6" key={el}>
                     <Pressable>
                       <Image
                         // className="absolute inset-x-0 inset-y-0"
@@ -52,18 +58,6 @@ export default function ImageModal({ modal, setModal, imgs }) {
               })}
             </Swiper>
           </View>
-
-          {/* <ShadowView classname="bg-white rounded-lg">
-            <Image
-              className="w-full rounded-lg"
-              source={{
-                uri: Utils.getFileLink(modal.uri),
-              }}
-              style={{
-                aspectRatio: 3 / 4,
-              }}
-            />
-          </ShadowView> */}
         </BlurView>
       </TouchableWithoutFeedback>
     </Modal>
