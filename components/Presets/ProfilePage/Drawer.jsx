@@ -1,9 +1,10 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Share, Linking } from "react-native";
 import React from "react";
 import ShadowView from "../../UI/Base/ShadowView";
 import { useUserInfo } from "../../../hooks/useUserInfo";
 import { useAuthStore } from "../../../stores/AuthStore";
 import { useNavigation } from "@react-navigation/native";
+import DrawerButton from "./DrawerButton";
 
 export default function Drawer() {
   const { setToken, setUser } = useAuthStore((state) => state);
@@ -18,23 +19,43 @@ export default function Drawer() {
     });
   }
 
+  async function help() {
+    await Linking.openURL("mailto:CourseWork@example.com");
+  }
+  async function share() {
+    try {
+      const result = await Share.share({
+        message:
+          "Присоединйся к сообществу владельцев домашних животных в приложении PuppyPaw",
+      });
+    } catch (error) {}
+  }
+
   return (
     <View className="p-4 flex-1 bg-gray-50">
-      <ShadowView classname="p-2 bg-white rounded-lg items-center mb-4 ">
-        <Text className="text-lg">Редактировать профиль</Text>
-      </ShadowView>
-      <ShadowView classname="p-2 bg-white rounded-lg items-center mb-4 ">
-        <Text className="text-lg">Настройки</Text>
-      </ShadowView>
-      <ShadowView classname="p-2 bg-white rounded-lg items-center mb-4 ">
-        <Text className="text-lg">О приложении</Text>
-      </ShadowView>
-      <ShadowView classname="p-2 bg-white rounded-lg items-center mb-4 ">
-        <Text className="text-lg">Помощь</Text>
-      </ShadowView>
-      <ShadowView classname="p-2 bg-white rounded-lg items-center mb-4 ">
-        <Text className="text-lg">Поделиться</Text>
-      </ShadowView>
+      <DrawerButton
+        onPress={() => {
+          console.log("a");
+        }}
+      >
+        Редактировать профиль
+      </DrawerButton>
+      <DrawerButton
+        onPress={() => {
+          console.log("a");
+        }}
+      >
+        Настройки
+      </DrawerButton>
+      <DrawerButton
+        onPress={() => {
+          console.log("a");
+        }}
+      >
+        О приложении
+      </DrawerButton>
+      <DrawerButton onPress={help}>Помощь</DrawerButton>
+      <DrawerButton onPress={share}>Поделиться</DrawerButton>
 
       <View className="absolute bottom-8 items-center justify-center w-full">
         <Pressable onPress={quit}>

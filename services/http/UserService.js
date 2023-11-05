@@ -29,6 +29,9 @@ class UserService {
 
     return httpAuth.post("/User/upload", form).catch((err) => console.log(err));
   }
+  async edit(data) {
+    return httpAuth.put("/User/edit", data);
+  }
 }
 
 export default new UserService();

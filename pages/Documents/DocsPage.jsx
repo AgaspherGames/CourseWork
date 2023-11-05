@@ -9,10 +9,10 @@ import {
   ScrollView,
 } from "react-native";
 import WebView from "react-native-webview";
-import ShadowView from "../components/UI/Base/ShadowView";
-import Title from "../components/UI/Base/Title";
-import Document from "../components/Presets/DocsPage/Document";
-import DocumentModal from "../components/Presets/DocsPage/DocumentModal";
+import ShadowView from "../../components/UI/Base/ShadowView";
+import Title from "../../components/UI/Base/Title";
+import Document from "../../components/Presets/DocsPage/Document";
+import DocumentModal from "../../components/Presets/DocsPage/DocumentModal";
 
 export default function DocsPage() {
   const [modalVisible, setModalVisible] = useState(false);

@@ -1,35 +1,13 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Touchable,
-  DrawerAndroid,
-  TouchableHighlight,
-  Button,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
 import { Pressable } from "react-native";
-import { useAuthStore } from "../../stores/AuthStore";
-import localStorageService from "../../services/localStorageService";
 import * as ImagePicker from "expo-image-picker";
 import { useUserInfo } from "../../hooks/useUserInfo";
-import * as FileSystem from "expo-file-system";
 import UserService from "../../services/http/UserService";
 import { url } from "../../services/http/http";
-import BlueButton from "../../components/UI/buttons/BlueButton";
-import { Feather } from "@expo/vector-icons";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import SubscribeButton from "../../components/UI/buttons/SubscribeButton";
 import Utils from "../../services/Utils";
 import { twMerge } from "tailwind-merge";
 import { useAppStore } from "../../stores/AppStore";
@@ -39,6 +17,7 @@ import { Drawer } from "react-native-drawer-layout";
 import { AntDesign } from "@expo/vector-icons";
 import PetForm from "../../components/Presets/ProfilePage/PetForm";
 import Loader from "../../components/UI/Base/Loader";
+import UserInfo from "../../components/Presets/ProfilePage/UserInfo";
 
 export default function UserPage({ navigation, route }) {
   const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
@@ -58,12 +37,7 @@ export default function UserPage({ navigation, route }) {
     [currentUser, userId]
   );
 
-  const drawer = useRef(null);
-
   useEffect(() => {
-    // console.log(user, currentUser, userId);
-    // console.log(user?.id, userId != user?.id, !(!userId && isMe));
-    // console.log(user?.id && (userId != user?.id || !(!userId && isMe)));
     if (user?.id && userId != user?.id && !(!userId && isMe)) {
       setUser(undefined);
     }
@@ -132,56 +106,7 @@ export default function UserPage({ navigation, route }) {
               />
             </Pressable>
           </View>
-          <View className="mt-4 flex-row justify-center">
-            <ShadowView classname="p-2 bg-white rounded-lg w-60 items-center">
-              <Text className="text-lg text-center text-gray-700 leading-tight">
-                @{user.username}
-              </Text>
-              <Title classname="text-center">
-                {user.firstName} {user.lastName}
-              </Title>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate("Friends", { userId: user.id });
-                }}
-              >
-                <View className="flex-row justify-center items-center">
-                  {user?.friends
-                    ?.filter((_, ind) => ind < 3)
-                    .map((el, ind) => (
-                      <View
-                        key={ind}
-                        className={twMerge(
-                          "rounded-full bg-white p-1",
-                          ind > 0 && "-ml-4"
-                        )}
-                      >
-                        <Image
-                          source={{
-                            uri: Utils.getFileLink(el?.user?.avatar, true),
-                          }}
-                          resizeMode="cover"
-                          style={{
-                            height: 30,
-                            width: 30,
-                          }}
-                          className="rounded-full bg-gray-200 p-2"
-                        />
-                      </View>
-                    ))}
-                  <Text className="text-base ml-2">
-                    {user.friendsCount}{" "}
-                    {Utils.wordForm(user.friendsCount, [
-                      " подписка",
-                      " подписки",
-                      " подписок",
-                    ])}
-                  </Text>
-                </View>
-              </Pressable>
-              {!isMe && <SubscribeButton userId={user.id} />}
-            </ShadowView>
-          </View>
+          <UserInfo updateUserInfo={updateUserInfo} navigation={navigation} isMe={isMe} user={user} />
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
               <View className="flex-row justify-between items-center">

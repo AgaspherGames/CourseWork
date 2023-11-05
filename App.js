@@ -14,13 +14,13 @@ import FloatingNav from "./components/Presets/FloatingNav/FloatingNav";
 import { useAppStore } from "./stores/AppStore";
 import UserPage from "./pages/User/UserPage";
 import PostPage from "./pages/PostPage";
-import DocsPage from "./pages/DocsPage";
 import QrCodePage from "./pages/User/QrCodePage";
 import FriendsPage from "./pages/User/FriendsPage";
 import ScanQrPage from "./pages/User/ScanQrPage";
 import { useUserInfo } from "./hooks/useUserInfo";
 import SearchPage from "./pages/SearchPage";
 import ProfileHeader from "./components/Presets/ProfilePage/ProfileHeader";
+import DocsPage from "./pages/Documents/DocsPage";
 
 const Stack = createNativeStackNavigator();
 
