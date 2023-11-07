@@ -19,12 +19,11 @@ import { useUserInfo } from "../../hooks/useUserInfo";
 export default function DocsPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [pets, setPets] = useState([]);
-  const {user}  =useUserInfo()
-  
-  useEffect(()=>{
-    user&&PetService.fetchPets(user.id).then(resp=>setPets(resp.data))
-  },[user])
-  console.log(pets);
+  const { user } = useUserInfo();
+
+  useEffect(() => {
+    user && PetService.fetchPets(user.id).then((resp) => setPets(resp.data));
+  }, [user]);
 
   return (
     <ScrollView>
@@ -37,27 +36,12 @@ export default function DocsPage() {
             Здесь собраны все документы связанные с вашими питомцами
           </Text>
         </ShadowView>
-        <Pressable
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        >
-          <View className="w-full mt-4 flex-row flex-wrap ">
-          {pets.map(pet=>
+        <View className="w-full mt-4 flex-row flex-wrap ">
+          {pets.map((pet) => (
             <Document pet={pet} />
-            )}
-          </View>
-        </Pressable>
+          ))}
+        </View>
       </View>
-      <DocumentModal isVisible={modalVisible} setIsVisible={setModalVisible} />
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-});

@@ -6,7 +6,8 @@ import Swiper from "react-native-swiper";
 import ImageModal from "../../components/Presets/PostPage/ImageModal";
 import PostInfo from "../../components/Presets/PostPage/PostInfo";
 import Utils from "../../services/Utils";
-
+import PetService from "../../services/http/PetService";
+import DocInfo from "../../components/Presets/DocsPage/DocInfo";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -37,39 +38,21 @@ const styles = StyleSheet.create({
 
 export default function DocumentPage({ route }) {
   const { params } = route;
-  const postId = params ? params.postId : null;
+  const docId = params ? params.docId : null;
 
-  const [post, setPost] = useState();
-  const [comments, setComments] = useState({});
-  const [commentText, setCommentText] = useState("");
+  const [document, setDocument] = useState();
 
   const [modal, setModal] = useState({ isOpened: false, ind: "" });
 
-  async function sendComment() {
-    setCommentText("");
-    await PostService.addCommentary(postId, commentText);
-    PostService.fetchCommentaries(postId).then((resp) =>
-      setComments(resp.data)
-    );
-  }
-
   useEffect(() => {
-    PostService.fetchPost(postId).then((resp) => setPost(resp.data));
-    PostService.fetchCommentaries(postId).then((resp) =>
-      setComments(resp.data)
-    );
+    PetService.fetchDoc(docId).then((resp) => setDocument(resp.data));
   }, []);
 
-  // if (!post)
-  //   return (
-  //     <View className="flex-1 justify-center items-center">
-  //       <Loader />
-  //     </View>
-  //   );
+  if (!document) return <Loader />;
 
   return (
     <ScrollView>
-      <View className="flex-1">
+      <View className="flex-1 pb-4">
         <View className="flex-row">
           <View
             style={{
@@ -84,7 +67,7 @@ export default function DocumentPage({ route }) {
               style={styles.wrapper}
               className="bg-gray-100 "
             >
-              {post.imgs.map((el, ind) => {
+              {document.imgs.map((el, ind) => {
                 return (
                   <View key={el} className="flex-1">
                     <Pressable
@@ -109,10 +92,10 @@ export default function DocumentPage({ route }) {
             </Swiper>
           </View>
         </View>
-{/* 
-        <ImageModal modal={modal} setModal={setModal} imgs={post.imgs} />
 
-        <PostInfo post={post} /> */}
+        <ImageModal modal={modal} setModal={setModal} imgs={document.imgs} />
+
+        <DocInfo document={document} />
       </View>
     </ScrollView>
   );

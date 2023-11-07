@@ -16,11 +16,14 @@ class PetService {
 
     return httpAuth.post("/Pets", form).catch((err) => console.log(err));
   }
-  async fetchPets(userId){
-    return httpAuth.get(`User/${userId}/Pets`)
+  async fetchPets(userId) {
+    return httpAuth.get(`User/${userId}/Pets`);
   }
-  async fetchPet(petId){
-    return httpAuth.get("Pets/"+petId)
+  async fetchPet(petId) {
+    return httpAuth.get("Pets/" + petId);
+  }
+  async fetchDoc(docId) {
+    return httpAuth.get("Document/" + docId);
   }
 }
 
