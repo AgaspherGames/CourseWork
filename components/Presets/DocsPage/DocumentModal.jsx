@@ -12,10 +12,8 @@ import {
   LayoutAnimation,
 } from "react-native";
 import React from "react";
-import Utils from "../../../services/Utils";
-import ShadowView from "../../UI/Base/ShadowView";
-import Swiper from "react-native-swiper";
 import ImageViewer from "react-native-image-zoom-viewer";
+import { useNavigation } from "@react-navigation/native";
 
 const images = [
   {
@@ -30,8 +28,13 @@ const images = [
 ];
 
 export default function DocumentModal({ isVisible, setIsVisible }) {
+  const navigation = useNavigation()
+
   function close() {
     setIsVisible(false);
+  }
+  function navigateToDoc() {
+    navigation.navigate("DocPage", { docId: 1})
   }
 
   return (
@@ -65,11 +68,23 @@ export default function DocumentModal({ isVisible, setIsVisible }) {
                   className="absolute h-2 transition-all"
                 ></View>
               </View>
+              <View className="absolute items-center top-8 inset-x-0">
+                <TouchableHighlight className="rounded-lg" onPress={navigateToDoc}>
+                  <View className="bg-zinc-300 rounded-lg px-4 py-2 max-w-sm">
+                    <Text numberOfLines={1} >Справка о прививке №3 bbbbb bbbbbbbbbbbbbbbbbbbbbbbbbb</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
             </View>
           )}
           renderIndicator={(currentIndex, allSize) => (
             <Text>currentIndex + "/" + allSize</Text>
           )}
+          renderFooter={() => {
+            <View className="bg-red-300 h-screen top-0 absolute -mt-4">
+              <Text>assd</Text>
+            </View>
+          }}
           onShowModal={() => {
             console.log("a");
           }}
@@ -79,7 +94,6 @@ export default function DocumentModal({ isVisible, setIsVisible }) {
           className="flex-1 bg-transparent"
           imageUrls={images}
         />
-        <Text></Text>
       </BlurView>
       {/* <View className="flex-1">
         <Pressable

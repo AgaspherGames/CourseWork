@@ -13,9 +13,19 @@ import ShadowView from "../../components/UI/Base/ShadowView";
 import Title from "../../components/UI/Base/Title";
 import Document from "../../components/Presets/DocsPage/Document";
 import DocumentModal from "../../components/Presets/DocsPage/DocumentModal";
+import PetService from "../../services/http/PetService";
+import { useUserInfo } from "../../hooks/useUserInfo";
 
 export default function DocsPage() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [pets, setPets] = useState([]);
+  const {user}  =useUserInfo()
+  
+  useEffect(()=>{
+    user&&PetService.fetchPets(user.id).then(resp=>setPets(resp.data))
+  },[user])
+  console.log(pets);
+
   return (
     <ScrollView>
       <View className="px-6 pt-4">
@@ -33,14 +43,9 @@ export default function DocsPage() {
           }}
         >
           <View className="w-full mt-4 flex-row flex-wrap ">
-            <Document />
-            <Document />
-            <Document />
-            <Document />
-            <Document />
-            <Document />
-            <Document />
-            <Document />
+          {pets.map(pet=>
+            <Document pet={pet} />
+            )}
           </View>
         </Pressable>
       </View>

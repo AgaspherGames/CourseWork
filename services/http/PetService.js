@@ -16,8 +16,9 @@ class PetService {
 
     return httpAuth.post("/Pets", form).catch((err) => console.log(err));
   }
-
-
+  async fetchPets(userId){
+    return httpAuth.get("Pets/"+userId)
+  }
 }
 
 export default new PetService();

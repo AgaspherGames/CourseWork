@@ -21,6 +21,7 @@ import { useUserInfo } from "./hooks/useUserInfo";
 import SearchPage from "./pages/SearchPage";
 import ProfileHeader from "./components/Presets/ProfilePage/ProfileHeader";
 import DocsPage from "./pages/Documents/DocsPage";
+import DocumentPage from "./pages/Documents/DocumentPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -103,6 +104,14 @@ export default function App() {
             component={DocsPage}
             options={{
               title: "Документы",
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+            }}
+          />
+          <Stack.Screen
+            name="DocPage"
+            component={DocumentPage}
+            options={{
+              title: "Документ",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
