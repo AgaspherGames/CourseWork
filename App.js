@@ -22,6 +22,7 @@ import SearchPage from "./pages/SearchPage";
 import ProfileHeader from "./components/Presets/ProfilePage/ProfileHeader";
 import DocsPage from "./pages/Documents/DocsPage";
 import DocumentPage from "./pages/Documents/DocumentPage";
+import PetPage from "./pages/PetPage/PetPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -112,6 +113,14 @@ export default function App() {
             component={DocumentPage}
             options={{
               title: "Документ",
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+            }}
+          />
+          <Stack.Screen
+            name="PetPage"
+            component={PetPage}
+            options={{
+              title: "",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />

@@ -126,6 +126,7 @@ export default function UserPage({ navigation, route }) {
                 <View className="flex-row">
                   {user.pets?.map((el) => (
                     <View key={el.id} className="w-40 p-2">
+                      <Pressable onPress={()=>navigation.navigate("PetPage", {petId: el.id})}>
                       <Image
                         source={{
                           uri: Utils.getFileLink(el.imgs[0]),
@@ -140,6 +141,7 @@ export default function UserPage({ navigation, route }) {
                       <Text className="text-center text-lg font-medium">
                         {el.name}
                       </Text>
+                      </Pressable>
                     </View>
                   ))}
                 </View>
