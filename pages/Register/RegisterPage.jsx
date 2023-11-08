@@ -64,10 +64,10 @@ export default function RegisterPage({ navigation }) {
         source={require("../../assets/imgs/cat_2.png")}
         style={{
           height: 100,
-          resizeMode: "contain",
+          resizeMopasswordde: "contain",
         }}
       />
-      <Text className="text-2xl font-semibold">Добро подаловать!</Text>
+      <Text className="text-2xl font-semibold">Добро пожаловать!</Text>
       <Text className="text-xl pb-2">Расскажите немного о себе</Text>
       <FormCard>
         <InputWithLabel error={emailError} value={email} setValue={setEmail} label={"Почта"} placeholder={"ivan@mail.com"} />

@@ -14,7 +14,10 @@ import FormCard from "../../components/UI/Cards/FormCard";
 import InputWithLabel from "../../components/UI/Forms/InputWithLabel";
 import { useAuthStore } from "../../stores/AuthStore";
 import AuthHttpService from "../../services/http/AuthHttpService";
+import { useForm, Controller } from "react-hook-form"
 import axios from "axios";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function RegisterPageSecond({ navigation }) {
   const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
@@ -28,7 +31,28 @@ export default function RegisterPageSecond({ navigation }) {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+  const schema = yup.object().shape({
+    username: yup.string().required("Это обязательное поле"),
+    password: yup.string().min(8, "Пароль должен быть не менее 8 символов").max(100, "Пароль должен быть не более 100 символов").required("Это обязательное поле"),
+    confirmPassword: yup.string()
+    .oneOf([yup.ref('password'), null], 'Пароли не совпадают')
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      username: "",
+      password: "",
+      confirmPassword: "",
+    }, resolver: yupResolver(schema)
+  })
+  const onSubmit = (data) => console.log(data)
+
   async function send() {
+
 
     let usernameError, passwordError, confirmPasswordError;
     if (!username) {
@@ -40,7 +64,7 @@ export default function RegisterPageSecond({ navigation }) {
     if (!confirmPassword) {
       confirmPasswordError = "*Это обязательное поле*"
     }
-    if (confirmPassword!=password) {
+    if (confirmPassword != password) {
       confirmPasswordError = "*Пароли не совпадают*"
     }
     setUsernameError(usernameError)
@@ -50,16 +74,25 @@ export default function RegisterPageSecond({ navigation }) {
       return
     }
 
-    const newUser = { ...registeredUser, username, password };
-    setRegisteredUser(newUser);
-    await AuthHttpService.register(newUser)
-      .catch((err) => console.error(err));
-    await AuthHttpService.login({ email: registeredUser.email, password });
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Main" }],
-    });
+    try {
+
+      const newUser = { ...registeredUser, username, password };
+      setRegisteredUser(newUser);
+      await AuthHttpService.register(newUser)
+        .catch((err) => console.error(err));
+      await AuthHttpService.login({ email: registeredUser.email, password });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Main" }],
+      });
+    } catch (error) {
+      if (error.response.errors.Password) {
+
+      }
+    }
+
   }
+  console.log(errors.username);
 
   return (
     <View className="flex-1 items-center justify-center  bg-white px-4">
@@ -73,32 +106,60 @@ export default function RegisterPageSecond({ navigation }) {
       <Text className="text-2xl font-semibold">Отлично</Text>
       <Text className="text-xl pb-2">А теперь придумайте логин и пароль</Text>
       <FormCard>
-        <InputWithLabel
-          value={username}
-          error={usernameError}
-          setValue={setUsername}
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <InputWithLabel
+          value={value}
+          error={errors.username?.message}
+          setValue={onChange}
           label={"Логин"}
           placeholder={"ivan123"}
         />
-
-        <InputWithLabel
-          value={password}
-          error={passwordError}
-          setValue={setPassword}
+        )}
+        name="username"
+      />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <InputWithLabel
+          value={value}
+          error={errors.password?.message}
+          setValue={onChange}
           label={"Пароль"}
           placeholder={"********"}
           secureTextEntry
         />
-        <InputWithLabel
-          value={confirmPassword}
-          error={confirmPasswordError}
-          setValue={setConfirmPassword}
+        )}
+        name="password"
+      />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <InputWithLabel
+          value={value}
+          error={errors.confirmPassword?.message}
+          setValue={onChange}
           label={"Повторите пароль"}
           placeholder={"********"}
           secureTextEntry
         />
+        )}
+        name="confirmPassword"
+      />
+      
       </FormCard>
-      <BlueButton onPress={send} classname="mt-4">
+      <BlueButton onPress={handleSubmit(onSubmit)} classname="mt-4">
         Далее
       </BlueButton>
     </View>

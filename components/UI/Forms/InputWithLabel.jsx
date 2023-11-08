@@ -10,7 +10,7 @@ export default function InputWithLabel({value, setValue, label, placeholder, err
   return (
     <View className={formStyle}>
       <Text className={labelStyle}>{label} <Text className="text-red-500 font-medium pl-2">{error}</Text></Text>
-      <TextInput defaultValue={value} onChangeText={text=>setValue&&setValue(text)} className={twMerge(inputStyle, error&&'border-red-500')} placeholderTextColor={error?"rgb(239 68 68)":'#C7C7CD'} placeholder={placeholder} {...props}/>
+      <TextInput defaultValue={value} onChangeText={text=>setValue&&setValue(text)} className={twMerge(inputStyle, error&&'border-red-500')} placeholderTextColor={error?"rgb(252 165 165)":'#C7C7CD'} placeholder={placeholder} {...props}/>
     </View>
   );
 }
