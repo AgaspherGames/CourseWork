@@ -31,16 +31,16 @@ export default function RegisterPage({ navigation }) {
     let emailError, firstnameError, lastnameError;
     if (!email) {
       emailError = "*Это обязательное поле*"
-      setEmailError(emailError)
     }
     if (!firstname) {
       firstnameError = "*Это обязательное поле*"
-      setFirstnameError(firstnameError)
     }
     if (!lastname) {
       lastnameError = "*Это обязательное поле*"
-      setLastnameError(lastnameError)
     }
+    setEmailError(emailError)
+    setFirstnameError(firstnameError)
+    setLastnameError(lastnameError)
     if (emailError || firstnameError || lastnameError) {
       return
     }

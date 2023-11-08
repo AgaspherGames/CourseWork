@@ -15,29 +15,40 @@ import InputWithLabel from "../components/UI/Forms/InputWithLabel";
 import AuthHttpService from "../services/http/AuthHttpService";
 
 export default function LoginPage({ navigation }) {
+  const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   async function login() {
-    let emailError, passwordError;
-    if (!email) {
-      emailError="*Это обязательное поле*"
+    try {
+      let emailError, passwordError;
+      if (!email) {
+        emailError = "*Это обязательное поле*"
+      }
+      if (!password) {
+        passwordError = "*Это обязательное поле*"
+      }
       setEmailError(emailError)
-    } 
-    if (!password) {
-      passwordError="*Это обязательное поле*"
-      setPasswordError("*Это обязательное поле*")
+      setPasswordError(passwordError)
+
+      if (emailError || passwordError) {
+        return
+      }
+      await AuthHttpService.login({ email, password });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Main" }],
+      });
+    } catch (error) {
+      console.log('aaa',error);
+      if (error.response?.status==400){
+        setLoginError("Неправильная почта или пароль")
+      } else{
+        setLoginError("Неизвестная ошибка")
+      }
     }
-    if (emailError || passwordError) {
-      return
-    }
-    await AuthHttpService.login({ email, password });
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Main" }],
-    });
   }
 
   return (
@@ -50,6 +61,7 @@ export default function LoginPage({ navigation }) {
         }}
       />
       <FormCard>
+        <Text className="text-center text-red-500 text-base">{loginError}</Text>
         <InputWithLabel
           value={email}
           setValue={setEmail}

@@ -26,21 +26,3 @@ httpAuth.interceptors.request.use(async function (config) {
   return config;
 });
 
-http.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    console.error(error);
-    return Promise.reject(error.message);
-  }
-);
-httpAuth.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    console.error(error);
-    return Promise.reject(error.message);
-  }
-);
