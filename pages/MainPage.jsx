@@ -10,7 +10,6 @@ import { Button } from "react-native";
 import { Image } from "react-native";
 import { ScrollView } from "react-native";
 import { Pressable } from "react-native";
-import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { Modal } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";

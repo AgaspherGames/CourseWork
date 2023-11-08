@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
-import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
+// import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
@@ -84,12 +84,12 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                     />
                   </View>
                   <View className="border my-4 rounded-lg px-2 pr-8 py-1 relative">
-                    <AutoGrowingTextInput
+                    {/* <AutoGrowingTextInput
                       defaultValue={description}
                       onChangeText={(text) => setDescription(text)}
                       className="text-base max-h-64 leading-5"
                       placeholder="Что у вас нового?"
-                    />
+                    /> */}
                     <View className="absolute right-2 top-1">
                       <Pressable
                         onPress={async () => {
@@ -121,3 +121,5 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
     </Modal>
   );
 }
+
+

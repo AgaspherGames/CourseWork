@@ -1,62 +1,52 @@
-import {
-  View,
-  Text,
-  Button,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-  Pressable,
-  Image,
-} from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import BlueButton from "../../components/UI/buttons/BlueButton";
 import FormCard from "../../components/UI/Cards/FormCard";
 import InputWithLabel from "../../components/UI/Forms/InputWithLabel";
 import { useAuthStore } from "../../stores/AuthStore";
-
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
 
 export default function RegisterPage({ navigation }) {
-  const { registeredUser, setRegisteredUser } = useAuthStore(state => ({ registeredUser: state.registeredUser, setRegisteredUser: state.setRegisteredUser }))
+  const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
+    registeredUser: state.registeredUser,
+    setRegisteredUser: state.setRegisteredUser,
+  }));
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
-  const [emailError, setEmailError] = useState("");
-  const [firstnameError, setFirstnameError] = useState("");
-  const [lastnameError, setLastnameError] = useState("");
+  const schema = yup.object().shape({
+    firstname: yup.string().required("Это обязательное поле"),
+    lastname: yup.string().required("Это обязательное поле"),
+    email: yup
+      .string()
+      .email("Введите верную почту")
+      .required("Это обязательное поле"),
+  });
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+    },
+    resolver: yupResolver(schema),
+  });
+  const onSubmit = (data) => {
+    setRegisteredUser(data);
+    navigation.navigate("Register2");
+  };
+  console.log(registeredUser);
 
   function next() {
-
-    let emailError, firstnameError, lastnameError;
-    if (!email) {
-      emailError = "*Это обязательное поле*"
-    }
-    if (!firstname) {
-      firstnameError = "*Это обязательное поле*"
-    }
-    if (!lastname) {
-      lastnameError = "*Это обязательное поле*"
-    }
-    setEmailError(emailError)
-    setFirstnameError(firstnameError)
-    setLastnameError(lastnameError)
-    if (emailError || firstnameError || lastnameError) {
-      return
-    }
-    navigation.navigate("Register2")
+    navigation.navigate("Register2");
   }
-
-  useEffect(() => {
-    const user = {
-      firstname,
-      lastname,
-      email,
-    }
-    setRegisteredUser(user);
-  }, [firstname,
-    lastname,
-    email])
 
   return (
     <View className="flex-1 items-center justify-center bg-white px-4 ">
@@ -64,15 +54,61 @@ export default function RegisterPage({ navigation }) {
         source={require("../../assets/imgs/cat_2.png")}
         style={{
           height: 100,
-          resizeMopasswordde: "contain",
+          resizeMode: "contain",
         }}
       />
       <Text className="text-2xl font-semibold">Добро пожаловать!</Text>
       <Text className="text-xl pb-2">Расскажите немного о себе</Text>
       <FormCard>
-        <InputWithLabel error={emailError} value={email} setValue={setEmail} label={"Почта"} placeholder={"ivan@mail.com"} />
-        <InputWithLabel error={firstnameError} value={firstname} setValue={setFirstname} label={"Имя"} placeholder={"Иван"} />
-        <InputWithLabel error={lastnameError} value={lastname} setValue={setLastname} label={"Фамилия"} placeholder={"Иванов"} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, value } }) => (
+            <InputWithLabel
+              error={errors.email?.message}
+              value={value}
+              setValue={onChange}
+              label={"Почта"}
+              placeholder={"ivan@mail.com"}
+            />
+          )}
+          name="email"
+        />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, value } }) => (
+            <InputWithLabel
+              error={errors.firstname?.message}
+              value={value}
+              setValue={onChange}
+              label={"Имя"}
+              placeholder={"Иван"}
+            />
+          )}
+          name="firstname"
+        />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { value, onChange } }) => (
+            <InputWithLabel
+              error={errors.lastname?.message}
+              value={value}
+              setValue={onChange}
+              label={"Фамилия"}
+              placeholder={"Иванов"}
+            />
+          )}
+          name="lastname"
+        />
+
         <View className="bg-gray-100 border-0.5 border-gray-400 -mx-4 px-4 py-3 -mb-4 mt-2">
           <Pressable
             onPress={() => {
@@ -86,10 +122,7 @@ export default function RegisterPage({ navigation }) {
           </Pressable>
         </View>
       </FormCard>
-      <BlueButton
-        onPress={next}
-        classname="mt-4"
-      >
+      <BlueButton onPress={handleSubmit(onSubmit)} classname="mt-4">
         Далее
       </BlueButton>
     </View>
