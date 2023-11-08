@@ -131,6 +131,7 @@ export default function PetPage({ navigation, route }) {
           <View className="px-4">
             {pet.documents.map((el) => (
               <Pressable
+              key={el.id}
                 onPress={() => {
                   navigation.navigate("DocPage", { docId: el.id });
                 }}

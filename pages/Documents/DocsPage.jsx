@@ -38,7 +38,7 @@ export default function DocsPage() {
         </ShadowView>
         <View className="w-full mt-4 flex-row flex-wrap ">
           {pets.map((pet) => (
-            <Document pet={pet} />
+            <Document key={pet.id} pet={pet} />
           ))}
         </View>
       </View>

@@ -17,8 +17,22 @@ import AuthHttpService from "../services/http/AuthHttpService";
 export default function LoginPage({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   async function login() {
+    let emailError, passwordError;
+    if (!email) {
+      emailError="*Это обязательное поле*"
+      setEmailError(emailError)
+    } 
+    if (!password) {
+      passwordError="*Это обязательное поле*"
+      setPasswordError("*Это обязательное поле*")
+    }
+    if (emailError || passwordError) {
+      return
+    }
     await AuthHttpService.login({ email, password });
     navigation.reset({
       index: 0,
@@ -39,12 +53,14 @@ export default function LoginPage({ navigation }) {
         <InputWithLabel
           value={email}
           setValue={setEmail}
+          error={emailError}
           label={"Email"}
           placeholder={"jackyjack@mail.com"}
         />
         <InputWithLabel
           value={password}
           setValue={setPassword}
+          error={passwordError}
           label={"Пароль"}
           placeholder={"********"}
           secureTextEntry

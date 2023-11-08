@@ -1,7 +1,7 @@
 import axios from "axios";
 import localStorageService from "../localStorageService";
 
-export const url = "https://4d63-212-13-134-111.ngrok-free.app/api";
+export const url = "https://e6b1-2-75-84-247.ngrok-free.app/api";
 
 const headers = {
   "ngrok-skip-browser-warning": true,

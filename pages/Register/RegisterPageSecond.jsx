@@ -24,8 +24,32 @@ export default function RegisterPageSecond({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   async function send() {
+
+    let usernameError, passwordError, confirmPasswordError;
+    if (!username) {
+      usernameError = "*Это обязательное поле*"
+    }
+    if (!password) {
+      passwordError = "*Это обязательное поле*"
+    }
+    if (!confirmPassword) {
+      confirmPasswordError = "*Это обязательное поле*"
+    }
+    if (confirmPassword!=password) {
+      confirmPasswordError = "*Пароли не совпадают*"
+    }
+    setUsernameError(usernameError)
+    setPasswordError(passwordError)
+    setConfirmPasswordError(confirmPasswordError)
+    if (usernameError || passwordError || confirmPasswordError) {
+      return
+    }
+
     const newUser = { ...registeredUser, username, password };
     setRegisteredUser(newUser);
     await AuthHttpService.register(newUser)
@@ -51,6 +75,7 @@ export default function RegisterPageSecond({ navigation }) {
       <FormCard>
         <InputWithLabel
           value={username}
+          error={usernameError}
           setValue={setUsername}
           label={"Логин"}
           placeholder={"ivan123"}
@@ -58,6 +83,7 @@ export default function RegisterPageSecond({ navigation }) {
 
         <InputWithLabel
           value={password}
+          error={passwordError}
           setValue={setPassword}
           label={"Пароль"}
           placeholder={"********"}
@@ -65,6 +91,7 @@ export default function RegisterPageSecond({ navigation }) {
         />
         <InputWithLabel
           value={confirmPassword}
+          error={confirmPasswordError}
           setValue={setConfirmPassword}
           label={"Повторите пароль"}
           placeholder={"********"}
