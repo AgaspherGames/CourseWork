@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import ShadowView from "../../UI/Base/ShadowView";
-// import { AutoGrowingTextInput } from "react-native-autogrow-textinput";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
@@ -83,13 +82,18 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                       className="border text-lg rounded-lg px-2 py-1 relative w-5/6"
                     />
                   </View>
-                  <View className="border my-4 rounded-lg px-2 pr-8 py-1 relative">
-                    {/* <AutoGrowingTextInput
-                      defaultValue={description}
+                  <View className="flex items-start justify-start border my-4 rounded-lg px-2 pr-8 py-1 relative">
+                    <TextInput
+                      style={{ textAlignVertical: "top" }}
+                      editable
                       onChangeText={(text) => setDescription(text)}
-                      className="text-base max-h-64 leading-5"
+                      defaultValue={description}
                       placeholder="Что у вас нового?"
-                    /> */}
+                      multiline
+                      numberOfLines={0}
+                      className="flex items-start justify-start text-base max-h-64 leading-5"
+                    />
+
                     <View className="absolute right-2 top-1">
                       <Pressable
                         onPress={async () => {
@@ -111,6 +115,7 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                       </Pressable>
                     </View>
                   </View>
+
                   <Button onPress={send} title="Опубликовать" />
                 </View>
               </View>
@@ -121,5 +126,3 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
     </Modal>
   );
 }
-
-
