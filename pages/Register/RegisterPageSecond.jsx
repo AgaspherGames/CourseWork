@@ -55,7 +55,6 @@ export default function RegisterPageSecond({ navigation }) {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
 
   async function send(data) {
     try {
@@ -75,7 +74,6 @@ export default function RegisterPageSecond({ navigation }) {
       }
     }
   }
-  console.log(registeredUser);
 
   return (
     <View className="flex-1 items-center justify-center  bg-white px-4">

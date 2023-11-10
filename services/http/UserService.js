@@ -27,7 +27,7 @@ class UserService {
       type: "image/png",
     });
 
-    return httpAuth.post("/User/upload", form).catch((err) => console.log(err));
+    return httpAuth.post("/User/upload", form);
   }
   async edit(data) {
     return httpAuth.put("/User/edit", data);

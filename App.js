@@ -23,6 +23,8 @@ import ProfileHeader from "./components/Presets/ProfilePage/ProfileHeader";
 import DocsPage from "./pages/Documents/DocsPage";
 import DocumentPage from "./pages/Documents/DocumentPage";
 import PetPage from "./pages/PetPage/PetPage";
+import { useEffect, useState } from "react";
+import Loader from "./components/UI/Base/Loader";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +33,18 @@ export default function App() {
   const { page, setPage } = useAppStore((state) => state);
 
   const { token } = useUserInfo();
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setLoaded(true);
+  }, [token]);
+
+  if (typeof token == "object")
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Loader />
+      </View>
+    );
+  console.log(typeof token, token);
 
   return (
     <SafeAreaView className="flex-1">
@@ -40,15 +54,63 @@ export default function App() {
           setPage(navigationRef.getCurrentRoute().name);
         }}
       >
-        <Stack.Navigator screenOptions={{ animation: "none" }}>
+        <Stack.Navigator
+          initialRouteName={token ? "Main" : "Welcome"}
+          screenOptions={{ animation: "none" }}
+        >
           <Stack.Screen
             name="Welcome"
             component={WelcomePage}
             options={{
               title: "Добро пожаловать",
-              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+              contentStyle: {
+                shadowOpacity: 0,
+                shadowOffset: 0,
+                opacity: 1,
+              },
             }}
           />
+          {!token && (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+                options={{
+                  title: "Войти",
+                  contentStyle: {
+                    shadowOpacity: 0,
+                    shadowOffset: 0,
+                    opacity: 1,
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="Register1"
+                component={RegisterPage}
+                options={{
+                  title: "Регистрация",
+                  contentStyle: {
+                    shadowOpacity: 0,
+                    shadowOffset: 0,
+                    opacity: 1,
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="Register2"
+                component={RegisterPageSecond}
+                options={{
+                  title: "Регистрация",
+                  contentStyle: {
+                    shadowOpacity: 0,
+                    shadowOffset: 0,
+                    opacity: 1,
+                  },
+                }}
+              />
+            </>
+          )}
+
           <Stack.Screen
             name="Main"
             component={MainPage}
@@ -121,30 +183,6 @@ export default function App() {
             component={PetPage}
             options={{
               title: "",
-              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
-            }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginPage}
-            options={{
-              title: "Войти",
-              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
-            }}
-          />
-          <Stack.Screen
-            name="Register1"
-            component={RegisterPage}
-            options={{
-              title: "Регистрация",
-              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
-            }}
-          />
-          <Stack.Screen
-            name="Register2"
-            component={RegisterPageSecond}
-            options={{
-              title: "Регистрация",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />

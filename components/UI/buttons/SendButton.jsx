@@ -70,7 +70,6 @@ export default function SendButton({ dark = false, onPress, disabled }) {
       setIsAnimating(false);
     }, 1000);
   }, [isAnimating]);
-  console.log(disabled);
 
   return (
     <Pressable

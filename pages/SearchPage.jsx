@@ -48,7 +48,6 @@ export default function SearchPage() {
               <Title classname=" ml-4">Посты:</Title>
               <View className="-mx-4">
                 {results?.posts?.map((el) => {
-                  console.log(el);
                   return <Post key={el.id} post={el} />;
                 })}
               </View>

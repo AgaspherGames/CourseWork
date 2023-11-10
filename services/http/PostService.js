@@ -14,7 +14,7 @@ class PostService {
       });
     }
 
-    return httpAuth.post("/Post", form).catch((err) => console.log(err));
+    return httpAuth.post("/Post", form);
   }
   fetchPosts() {
     return http.get("/Post", {
@@ -41,7 +41,7 @@ class PostService {
     return httpAuth.get("/Commentary/" + id);
   }
   addCommentary(id, text) {
-    return httpAuth.post("/Commentary/" + id, {text});
+    return httpAuth.post("/Commentary/" + id, { text });
   }
 }
 

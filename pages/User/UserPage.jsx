@@ -33,7 +33,7 @@ export default function UserPage({ navigation, route }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isMe = useMemo(
-    () => userId == currentUser.id || !userId,
+    () => userId == currentUser?.id || !userId,
     [currentUser, userId]
   );
 
@@ -106,7 +106,12 @@ export default function UserPage({ navigation, route }) {
               />
             </Pressable>
           </View>
-          <UserInfo updateUserInfo={updateUserInfo} navigation={navigation} isMe={isMe} user={user} />
+          <UserInfo
+            updateUserInfo={updateUserInfo}
+            navigation={navigation}
+            isMe={isMe}
+            user={user}
+          />
           <View className="mt-4 mx-4  mb-4">
             <ShadowView classname="bg-white p-4 rounded-lg">
               <View className="flex-row justify-between items-center">
@@ -126,21 +131,25 @@ export default function UserPage({ navigation, route }) {
                 <View className="flex-row">
                   {user.pets?.map((el) => (
                     <View key={el.id} className="w-40 p-2">
-                      <Pressable onPress={()=>navigation.navigate("PetPage", {petId: el.id})}>
-                      <Image
-                        source={{
-                          uri: Utils.getFileLink(el.imgs[0]),
-                        }}
-                        resizeMode="cover"
-                        style={{
-                          height: null,
-                          width: "auto",
-                        }}
-                        className="rounded-xl bg-gray-200 aspect-square"
-                      />
-                      <Text className="text-center text-lg font-medium">
-                        {el.name}
-                      </Text>
+                      <Pressable
+                        onPress={() =>
+                          navigation.navigate("PetPage", { petId: el.id })
+                        }
+                      >
+                        <Image
+                          source={{
+                            uri: Utils.getFileLink(el.imgs[0]),
+                          }}
+                          resizeMode="cover"
+                          style={{
+                            height: null,
+                            width: "auto",
+                          }}
+                          className="rounded-xl bg-gray-200 aspect-square"
+                        />
+                        <Text className="text-center text-lg font-medium">
+                          {el.name}
+                        </Text>
                       </Pressable>
                     </View>
                   ))}

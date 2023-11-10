@@ -30,26 +30,24 @@ export default function Drawer() {
       });
     } catch (error) {}
   }
+  
 
   return (
     <View className="p-4 flex-1 bg-gray-50">
       <DrawerButton
         onPress={() => {
-          console.log("a");
         }}
       >
         Редактировать профиль
       </DrawerButton>
       <DrawerButton
         onPress={() => {
-          console.log("a");
         }}
       >
         Настройки
       </DrawerButton>
       <DrawerButton
         onPress={() => {
-          console.log("a");
         }}
       >
         О приложении

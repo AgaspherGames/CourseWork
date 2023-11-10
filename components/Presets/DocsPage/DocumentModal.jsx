@@ -86,7 +86,6 @@ export default function DocumentModal({ isVisible, setIsVisible }) {
             </View>
           }}
           onShowModal={() => {
-            console.log("a");
           }}
           onCancel={close}
           onSwipeDown={close}
