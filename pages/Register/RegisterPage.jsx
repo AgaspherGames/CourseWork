@@ -7,15 +7,13 @@ import { useAuthStore } from "../../stores/AuthStore";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
+import AuthHttpService from "../../services/http/AuthHttpService";
 
 export default function RegisterPage({ navigation }) {
   const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
     registeredUser: state.registeredUser,
     setRegisteredUser: state.setRegisteredUser,
   }));
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
 
   const schema = yup.object().shape({
     firstname: yup.string().required("Это обязательное поле"),
@@ -38,11 +36,18 @@ export default function RegisterPage({ navigation }) {
     },
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {
+
+  const [loginError, setLoginError] = useState("");
+
+  const onSubmit = async (data) => {
     setRegisteredUser(data);
-    navigation.navigate("Register2");
+    const { data: isUnique } = await AuthHttpService.checkUnique(data.email);
+    if (isUnique) {
+      navigation.navigate("Register2");
+    } else {
+      setLoginError("Почта уже занята");
+    }
   };
-  console.log(registeredUser);
 
   function next() {
     navigation.navigate("Register2");
@@ -60,6 +65,7 @@ export default function RegisterPage({ navigation }) {
       <Text className="text-2xl font-semibold">Добро пожаловать!</Text>
       <Text className="text-xl pb-2">Расскажите немного о себе</Text>
       <FormCard>
+        <Text className="text-center text-red-500 text-base">{loginError}</Text>
         <Controller
           control={control}
           rules={{

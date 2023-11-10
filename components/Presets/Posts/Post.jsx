@@ -14,8 +14,9 @@ export default function Post({ withActions = false, post }) {
   const [commentText, setCommentText] = useState("");
 
   function sendComment() {
-    setCommentText("")
-    PostService.addCommentary(post.id, commentText)
+    if (!commentText) return;
+    setCommentText("");
+    PostService.addCommentary(post.id, commentText);
   }
 
   return (
@@ -57,13 +58,19 @@ export default function Post({ withActions = false, post }) {
             className="rounded-full overflow-hidden px-2 py-2"
           >
             <View className="flex-row">
-              <Pressable onPress={() => { navigation.navigate("Profile", { userId: post.user.id }) }}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Profile", { userId: post.user.id });
+                }}
+              >
                 <Text className="font-semibold text-white">
                   @{post.user.username}
                 </Text>
-
               </Pressable>
-              <Text numberOfLines={1} className="text-gray-100"> —{" " + post.title}</Text>
+              <Text numberOfLines={1} className="text-gray-100">
+                {" "}
+                —{" " + post.title}
+              </Text>
             </View>
           </BlurView>
 
@@ -79,14 +86,14 @@ export default function Post({ withActions = false, post }) {
               className="rounded-full overflow-hidden justify-center px-4 flex-1 pr-12 relative"
             >
               <TextInput
-              onChangeText={text=>setCommentText(text)}
-              defaultValue={commentText}
+                onChangeText={(text) => setCommentText(text)}
+                defaultValue={commentText}
                 placeholderTextColor={"#d1d5db"}
                 placeholder="Класс..."
                 className="text-white border-b-0.5 border-white"
               />
               <View className="absolute w-6 right-4">
-                <SendButton onPress={sendComment} />
+                <SendButton disabled={!commentText} onPress={sendComment} />
                 {/* <Feather name="send" size={20} color="white" /> */}
               </View>
             </BlurView>

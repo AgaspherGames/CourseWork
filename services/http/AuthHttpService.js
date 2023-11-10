@@ -11,6 +11,10 @@ class AuthHttpService {
     useAuthStore.getState().setUser(response.data.user);
     return response;
   }
+  async checkUnique(email) {
+    const response = await http.post("/UserAuth/unique", { email });
+    return response;
+  }
 }
 
 export default new AuthHttpService();
