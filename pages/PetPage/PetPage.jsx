@@ -24,6 +24,8 @@ import ImageModal from "../../components/Presets/PostPage/ImageModal";
 import Loader from "../../components/UI/Base/Loader";
 import PetService from "../../services/http/PetService";
 import PetInfo from "../../components/Presets/PetPage/PetInfo";
+import { AntDesign } from "@expo/vector-icons";
+import DocForm from "../../components/Presets/PetPage/DocForm";
 
 const styles = StyleSheet.create({
   wrapper: {},
@@ -57,21 +59,15 @@ export default function PetPage({ navigation, route }) {
   const petId = params ? params.petId : null;
 
   const [pet, setPet] = useState();
-  const [comments, setComments] = useState({});
-  const [commentText, setCommentText] = useState("");
-
   const [modal, setModal] = useState({ isOpened: false, ind: "" });
+  const [isOpened, setIsOpened] = useState(false);
 
-  async function sendComment() {
-    setCommentText("");
-    await PostService.addCommentary(postId, commentText);
-    PostService.fetchCommentaries(postId).then((resp) =>
-      setComments(resp.data)
-    );
+  function update() {
+    PetService.fetchPet(petId).then((resp) => setPet(resp.data));
   }
 
   useEffect(() => {
-    PetService.fetchPet(petId).then((resp) => setPet(resp.data));
+    update();
   }, []);
 
   if (!pet)
@@ -126,12 +122,28 @@ export default function PetPage({ navigation, route }) {
           </View>
           <PetInfo pet={pet} isMe={false} />
           <ImageModal modal={modal} setModal={setModal} imgs={pet.imgs} />
-
+          <DocForm
+            petId={petId}
+            update={update}
+            isOpened={isOpened}
+            setIsOpened={setIsOpened}
+          />
           {/* <PostInfo post={post} /> */}
           <View className="px-4">
+            <Pressable
+              onPress={() => {
+                setIsOpened(true);
+              }}
+            >
+              <ShadowView classname="mt-4 bg-white p-4 rounded-lg  h-auto flex-row justify-between items-center">
+                <Text className="text-lg font-medium">Добавить документ</Text>
+                <AntDesign name="pluscircleo" size={24} color="black" />
+              </ShadowView>
+            </Pressable>
+
             {pet.documents.map((el) => (
               <Pressable
-              key={el.id}
+                key={el.id}
                 onPress={() => {
                   navigation.navigate("DocPage", { docId: el.id });
                 }}

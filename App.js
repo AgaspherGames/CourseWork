@@ -44,7 +44,6 @@ export default function App() {
         <Loader />
       </View>
     );
-  console.log(typeof token, token);
 
   return (
     <SafeAreaView className="flex-1">
