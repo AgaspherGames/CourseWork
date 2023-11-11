@@ -44,7 +44,7 @@ export default function ImageModal({ modal, setModal, imgs }) {
                     <Pressable>
                       <Image
                         // className="absolute inset-x-0 inset-y-0"
-                        className="w-full rounded-lg "
+                        className="w-full rounded-lg bg-gray-200"
                         source={{
                           uri: Utils.getFileLink(el),
                         }}

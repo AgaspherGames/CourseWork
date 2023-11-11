@@ -9,7 +9,7 @@ export default function Document({ pet }) {
   const navigation = useNavigation();
   return (
     <Pressable
-    className="w-full"
+      className="w-full"
       onPress={() => {
         navigation.navigate("PetPage", { petId: pet.id });
       }}
@@ -27,7 +27,10 @@ export default function Document({ pet }) {
               {pet.documents
                 .filter((_, ind) => ind < 4)
                 .map((el) => (
-                  <ShadowView classname="p-1 bg-gray-100 -mr-8 rounded-xl">
+                  <ShadowView
+                    key={el.imgs[0]}
+                    classname="p-1 bg-gray-100 -mr-8 rounded-xl"
+                  >
                     <Image
                       height={64}
                       className={"rounded-lg aspect-square"}

@@ -54,8 +54,9 @@ export default function PostPage({ route }) {
   const [modal, setModal] = useState({ isOpened: false, ind: "" });
 
   async function sendComment() {
+    if (!commentText) return;
     setCommentText("");
-    await PostService.addCommentary(postId, commentText);
+    PostService.addCommentary(post.id, commentText);
     PostService.fetchCommentaries(postId).then((resp) =>
       setComments(resp.data)
     );
@@ -68,7 +69,12 @@ export default function PostPage({ route }) {
     );
   }, []);
 
-  if (!post) return <View className="flex-1 justify-center items-center"><Loader /></View>;
+  if (!post)
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Loader />
+      </View>
+    );
 
   return (
     <ScrollView>
@@ -138,7 +144,7 @@ export default function PostPage({ route }) {
             className="text-gray-900 border-b-0.5 border-gray-900"
           />
           <View className="absolute w-6 right-4">
-            <SendButton onPress={sendComment} dark />
+            <SendButton disabled={!commentText} onPress={sendComment} dark />
             {/* <Feather name="send" size={20} color="white" /> */}
           </View>
         </ShadowView>
