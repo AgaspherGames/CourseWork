@@ -63,12 +63,13 @@ export default function RegisterPageSecond({ navigation }) {
       await AuthHttpService.register(newUser).catch((err) =>
         console.error(err)
       );
-      await AuthHttpService.login({ email: registeredUser.email, password });
+      await AuthHttpService.login({ email: registeredUser.email, password: data.password });
       navigation.reset({
         index: 0,
         routes: [{ name: "Main" }],
       });
     } catch (error) {
+      console.log(error);
       if (error.message) {
         alert(error.message);
       }
