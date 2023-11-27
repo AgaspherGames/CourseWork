@@ -60,6 +60,7 @@ export default function SendButton({ dark = false, onPress, disabled }) {
   });
 
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const timer = useRef(null);
 
   useEffect(() => {
@@ -75,27 +76,30 @@ export default function SendButton({ dark = false, onPress, disabled }) {
     <Pressable
       onPress={() => {
         setIsAnimating(true);
+        setIsDisabled(disabled)
         if (!disabled) {
           onPress();
         }
       }}
     >
       {isAnimating ? (
-        disabled ? (
-          <Animated.View
-            entering={keyframeDisabled.duration(1000)}
-            //   className="absolute w-6 right-4"
-          >
-            <Feather name="send" size={20} color={dark ? "black" : "white"} />
-          </Animated.View>
-        ) : (
-          <Animated.View
-            entering={keyframe.duration(1000)}
-            //   className="absolute w-6 right-4"
-          >
-            <Feather name="send" size={20} color={dark ? "black" : "white"} />
-          </Animated.View>
-        )
+        isDisabled
+          ?
+          (
+            <Animated.View
+              entering={keyframeDisabled.duration(1000)}
+            >
+              <Feather name="send" size={20} color={dark ? "black" : "white"} />
+            </Animated.View>
+          )
+          :
+          (
+            <Animated.View
+              entering={keyframe.duration(1000)}
+            >
+              <Feather name="send" size={20} color={dark ? "black" : "white"} />
+            </Animated.View>
+          )
       ) : (
         <View
         //   className="absolute w-6 right-4"
