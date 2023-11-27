@@ -125,7 +125,7 @@ export default function UserPage({ navigation, route }) {
                     <AntDesign name="pluscircleo" size={24} color="black" />
                   </Pressable>
                 )}
-                <PetForm isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
+                <PetForm updateUserInfo={updateUserInfo} isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
               </View>
               <ScrollView className="" horizontal>
                 <View className="flex-row">

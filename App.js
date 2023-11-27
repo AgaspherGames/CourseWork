@@ -139,7 +139,7 @@ export default function App() {
             name="Friends"
             component={FriendsPage}
             options={{
-              title: "Список друзей",
+              title: "Подпски",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />
