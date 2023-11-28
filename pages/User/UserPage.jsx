@@ -125,7 +125,11 @@ export default function UserPage({ navigation, route }) {
                     <AntDesign name="pluscircleo" size={24} color="black" />
                   </Pressable>
                 )}
-                <PetForm updateUserInfo={updateUserInfo} isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
+                <PetForm
+                  updateUserInfo={updateUserInfo}
+                  isOpened={isModalOpen}
+                  setIsOpened={setIsModalOpen}
+                />
               </View>
               <ScrollView className="" horizontal>
                 <View className="flex-row">
@@ -133,6 +137,7 @@ export default function UserPage({ navigation, route }) {
                     <View key={el.id} className="w-40 p-2">
                       <Pressable
                         onPress={() =>
+                          isMe &&
                           navigation.navigate("PetPage", { petId: el.id })
                         }
                       >

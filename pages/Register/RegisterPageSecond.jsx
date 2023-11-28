@@ -18,19 +18,15 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useKeyboardIsOpen } from "../../hooks/useKeyboard";
 
 export default function RegisterPageSecond({ navigation }) {
+  const isKeyboardVisible = useKeyboardIsOpen();
+
   const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
     registeredUser: state.registeredUser,
     setRegisteredUser: state.setRegisteredUser,
   }));
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
   const schema = yup.object().shape({
     username: yup.string().required("Это обязательное поле"),
     password: yup
@@ -63,7 +59,10 @@ export default function RegisterPageSecond({ navigation }) {
       await AuthHttpService.register(newUser).catch((err) =>
         console.error(err)
       );
-      await AuthHttpService.login({ email: registeredUser.email, password: data.password });
+      await AuthHttpService.login({
+        email: registeredUser.email,
+        password: data.password,
+      });
       navigation.reset({
         index: 0,
         routes: [{ name: "Main" }],
@@ -78,13 +77,15 @@ export default function RegisterPageSecond({ navigation }) {
 
   return (
     <View className="flex-1 items-center justify-center  bg-white px-4">
-      <Image
-        source={require("../../assets/imgs/cat.png")}
-        style={{
-          height: 100,
-          resizeMode: "contain",
-        }}
-      />
+      {!isKeyboardVisible && (
+        <Image
+          source={require("../../assets/imgs/cat.png")}
+          style={{
+            height: 100,
+            resizeMode: "contain",
+          }}
+        />
+      )}
       <Text className="text-2xl font-semibold">Отлично</Text>
       <Text className="text-xl pb-2">А теперь придумайте логин и пароль</Text>
       <FormCard>

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image, Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import BlueButton from "../../components/UI/buttons/BlueButton";
 import FormCard from "../../components/UI/Cards/FormCard";
@@ -8,8 +8,11 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import AuthHttpService from "../../services/http/AuthHttpService";
+import { useKeyboardIsOpen } from "../../hooks/useKeyboard";
 
 export default function RegisterPage({ navigation }) {
+  const isKeyboardVisible = useKeyboardIsOpen();
+
   const { registeredUser, setRegisteredUser } = useAuthStore((state) => ({
     registeredUser: state.registeredUser,
     setRegisteredUser: state.setRegisteredUser,
@@ -55,14 +58,18 @@ export default function RegisterPage({ navigation }) {
 
   return (
     <View className="flex-1 items-center justify-center bg-white px-4 ">
-      <Image
-        source={require("../../assets/imgs/cat_2.png")}
-        style={{
-          height: 100,
-          resizeMode: "contain",
-        }}
-      />
-      <Text className="text-2xl font-semibold">Добро пожаловать!</Text>
+      {!isKeyboardVisible && (
+        <>
+          <Image
+            source={require("../../assets/imgs/cat_2.png")}
+            style={{
+              height: 100,
+              resizeMode: "contain",
+            }}
+          />
+          <Text className="text-2xl font-semibold">Добро пожаловать!</Text>
+        </>
+      )}
       <Text className="text-xl pb-2">Расскажите немного о себе</Text>
       <FormCard>
         <Text className="text-center text-red-500 text-base">{loginError}</Text>
