@@ -25,15 +25,18 @@ export default function DocForm({ petId, isOpened, setIsOpened, update }) {
   const [titleError, setTitleError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
 
-  function send() {
+  async function send() {
     if (!imgs.length) setImgsError(true);
     if (!title) setTitleError(true);
     if (!description) setDescriptionError(true);
     if (imgs.length && title && description) {
-      PetService.uploadDoc(petId, title, description, imgs).then((resp) => {
+      await PetService.uploadDoc(petId, title, description, imgs).then((resp) => {
         setIsOpened(false);
         update();
       });
+      _setImgs([]);
+      _setTitle("");
+      _setDescription("");
     }
   }
 

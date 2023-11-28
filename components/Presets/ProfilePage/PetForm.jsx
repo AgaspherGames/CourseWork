@@ -33,6 +33,9 @@ export default function PetForm({ isOpened, setIsOpened, updateUserInfo }) {
       await PetService.upload(Name, PassportNumber, imgs).then((resp) => {
         setIsOpened(false);
       });
+      _setImgs([]);
+      _setName("");
+      _setPassportNumber("");
       await updateUserInfo();
     }
   }
