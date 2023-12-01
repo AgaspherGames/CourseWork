@@ -17,7 +17,7 @@ class PostService {
     return httpAuth.post("/Post", form);
   }
   fetchPosts() {
-    return http.get("/Post", {
+    return httpAuth.get("/Post", {
       headers: {
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
