@@ -25,11 +25,14 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
   const [titleError, setTitleError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
 
+  const [isPostCreating, setIsPostCreating] = useState(false);
+
   async function send() {
     if (!imgs.length) setImgsError(true);
     if (!title) setTitleError(true);
     if (!description) setDescriptionError(true);
     if (imgs.length && title && description) {
+      setIsPostCreating(true);
       await PostService.upload(title, description, imgs).then((resp) => {
         setIsOpened(false);
         updatePosts();
@@ -37,6 +40,7 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
       _setImgs([]);
       _setTitle("");
       _setDescription("");
+      setIsPostCreating(false);
     }
   }
 
@@ -168,7 +172,11 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                     </View>
                   </View>
 
-                  <Button onPress={send} title="Опубликовать" />
+                  <Button
+                    disabled={isPostCreating}
+                    onPress={send}
+                    title="Опубликовать"
+                  />
                 </View>
               </View>
             </TouchableWithoutFeedback>

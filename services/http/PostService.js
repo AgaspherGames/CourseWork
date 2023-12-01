@@ -43,6 +43,9 @@ class PostService {
   addCommentary(id, text) {
     return httpAuth.post("/Commentary/" + id, { text });
   }
+  deletePost(id) {
+    return httpAuth.delete("/Post/" + id);
+  }
 }
 
 export default new PostService();

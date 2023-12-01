@@ -1,4 +1,12 @@
-import { View, Text, Image, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  Pressable,
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
@@ -8,8 +16,9 @@ import LikeButton from "../../UI/buttons/LikeButton";
 import SendButton from "../../UI/buttons/SendButton";
 import Utils from "../../../services/Utils";
 import PostService from "../../../services/http/PostService";
+import { MaterialIcons } from "@expo/vector-icons";
 
-export default function Post({ withActions = false, post }) {
+export default function Post({ withActions = false, deletePost, post }) {
   const navigation = useNavigation();
   const [commentText, setCommentText] = useState("");
 
@@ -107,6 +116,13 @@ export default function Post({ withActions = false, post }) {
             </BlurView>
           </View>
         </View>
+        {deletePost && (
+          <View className="absolute top-2 right-2">
+            <TouchableOpacity onPress={() => deletePost(post.id)}>
+              <MaterialIcons name="delete" size={24} color="#ef4444" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </Pressable>
   );
