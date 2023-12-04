@@ -14,17 +14,55 @@ import ShadowView from "../../UI/Base/ShadowView";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PetService from "../../../services/http/PetService";
+import { twMerge } from "tailwind-merge";
 
 export default function DocForm({ petId, isOpened, setIsOpened, update }) {
-  const [imgs, setImgs] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [imgs, _setImgs] = useState([]);
+  const [title, _setTitle] = useState("");
+  const [description, _setDescription] = useState("");
 
-  function send() {
-    PetService.uploadDoc(petId, title, description, imgs).then((resp) => {
-      setIsOpened(false);
-      update();
-    });
+  const [imgsError, setImgsError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+
+  async function send() {
+    if (!imgs.length) setImgsError(true);
+    if (!title) setTitleError(true);
+    if (!description) setDescriptionError(true);
+    if (imgs.length && title && description) {
+      await PetService.uploadDoc(petId, title, description, imgs).then((resp) => {
+        setIsOpened(false);
+        update();
+      });
+      _setImgs([]);
+      _setTitle("");
+      _setDescription("");
+    }
+  }
+
+  function setImgs(params) {
+    _setImgs(params);
+    if (!params.length) {
+      setImgsError(true);
+    } else {
+      setImgsError(false);
+    }
+  }
+  function setTitle(title) {
+    _setTitle(title);
+    if (!title) {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
+  }
+  function setDescription(description) {
+    _setDescription(description);
+    if (!description) {
+      setDescriptionError(true);
+    } else {
+      setDescriptionError(false);
+    }
   }
 
   return (
@@ -79,10 +117,18 @@ export default function DocForm({ petId, isOpened, setIsOpened, update }) {
                       onChangeText={(text) => setTitle(text)}
                       defaultValue={title}
                       placeholder="Название"
-                      className="border text-lg rounded-lg px-2 py-1 relative w-5/6"
+                      className={twMerge(
+                        "border text-lg rounded-lg px-2 py-1 relative w-5/6",
+                        titleError && "border-red-500"
+                      )}
                     />
                   </View>
-                  <View className="flex items-start justify-start border my-4 rounded-lg px-2 pr-8 py-1 relative">
+                  <View
+                    className={twMerge(
+                      "flex items-start justify-start border my-4 rounded-lg px-2 pr-8 py-1 relative",
+                      descriptionError && "border-red-500"
+                    )}
+                  >
                     <TextInput
                       style={{ textAlignVertical: "top" }}
                       editable
@@ -111,7 +157,11 @@ export default function DocForm({ petId, isOpened, setIsOpened, update }) {
                           }
                         }}
                       >
-                        <FontAwesome name="paperclip" size={24} color="black" />
+                        <FontAwesome
+                          name="paperclip"
+                          size={24}
+                          color={imgsError ? "red" : "black"}
+                        />
                       </Pressable>
                     </View>
                   </View>

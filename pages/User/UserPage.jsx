@@ -1,5 +1,11 @@
-import { View, Text, Image, ScrollView } from "react-native";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { View, Text, Image, ScrollView, Alert } from "react-native";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Title from "../../components/UI/Base/Title";
 import ShadowView from "../../components/UI/Base/ShadowView";
 import Post from "../../components/Presets/Posts/Post";
@@ -18,6 +24,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PetForm from "../../components/Presets/ProfilePage/PetForm";
 import Loader from "../../components/UI/Base/Loader";
 import UserInfo from "../../components/Presets/ProfilePage/UserInfo";
+import PostService from "../../services/http/PostService";
 
 export default function UserPage({ navigation, route }) {
   const { isDrawerOpened, setIsDrawerOpened } = useProfileStore(
@@ -36,6 +43,28 @@ export default function UserPage({ navigation, route }) {
     () => userId == currentUser?.id || !userId,
     [currentUser, userId]
   );
+
+  const deletePost = useCallback((id) => {
+    if (!isMe) return;
+    console.log(id);
+    Alert.alert("Удаление поста", "Вы уверены, что хотите удалить этот пост?", [
+      {
+        text: "Нет",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Да",
+        onPress: () =>
+          PostService.deletePost(id)
+            .then((resp) => {
+              updateUserInfo();
+              console.log(resp);
+            })
+            .catch((err) => console.log(err)),
+      },
+    ]);
+  }, []);
 
   useEffect(() => {
     if (user?.id && userId != user?.id && !(!userId && isMe)) {
@@ -125,7 +154,11 @@ export default function UserPage({ navigation, route }) {
                     <AntDesign name="pluscircleo" size={24} color="black" />
                   </Pressable>
                 )}
-                <PetForm isOpened={isModalOpen} setIsOpened={setIsModalOpen} />
+                <PetForm
+                  updateUserInfo={updateUserInfo}
+                  isOpened={isModalOpen}
+                  setIsOpened={setIsModalOpen}
+                />
               </View>
               <ScrollView className="" horizontal>
                 <View className="flex-row">
@@ -133,6 +166,7 @@ export default function UserPage({ navigation, route }) {
                     <View key={el.id} className="w-40 p-2">
                       <Pressable
                         onPress={() =>
+                          isMe &&
                           navigation.navigate("PetPage", { petId: el.id })
                         }
                       >
@@ -159,7 +193,7 @@ export default function UserPage({ navigation, route }) {
           </View>
           <View>
             {user.posts.map((post) => (
-              <Post key={post.id} post={post} />
+              <Post deletePost={isMe && deletePost} key={post.id} post={post} />
             ))}
           </View>
         </ScrollView>

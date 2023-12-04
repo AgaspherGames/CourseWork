@@ -14,17 +14,59 @@ import ShadowView from "../../UI/Base/ShadowView";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
+import { twMerge } from "tailwind-merge";
 
 export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
-  const [imgs, setImgs] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [imgs, _setImgs] = useState([]);
+  const [title, _setTitle] = useState("");
+  const [description, _setDescription] = useState("");
 
-  function send() {
-    PostService.upload(title, description, imgs).then((resp) => {
-      setIsOpened(false);
-      updatePosts();
-    });
+  const [imgsError, setImgsError] = useState(false);
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+
+  const [isPostCreating, setIsPostCreating] = useState(false);
+
+  async function send() {
+    if (!imgs.length) setImgsError(true);
+    if (!title) setTitleError(true);
+    if (!description) setDescriptionError(true);
+    if (imgs.length && title && description) {
+      setIsPostCreating(true);
+      await PostService.upload(title, description, imgs).then((resp) => {
+        setIsOpened(false);
+        updatePosts();
+      });
+      _setImgs([]);
+      _setTitle("");
+      _setDescription("");
+      setIsPostCreating(false);
+    }
+  }
+
+  function setImgs(params) {
+    _setImgs(params);
+    if (!params.length) {
+      setImgsError(true);
+    } else {
+      setImgsError(false);
+    }
+  }
+  function setTitle(title) {
+    _setTitle(title);
+    if (!title) {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
+  }
+  function setDescription(description) {
+    _setDescription(description);
+    if (!description) {
+      setDescriptionError(true);
+    } else {
+      setDescriptionError(false);
+    }
   }
 
   return (
@@ -79,10 +121,18 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                       onChangeText={(text) => setTitle(text)}
                       defaultValue={title}
                       placeholder="Заголовок"
-                      className="border text-lg rounded-lg px-2 py-1 relative w-5/6"
+                      className={twMerge(
+                        "border text-lg rounded-lg px-2 py-1 relative w-5/6",
+                        titleError && "border-red-500"
+                      )}
                     />
                   </View>
-                  <View className="flex items-start justify-start border my-4 rounded-lg px-2 pr-8 py-1 relative">
+                  <View
+                    className={twMerge(
+                      "flex items-start justify-start border my-4 rounded-lg px-2 pr-8 py-1 relative",
+                      descriptionError && "border-red-500"
+                    )}
+                  >
                     <TextInput
                       style={{ textAlignVertical: "top" }}
                       editable
@@ -91,7 +141,9 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                       placeholder="Что у вас нового?"
                       multiline
                       numberOfLines={0}
-                      className="flex items-start justify-start text-base max-h-64 leading-5"
+                      className={twMerge(
+                        "flex items-start justify-start text-base max-h-64 leading-5"
+                      )}
                     />
 
                     <View className="absolute right-2 top-1">
@@ -111,12 +163,20 @@ export default function PostForm({ isOpened, setIsOpened, updatePosts }) {
                           }
                         }}
                       >
-                        <FontAwesome name="paperclip" size={24} color="black" />
+                        <FontAwesome
+                          name="paperclip"
+                          size={24}
+                          color={imgsError ? "red" : "black"}
+                        />
                       </Pressable>
                     </View>
                   </View>
 
-                  <Button onPress={send} title="Опубликовать" />
+                  <Button
+                    disabled={isPostCreating}
+                    onPress={send}
+                    title="Опубликовать"
+                  />
                 </View>
               </View>
             </TouchableWithoutFeedback>

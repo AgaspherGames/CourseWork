@@ -31,14 +31,13 @@ export default function ScanQrPage() {
     if (commands[0] == "ADDFRIEND") {
       navigation.navigate("Profile", { userId: commands[1] });
     }
-    // alert(`command: ${commands[0]}; data: ${commands[1]}`);
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <View></View>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>No access to camera(</Text>;
   }
 
   return (

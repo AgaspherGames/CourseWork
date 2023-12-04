@@ -14,16 +14,46 @@ import ShadowView from "../../UI/Base/ShadowView";
 import * as ImagePicker from "expo-image-picker";
 import PostService from "../../../services/http/PostService";
 import PetService from "../../../services/http/PetService";
+import { twMerge } from "tailwind-merge";
 
-export default function PetForm({ isOpened, setIsOpened }) {
-  const [imgs, setImgs] = useState([]);
-  const [Name, setName] = useState("");
-  const [PassportNumber, setPassportNumber] = useState("");
+export default function PetForm({ isOpened, setIsOpened, updateUserInfo }) {
+  const [imgs, _setImgs] = useState([]);
+  const [Name, _setName] = useState("");
+  const [PassportNumber, _setPassportNumber] = useState("");
 
-  function send() {
-    PetService.upload(Name, PassportNumber, imgs).then((resp) => {
-      setIsOpened(false);
-    });
+  const [imgsError, setImgsError] = useState(false);
+  const [NameError, setNameError] = useState(false);
+  const [PassportNumberError, setPassportNumberError] = useState(false);
+
+  async function send() {
+    if (!imgs.length) setImgsError(true);
+    if (!Name) setNameError(true);
+    if (!PassportNumber) setPassportNumberError(true);
+    if (imgs.length && Name && PassportNumber) {
+      await PetService.upload(Name, PassportNumber, imgs).then((resp) => {
+        setIsOpened(false);
+      });
+      _setImgs([]);
+      _setName("");
+      _setPassportNumber("");
+      await updateUserInfo();
+    }
+  }
+
+  function setImgs(params) {
+    _setImgs(params);
+    if (!params.length) setImgsError(true);
+    else setImgsError(false);
+  }
+  function setName(params) {
+    _setName(params);
+    if (!params) setNameError(true);
+    else setNameError(false);
+  }
+  function setPassportNumber(params) {
+    _setPassportNumber(params);
+    if (!params) setPassportNumberError(true);
+    else setPassportNumberError(false);
   }
 
   return (
@@ -78,7 +108,10 @@ export default function PetForm({ isOpened, setIsOpened }) {
                       onChangeText={(text) => setName(text)}
                       defaultValue={Name}
                       placeholder="Кличка"
-                      className="border text-lg rounded-lg px-2 py-1 relative "
+                      className={twMerge(
+                        "border text-lg rounded-lg px-2 py-1 relative ",
+                        NameError && "border-red-500"
+                      )}
                     />
                   </View>
                   <View className="my-4">
@@ -86,25 +119,36 @@ export default function PetForm({ isOpened, setIsOpened }) {
                       onChangeText={(text) => setPassportNumber(text)}
                       defaultValue={PassportNumber}
                       placeholder="Номер пасспорта"
-                      className="border text-lg rounded-lg px-2 py-1 relative "
+                      className={twMerge(
+                        "border text-lg rounded-lg px-2 py-1 relative ",
+                        PassportNumberError && "border-red-500"
+                      )}
                     />
                   </View>
                   <ShadowView classname="mb-4 bg-white p-2 rounded-lg">
-                    <Pressable onPress={async () => {
-                          let result =
-                            await ImagePicker.launchImageLibraryAsync({
-                              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                              // allowsEditing: true,
-                              allowsMultipleSelection: true,
-                              aspect: [1, 1],
-                              quality: 1,
-                              selectionLimit: 10,
-                            });
-                          if (result?.assets?.length) {
-                            setImgs(result?.assets);
-                          }
-                        }}>
-                      <Text className="text-center text-base font-medium">Добавить изображение</Text>
+                    <Pressable
+                      onPress={async () => {
+                        let result = await ImagePicker.launchImageLibraryAsync({
+                          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                          // allowsEditing: true,
+                          allowsMultipleSelection: true,
+                          aspect: [1, 1],
+                          quality: 1,
+                          selectionLimit: 10,
+                        });
+                        if (result?.assets?.length) {
+                          setImgs(result?.assets);
+                        }
+                      }}
+                    >
+                      <Text
+                        className={twMerge(
+                          "text-center text-base font-medium",
+                          imgsError && "text-red-500"
+                        )}
+                      >
+                        Добавить изображение
+                      </Text>
                     </Pressable>
                   </ShadowView>
 

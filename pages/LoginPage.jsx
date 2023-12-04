@@ -16,9 +16,11 @@ import AuthHttpService from "../services/http/AuthHttpService";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
+import { useKeyboardIsOpen } from "../hooks/useKeyboard";
 
 export default function LoginPage({ navigation }) {
   const [loginError, setLoginError] = useState("");
+  const isKeyboardVisible = useKeyboardIsOpen();
 
   const schema = yup.object().shape({
     email: yup
@@ -66,7 +68,7 @@ export default function LoginPage({ navigation }) {
       <Image
         source={require("../assets/imgs/cat.png")}
         style={{
-          height: 150,
+          height: isKeyboardVisible?100:150,
           resizeMode: "contain",
         }}
       />

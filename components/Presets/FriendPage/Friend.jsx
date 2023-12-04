@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import UserService from "../../../services/http/UserService";
 
-export default function Friend({ friend }) {
+export default function Friend({ friend, isMe }) {
   const navigation = useNavigation();
 
   const scale = useSharedValue(1);
@@ -47,11 +47,12 @@ export default function Friend({ friend }) {
     }
   }
 
-  
-
   return (
     <ShadowView classname="p-2 bg-white rounded-lg w-full flex-row justify-between items-center mb-4">
-      <Animated.View style={bgStyle} className="absolute bg-opacity-20 inset-x-0 inset-y-0 rounded-lg "/>
+      <Animated.View
+        style={bgStyle}
+        className="absolute bg-opacity-20 inset-x-0 inset-y-0 rounded-lg "
+      />
       <Pressable
         className="flex-row justify-between items-center w-full"
         onPress={() => {
@@ -82,16 +83,18 @@ export default function Friend({ friend }) {
             </Text>
           </View>
         </View>
-        <View className="mr-2">
-          <Pressable onPress={subscribe}>
-            <Animated.View style={unSubscribeStyle}>
-              <FontAwesome name="trash-o" size={28} color="red" />
-            </Animated.View>
-            <Animated.View style={subscribeStyle} className="absolute">
-              <FontAwesome name="plus" size={28} color="#3b82f6" />
-            </Animated.View>
-          </Pressable>
-        </View>
+        {isMe && (
+          <View className="mr-2">
+            <Pressable onPress={subscribe}>
+              <Animated.View style={unSubscribeStyle}>
+                <FontAwesome name="trash-o" size={28} color="red" />
+              </Animated.View>
+              <Animated.View style={subscribeStyle} className="absolute">
+                <FontAwesome name="plus" size={28} color="#3b82f6" />
+              </Animated.View>
+            </Pressable>
+          </View>
+        )}
       </Pressable>
     </ShadowView>
   );

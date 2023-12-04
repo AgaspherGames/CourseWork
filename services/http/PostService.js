@@ -17,7 +17,7 @@ class PostService {
     return httpAuth.post("/Post", form);
   }
   fetchPosts() {
-    return http.get("/Post", {
+    return httpAuth.get("/Post", {
       headers: {
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
@@ -42,6 +42,9 @@ class PostService {
   }
   addCommentary(id, text) {
     return httpAuth.post("/Commentary/" + id, { text });
+  }
+  deletePost(id) {
+    return httpAuth.delete("/Post/" + id);
   }
 }
 

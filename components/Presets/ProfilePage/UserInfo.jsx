@@ -68,7 +68,7 @@ export default function UserInfo({ user, isMe, navigation, updateUserInfo }) {
       <ShadowView classname="p-2 px-4 bg-white rounded-lg ">
         <Pressable
           onPress={() => {
-            setEditMode((p) => !p);
+            setEditMode((p) => isMe && !p);
           }}
         >
           <Animated.View style={[panelStyle]}>
