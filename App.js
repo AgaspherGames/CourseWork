@@ -25,6 +25,7 @@ import DocumentPage from "./pages/Documents/DocumentPage";
 import PetPage from "./pages/PetPage/PetPage";
 import { useEffect, useState } from "react";
 import Loader from "./components/UI/Base/Loader";
+import AboutPage from "./pages/AboutPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -190,6 +191,14 @@ export default function App() {
             component={SearchPage}
             options={{
               title: "Поиск",
+              contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
+            }}
+          />
+          <Stack.Screen
+            name="About"
+            component={AboutPage}
+            options={{
+              title: "Справка",
               contentStyle: { shadowOpacity: 0, shadowOffset: 0, opacity: 1 },
             }}
           />

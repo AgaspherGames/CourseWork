@@ -30,28 +30,10 @@ export default function Drawer() {
       });
     } catch (error) {}
   }
-  
 
   return (
     <View className="p-4 flex-1 bg-gray-50">
-      <DrawerButton
-        onPress={() => {
-        }}
-      >
-        Редактировать профиль
-      </DrawerButton>
-      <DrawerButton
-        onPress={() => {
-        }}
-      >
-        Настройки
-      </DrawerButton>
-      <DrawerButton
-        onPress={() => {
-        }}
-      >
-        О приложении
-      </DrawerButton>
+      <DrawerButton onPress={() => {navigation.navigate("About")}}>Справка</DrawerButton>
       <DrawerButton onPress={help}>Помощь</DrawerButton>
       <DrawerButton onPress={share}>Поделиться</DrawerButton>
 

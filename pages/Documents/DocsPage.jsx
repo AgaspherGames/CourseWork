@@ -15,11 +15,18 @@ import Document from "../../components/Presets/DocsPage/Document";
 import DocumentModal from "../../components/Presets/DocsPage/DocumentModal";
 import PetService from "../../services/http/PetService";
 import { useUserInfo } from "../../hooks/useUserInfo";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function DocsPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const [pets, setPets] = useState([]);
   const { user } = useUserInfo();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      user && PetService.fetchPets(user.id).then((resp) => setPets(resp.data));
+    }, [user])
+  );
 
   useEffect(() => {
     user && PetService.fetchPets(user.id).then((resp) => setPets(resp.data));

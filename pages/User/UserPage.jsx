@@ -122,7 +122,8 @@ export default function UserPage({ navigation, route }) {
               <Image
                 source={(() => {
                   return {
-                    uri: url + "/Files/" + user.avatar,
+                    uri: Utils.getFileLink(user.avatar),
+                    // uri: url + "/Files/" + user.avatar,
                     // uri: "https://th.bing.com/th/id/R.8112410131653a63c0596a57ebc85519?rik=TrmOhl0eZJU0Nw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-rL0UdLNivjY%2fUhvtGHddwUI%2fAAAAAAAAAy8%2fGPJ0ojd6G2w%2fs1600%2fpromotional-photoshoot-tyler-durden.jpg&ehk=t9CBGtalAmIr39aULbo2gDn5oZRATnhUic1bKpqCtto%3d&risl=&pid=ImgRaw&r=0",
                   };
                 })()}

@@ -1,8 +1,10 @@
 import { url } from "./http/http";
 
-function getFileLink(fileName, small=false) {
-  const link =  url + "/Files/" + fileName + (small?"/small":'');
-  return link
+function getFileLink(fileName, small = false) {
+  if (!fileName)
+    return url + "/Files/" + "avatar.png" + (small ? "/small" : "");
+  const link = url + "/Files/" + fileName + (small ? "/small" : "");
+  return link;
 }
 
 var wordForm = function (num, words) {
